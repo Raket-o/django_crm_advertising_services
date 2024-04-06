@@ -103,6 +103,10 @@ ENV/
 # mkdocs documentation
 /site
 
+# pytype static type analyzer
+.pytype/
+.idea/
+
 # mypy
 .mypy_cache/
 
