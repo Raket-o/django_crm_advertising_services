@@ -1,0 +1,20 @@
+{% extends 'advertising_companies/base.html' %}
+
+{% block title %}
+    Create advertising company
+{% endblock %}
+
+{% block body %}
+    <h1>Create a new advertising company:</h1>
+    <div>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Create</button>
+        </form>
+    </div>
+    <div>
+        <br>
+        <a href="{% url 'advertising_companies:advertising_companies_list' %}">Back to advertising companies list</a>
+    </div>
+{% endblock %}

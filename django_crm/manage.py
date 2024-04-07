@@ -2,7 +2,7 @@
 """Django's command-line utility for administrative tasks."""
 import os
 import sys
-from db_create import db_create
+from db_pre_settings import create_db
 
 
 def main():
@@ -10,7 +10,7 @@ def main():
     os.environ.setdefault("DJANGO_SETTINGS_MODULE", "django_crm.settings")
     try:
         from django.core.management import execute_from_command_line
-        db_create()
+        create_db()
     except ImportError as exc:
         raise ImportError(
             "Couldn't import Django. Are you sure it's installed and "

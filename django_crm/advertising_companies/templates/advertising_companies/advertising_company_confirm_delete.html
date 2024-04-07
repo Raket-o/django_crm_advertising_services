@@ -1,0 +1,18 @@
+{% extends 'advertising_companies/base.html' %}
+
+{% block title %}
+    Confirm delete {{ object.pk }}
+{% endblock %}
+
+{% block body %}
+    <h1>Are you sure you want to delete</h1>
+    <div>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Delete</button>
+        </form>
+    </div>
+    <p><a href="{% url 'advertising_companies:advertising_company_details' pk=object.pk %}">Back to advertising company</a></p>
+{% endblock %}
+

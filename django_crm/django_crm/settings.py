@@ -10,8 +10,15 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
+import os
+from django.urls import reverse_lazy
 from pathlib import Path
 from env_data import db_user, db_password, db_host, db_port, db_name
+
+import logging.config
+from dotenv import load_dotenv
+
+load_dotenv()
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -39,6 +46,11 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+
+    "authorization.apps.AuthorizationConfig",
+    "customer_statistics.apps.CustomerStatisticsConfig",
+    "services.apps.ServicesConfig",
+    "advertising_companies.apps.AdvertisingCompaniesConfig",
 ]
 
 MIDDLEWARE = [
@@ -53,10 +65,12 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = "django_crm.urls"
 
+print("="*70, os.path.join(BASE_DIR, 'templates'))
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        "DIRS": [],
+        # "DIRS": [],
+        'DIRS': [os.path.join(BASE_DIR, 'templates/')],
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -68,6 +82,7 @@ TEMPLATES = [
         },
     },
 ]
+
 
 WSGI_APPLICATION = "django_crm.wsgi.application"
 
@@ -135,3 +150,34 @@ STATIC_URL = "static/"
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+# LOGIN_REDIRECT_URL = reverse_lazy("customer_statistics:statistics")
+LOGIN_REDIRECT_URL = reverse_lazy("customer_statistics:statistics")
+# from django.shortcuts import redirect
+
+# LOGIN_REDIRECT_URL = redirect("customer_statistics:stats")
+
+# LOG_LEVEL = getenv("DJANGO_LOGLEVEL", "info").upper()
+LOG_LEVEL = "info".upper()
+
+logging.config.dictConfig({
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+        'console': {
+            'format': '%(asctime)s [%(levelname)s] %(name)s: %(message)s'
+        },
+    },
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+            'formatter': 'console',
+        },
+    },
+    'loggers': {
+        '': {
+            'level': LOG_LEVEL,
+            'handlers': ['console'],
+        },
+    },
+})

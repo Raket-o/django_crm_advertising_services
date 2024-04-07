@@ -14,9 +14,48 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+# from django.contrib import admin
+# from django.urls import path
+#
+# urlpatterns = [
+#     path("admin/", admin.site.urls),
+# ]
+
+# from django.conf import settings
+# from django.conf.urls.i18n import i18n_patterns
+# from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import path
+# from django.contrib.sitemaps.views import sitemap
+
+from django.urls import path, include
+
+# from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
+
+# from .sitemaps import sitemaps
+
 
 urlpatterns = [
-    path("admin/", admin.site.urls),
+    path('admin/', admin.site.urls),
+    # path('shop/', include('shopapp.urls')),
+    # path('upload/', include('requestdataapp.urls')),
+    path('accounts/', include('authorization.urls')),
+    path('statistics/', include('customer_statistics.urls')),
+    path('services/', include('services.urls')),
+    path('advertising-companies/', include('advertising_companies.urls')),
+    # path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
+    # path('api/schema/swagger', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger'),
+    # path('blog/', include('blogapp.urls')),
+
+    # path('sentry-debug/', trigger_error),
+
+    # path(
+    #     "sitemap.xml",
+    #     sitemap,
+    #     {"sitemaps": sitemaps},
+    #     name="sitemap"
+    # )
 ]
+
+# urlpatterns += i18n_patterns(
+#     path('admin/', admin.site.urls),
+# )

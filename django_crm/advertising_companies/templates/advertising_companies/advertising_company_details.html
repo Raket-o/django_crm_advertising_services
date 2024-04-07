@@ -1,0 +1,42 @@
+{% extends 'advertising_companies/base.html' %}
+
+{% load i18n %}
+
+{% block title %}
+    {% translate 'Advertising company' %} #{{ object.pk }}
+{% endblock %}
+
+{% block body %}
+    <h1>{% translate 'Advertising company- ' %} <strong>{{ object.name }}</strong></h1>
+    <div>
+        <p>{% translate 'Description:' %} <em> {{ object.description }}</em></p>
+        <p>{% translate 'Created at:' %} <em> {{ object.created_at }} </em></p>
+        Services in advertising company:
+        <ol>
+            {% for services in object.services.all %}
+                <li>Name: {{ services.name }}</li>
+            {% endfor %}
+        </ol>
+    </div>
+
+    {% if perms.advertising_companies.change_advertising_companies or perms.advertising_companies.delete_advertising_companies %}
+        {% url 'advertising_companies:advertising_company_update' pk=object.pk as url_update_advertising_company %}
+        {% url 'advertising_companies:advertising_company_archived' pk=object.pk as url_archive_advertising_company %}
+
+        {% blocktranslate %}
+        <div>
+            <a href="{{ url_update_advertising_company }}">Update advertising company</a>
+        </div>
+            <div>
+            <a href="{{ url_archive_advertising_company }}">Delete advertising company</a>
+        </div>
+        {% endblocktranslate %}
+    {% endif %}
+
+    <div>
+        {% url 'advertising_companies:advertising_companies_list' as url_list_service %}
+        {% blocktranslate %}
+        <a href="{{ url_list_service }}">Back to advertising companies list</a>
+        {% endblocktranslate %}
+    </div>
+{% endblock %}

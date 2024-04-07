@@ -1,0 +1,20 @@
+{% extends 'advertising_companies/base.html' %}
+
+{% block title %}
+    Update advertising company
+{% endblock %}
+
+{% block body %}
+    <h1>Update advertising company:</h1>
+    <div>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Update</button>
+        </form>
+    </div>
+    <div>
+        <br>
+        <a href="{% url 'advertising_companies:advertising_company_details' pk=object.pk %}">Back to advertising company #{{ object.pk }}</a>
+    </div>
+{% endblock %}

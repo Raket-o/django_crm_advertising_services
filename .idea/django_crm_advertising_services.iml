@@ -8,4 +8,15 @@
     <orderEntry type="jdk" jdkName="Python 3.12 (django_crm_advertising_services)" jdkType="Python SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
+  <component name="TemplatesService">
+    <option name="TEMPLATE_CONFIGURATION" value="Django" />
+    <option name="TEMPLATE_FOLDERS">
+      <list>
+        <option value="$MODULE_DIR$/django_crm/authorization/templates" />
+        <option value="$MODULE_DIR$/django_crm/customer_statistics/templates" />
+        <option value="$MODULE_DIR$/django_crm/services/templates" />
+        <option value="$MODULE_DIR$/django_crm/advertising_companies/templates" />
+      </list>
+    </option>
+  </component>
 </module>
