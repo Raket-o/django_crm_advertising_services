@@ -1,12 +1,15 @@
-{#{% extends 'django_crm/templates/base.html' %}#}
 {% extends 'base.html' %}
 
 {% block title %}
     Advertising companies list
 {% endblock %}
 
+{% block name_page %}
+    Advertising companies
+{% endblock %}
+
 {% block body %}
-    <h1>Advertising companies list:</h1>
+    <h3>List:</h3>
     <div>
         <ol>
             {% for advertising_company in object_list %}

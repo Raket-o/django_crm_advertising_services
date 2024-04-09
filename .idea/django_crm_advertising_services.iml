@@ -16,6 +16,7 @@
         <option value="$MODULE_DIR$/django_crm/customer_statistics/templates" />
         <option value="$MODULE_DIR$/django_crm/services/templates" />
         <option value="$MODULE_DIR$/django_crm/advertising_companies/templates" />
+        <option value="$MODULE_DIR$/django_crm/templates" />
       </list>
     </option>
   </component>

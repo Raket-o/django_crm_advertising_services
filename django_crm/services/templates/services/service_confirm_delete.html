@@ -1,11 +1,15 @@
-{% extends 'services/base.html' %}
+{% extends 'base.html' %}
 
 {% block title %}
     Confirm delete {{ object.pk }}
 {% endblock %}
 
+{% block name_page %}
+    Confirm
+{% endblock %}
+
 {% block body %}
-    <h1>Are you sure you want to delete</h1>
+    <h3>Are you sure you want to delete</h3>
     <div>
         <form method="post">
             {% csrf_token %}

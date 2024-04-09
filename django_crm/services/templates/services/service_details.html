@@ -1,14 +1,18 @@
-{% extends 'services/base.html' %}
+{% extends 'base.html' %}
 
 {% load i18n %}
 
 {% block title %}
-    {% translate 'Service' %} #{{ object.pk }}
+    {% translate 'Detail service' %} #{{ object.pk }}
+{% endblock %}
+
+{% block name_page %}
+    Detail service
 {% endblock %}
 
 {% block body %}
-    <h1>{% translate 'Service- ' %} <strong>{{ object.name }}</strong></h1>
     <div>
+        {% translate 'Name: ' %} <strong>{{ object.name }}</strong>
         <p>{% translate 'Description:' %} <em> {{ object.description }}</em></p>
         <p>{% translate 'Created at:' %} <em> {{ object.created_at }} </em></p>
     </div>

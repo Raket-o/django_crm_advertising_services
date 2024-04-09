@@ -28,6 +28,9 @@ from django.contrib import admin
 # from django.contrib.sitemaps.views import sitemap
 
 from django.urls import path, include
+# from django.conf.urls import patterns
+# from django.conf.urls.defaults import
+# from django.conf.urls.static import static
 
 # from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
 
@@ -36,8 +39,6 @@ from django.urls import path, include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    # path('shop/', include('shopapp.urls')),
-    # path('upload/', include('requestdataapp.urls')),
     path('accounts/', include('authorization.urls')),
     path('statistics/', include('customer_statistics.urls')),
     path('services/', include('services.urls')),

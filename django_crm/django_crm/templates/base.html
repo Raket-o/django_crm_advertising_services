@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>
+        {% block title %}
+        {% endblock %}
+    </title>
+
+    <style>
+        body {
+            display: flex;
+            flex-direction: column;
+        {#flex-flow: row nowrap;#} box-sizing: border-box;
+            margin: 0;
+            min-height: 100vh;
+            min-width: 100vh;
+            font-size: 28px;
+            font-weight: bold;
+            color: black;
+        }
+
+
+        header {
+            display: flex;
+            flex-direction: row-reverse;
+            justify-content: right;
+            text-align: right;
+            align-items: center;
+            background-color: rgba(80, 89, 102);
+            height: 100px;
+        }
+
+        .name_app {
+            margin: 50px;
+            margin-right: auto;
+            font-size: 44px;
+            font-style: italic;
+            font-weight: bold;
+            color: #3fb1d3;
+        }
+
+        .user_name {
+        {#display: block;#} height: 100%;
+            text-align: center;
+            background-color: rgba(255, 255, 255, 0.35);
+            width: 20%;
+            color: white;
+        }
+
+        .logout {
+            text-align: right;
+            vertical-align: middle;
+            width: 7%;
+            color: white;
+            margin: 10px;
+            font-size: 14px;
+            font-weight: normal;
+
+
+            a:link, a:visited {
+                color: #ffffff;
+            }
+
+            a:hover {
+                color: rgba(0, 0, 255, 0.63);
+            }
+        }
+
+
+        a {
+            text-decoration: none;
+        }
+
+        a:link, a:visited {
+            color: #2a5fff;
+        }
+
+        a:hover {
+            color: rgba(115, 0, 0, 0.55);
+        }
+
+        .workspace {
+            display: flex;
+            flex-direction: row;
+            flex-flow: row nowrap;
+            justify-content: left;
+            min-width: auto;
+        }
+
+        .menu {
+        {#display: block;#}{#min-height: calc(100vh - 150px);#} min-height: calc(100vh - 286px);
+            text-align: center;
+            background-color: rgba(231, 234, 236);
+            width: 20%;
+            border: 3px solid #000000;
+
+        }
+
+        .group_Npage_Oinfo {
+            display: flex;
+            flex-direction: column;
+        {#flex-flow: row nowrap;#} justify-content: left;
+        }
+
+        .name_page {
+        {#display: block;#} padding-left: 5%;
+            height: 100px;
+            min-width: 140vh;
+            text-align: left;
+            background-color: rgba(231, 234, 236);
+        {#border: 3px solid #000000;#} border-top: 3px solid #000000;
+        }
+
+        .output_info {
+        {#display: block;#} min-height: calc(100vh - 286px);
+            padding-left: 4%;
+            padding-top: 2%;
+            font-size: 18px;
+            font-weight: normal;
+            border-top: 3px solid #000000;
+            border-bottom: 3px solid #000000;
+
+
+        }
+
+        .bside {
+        {#display: block;#} min-height: calc(100vh - 286px);
+            min-width: 13vh;
+            text-align: center;
+            background-color: rgba(231, 234, 236);
+            width: 2%;
+            border: 3px solid #000000;
+
+        }
+
+        footer {
+            padding: 10px;
+            display: flex;
+            flex-direction: row-reverse;
+            justify-content: right;
+            height: 30px;
+            text-align: right;
+            align-items: center;
+            color: white;
+            background-color: rgba(80, 89, 102);
+            margin-top: auto;
+            font-size: 14px;
+            font-weight: normal;
+        }
+    </style>
+</head>
+
+<header class="header">
+    {% if user.is_authenticated %}
+        <div class="logout">
+
+            <a href={% url 'authorization:logout' %}>Logout</a>
+
+        </div>
+        <div class="user_name">
+            <p>
+                {% if user.first_name or user.last_name %}
+                    {{ user.first_name }} {{ user.last_name }}
+                {% else %}
+                    {{ user.username }}
+                {% endif %}
+            </p>
+        </div>
+    {% endif %}
+    <div class="name_app"><p>CRM system advertising services</p></div>
+</header>
+
+<body>
+<div class="workspace">
+    <div class="menu">
+        menu
+    </div>
+
+    <div class="group_Npage_Oinfo">
+        <div class="name_page">
+            <p>
+                {% block name_page %}
+                {% endblock %}
+            </p>
+        </div>
+        <div class="output_info">
+            {% block body %}
+            {% endblock %}
+        </div>
+    </div>
+
+    <div class="bside">
+    </div>
+
+</div>
+
+
+<footer>
+    @2024
+</footer>
+
+</body>
+</html>

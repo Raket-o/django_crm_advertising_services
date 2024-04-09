@@ -1,11 +1,15 @@
-{% extends 'services/base.html' %}
+{% extends 'base.html' %}
 
 {% block title %}
     Services-list
 {% endblock %}
 
+{% block name_page %}
+    Services
+{% endblock %}
+
 {% block body %}
-    <h1>Services list:</h1>
+    <h3>List:</h3>
     <div>
         <ol>
             {% for service in object_list %}

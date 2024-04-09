@@ -1,14 +1,18 @@
-{% extends 'advertising_companies/base.html' %}
+{% extends 'base.html' %}
 
 {% load i18n %}
 
 {% block title %}
-    {% translate 'Advertising company' %} #{{ object.pk }}
+    {% translate 'Detail advertising company' %} #{{ object.pk }}
+{% endblock %}
+
+{% block name_page %}
+    Detail advertising company
 {% endblock %}
 
 {% block body %}
-    <h1>{% translate 'Advertising company- ' %} <strong>{{ object.name }}</strong></h1>
     <div>
+        {% translate 'Name: ' %} <strong>{{ object.name }}</strong>
         <p>{% translate 'Description:' %} <em> {{ object.description }}</em></p>
         <p>{% translate 'Created at:' %} <em> {{ object.created_at }} </em></p>
         Services in advertising company:
@@ -24,19 +28,19 @@
         {% url 'advertising_companies:advertising_company_archived' pk=object.pk as url_archive_advertising_company %}
 
         {% blocktranslate %}
-        <div>
-            <a href="{{ url_update_advertising_company }}">Update advertising company</a>
-        </div>
             <div>
-            <a href="{{ url_archive_advertising_company }}">Delete advertising company</a>
-        </div>
+                <p><a href="{{ url_update_advertising_company }}">Update advertising company</a></p>
+            </div>
+            <div>
+                <p><a href="{{ url_archive_advertising_company }}">Delete advertising company</a></p>
+            </div>
         {% endblocktranslate %}
     {% endif %}
 
     <div>
         {% url 'advertising_companies:advertising_companies_list' as url_list_service %}
         {% blocktranslate %}
-        <a href="{{ url_list_service }}">Back to advertising companies list</a>
+            <p><a href="{{ url_list_service }}">Back to advertising companies list</a></p>
         {% endblocktranslate %}
     </div>
 {% endblock %}

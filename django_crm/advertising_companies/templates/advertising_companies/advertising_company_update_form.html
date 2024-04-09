@@ -1,11 +1,15 @@
-{% extends 'advertising_companies/base.html' %}
+{% extends 'base.html' %}
 
 {% block title %}
     Update advertising company
 {% endblock %}
 
+{% block name_page %}
+    Update advertising company
+{% endblock %}
+
 {% block body %}
-    <h1>Update advertising company:</h1>
+    <h3>Enter the data:</h3>
     <div>
         <form method="post">
             {% csrf_token %}

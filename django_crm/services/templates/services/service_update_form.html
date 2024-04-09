@@ -1,11 +1,15 @@
-{% extends 'services/base.html' %}
+{% extends 'base.html' %}
 
 {% block title %}
     Update service
 {% endblock %}
 
+{% block name_page %}
+    Update service
+{% endblock %}
+
 {% block body %}
-    <h1>Update service:</h1>
+    <h3>Enter the data:</h3>
     <div>
         <form method="post">
             {% csrf_token %}

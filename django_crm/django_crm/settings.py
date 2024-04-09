@@ -65,12 +65,14 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = "django_crm.urls"
 
-print("="*70, os.path.join(BASE_DIR, 'templates'))
+# print("="*70, os.path.join(BASE_DIR, 'templates'))
+TEMPLATES_PATH = [os.path.join(BASE_DIR, "django_crm", "templates/")]
+
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
         # "DIRS": [],
-        'DIRS': [os.path.join(BASE_DIR, 'templates/')],
+        'DIRS': TEMPLATES_PATH,
         "APP_DIRS": True,
         "OPTIONS": {
             "context_processors": [
@@ -82,6 +84,15 @@ TEMPLATES = [
         },
     },
 ]
+
+# # MEDIA_PATH = os.path.join(BASE_DIR, "django_crm", "templates/" "media/")
+# # MEDIA_ROOT = MEDIA_PATH
+# # MEDIA_URL = MEDIA_PATH
+# # print(MEDIA_ROOT)
+#
+# BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+# MEDIA_URL = '/media/'
+# MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 
 
 WSGI_APPLICATION = "django_crm.wsgi.application"
@@ -100,14 +111,6 @@ DATABASES = {
         'PORT': db_port,
     }
 }
-
-
-# DATABASES = {
-#     "default": {
-#         "ENGINE": "django.db.backends.sqlite3",
-#         "NAME": BASE_DIR / "db.sqlite3",
-#     }
-# }
 
 
 # Password validation
@@ -151,11 +154,7 @@ STATIC_URL = "static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
-# LOGIN_REDIRECT_URL = reverse_lazy("customer_statistics:statistics")
 LOGIN_REDIRECT_URL = reverse_lazy("customer_statistics:statistics")
-# from django.shortcuts import redirect
-
-# LOGIN_REDIRECT_URL = redirect("customer_statistics:stats")
 
 # LOG_LEVEL = getenv("DJANGO_LOGLEVEL", "info").upper()
 LOG_LEVEL = "info".upper()
