@@ -17,14 +17,14 @@ from .models import Service
 
 
 class ServicesListView(ListView):
-    template_name = "services/services_list.html"
-    queryset = Service.objects.filter(archived=False)
+    # template_name = "services/services_list.html"
+    queryset = Service.objects.all()
 
 
 class ServiceDetailsView(DetailView):
-    template_name = "services/service_details.html"
+    # template_name = "services/service_details.html"
     model = Service
-    queryset = Service.objects.filter(archived=False)
+    queryset = Service.objects.all()
 
 
 # class ServiceCreateView(PermissionRequiredMixin, CreateView):
@@ -32,19 +32,25 @@ class ServiceCreateView(CreateView):
     # permission_required = "services.add_service"
 
     model = Service
-    fields = "name", "description"
-    success_url = reverse_lazy("services:services_list")
+    fields = "name", "description", "price"
+    success_url = reverse_lazy("services:service_list")
 
     def form_valid(self, form):
         form.instance.created_by = self.request.user
         response = super().form_valid(form)
         return response
 
+    def get_success_url(self):
+        return reverse(
+            viewname="services:service_details",
+            kwargs={"pk": self.object.pk},
+        )
+
 
 # class ServiceUpdateView(UserPassesTestMixin, UpdateView):
 class ServiceUpdateView(UpdateView):
     model = Service
-    fields = "name", "description",
+    fields = "name", "description", "price"
     template_name_suffix = "_update_form"
 
     # def test_func(self):
@@ -62,9 +68,8 @@ class ServiceUpdateView(UpdateView):
 # class ServiceDeleteView(PermissionRequiredMixin, DeleteView):
 class ServiceDeleteView(DeleteView):
     # permission_required = "services.delete_service"
-
     model = Service
-    success_url = reverse_lazy("services:services_list")
+    success_url = reverse_lazy("services:service_list")
 
     # def form_valid(self, form):
     #     success_url = self.get_success_url()

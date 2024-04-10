@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Client list
+{% endblock %}
+
+{% block name_page %}
+    Clients
+{% endblock %}
+
+{% block body %}
+    <h3>List:</h3>
+    <div>
+        <ol>
+            {% for client in object_list %}
+                <div>
+                    <li>
+                        <p>
+                        <form method="get" action="{% url 'clients:client_archived' pk=client.pk %}">
+                            <a href="{% url 'clients:client_details' pk=client.pk %}">{{ client.name }}</a>
+                            <button type='submit'>Delete</button>
+                        </form>
+                        </p>
+                    </li>
+                </div>
+
+            {% empty %} No clients yet
+            {% endfor %}
+        </ol>
+    </div>
+
+
+    {#    {% if perms.services.add_service %}#}
+    <div>
+        <a href="{% url 'clients:client_create' %}">Create a new client </a>
+    </div>
+    {#    {% endif %}#}
+
+{% endblock %}

@@ -11,7 +11,6 @@
         body {
             display: flex;
             flex-direction: column;
-        {#flex-flow: row nowrap;#} box-sizing: border-box;
             margin: 0;
             min-height: 100vh;
             min-width: 100vh;
@@ -20,7 +19,6 @@
             color: black;
         }
 
-
         header {
             display: flex;
             flex-direction: row-reverse;
@@ -28,7 +26,7 @@
             text-align: right;
             align-items: center;
             background-color: rgba(80, 89, 102);
-            height: 100px;
+            height: 73px;
         }
 
         .name_app {
@@ -41,7 +39,10 @@
         }
 
         .user_name {
-        {#display: block;#} height: 100%;
+            {#flex-direction: row;#}
+            {#flex-flow: row nowrap;#}
+            height: auto;
+            vertical-align: middle;
             text-align: center;
             background-color: rgba(255, 255, 255, 0.35);
             width: 20%;
@@ -85,11 +86,16 @@
             flex-direction: row;
             flex-flow: row nowrap;
             justify-content: left;
-            min-width: auto;
+            {#min-width: auto;#}
         }
 
         .menu {
-        {#display: block;#}{#min-height: calc(100vh - 150px);#} min-height: calc(100vh - 286px);
+        {#display: block;#}
+        {#min-height: calc(100vh - 150px);#}
+            {#min-height: calc(100vh - 286px);#}
+            overflow-y: auto;
+            {#height: calc(100vh - 129px);#}
+            height: auto;
             text-align: center;
             background-color: rgba(231, 234, 236);
             width: 20%;
@@ -104,7 +110,8 @@
         }
 
         .name_page {
-        {#display: block;#} padding-left: 5%;
+            overflow-y: auto;
+            padding-left: 5%;
             height: 100px;
             min-width: 140vh;
             text-align: left;
@@ -113,9 +120,14 @@
         }
 
         .output_info {
-        {#display: block;#} min-height: calc(100vh - 286px);
+            overflow-y: auto;
+            {#overflow: auto;#}
+            {#min-height: calc(100vh - 286px);#}
+            height: calc(100vh - 286px);
+            {#height: 100%;#}
             padding-left: 4%;
             padding-top: 2%;
+            padding-bottom: 2%;
             font-size: 18px;
             font-weight: normal;
             border-top: 3px solid #000000;
@@ -125,7 +137,11 @@
         }
 
         .bside {
-        {#display: block;#} min-height: calc(100vh - 286px);
+            {#display: flex;#}
+            {#flex-direction: row-reverse;#}
+            {#min-height: calc(100vh - 286px);#}
+            {#height: calc(100vh - 129px);#}
+
             min-width: 13vh;
             text-align: center;
             background-color: rgba(231, 234, 236);

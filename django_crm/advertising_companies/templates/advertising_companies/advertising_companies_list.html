@@ -15,19 +15,24 @@
             {% for advertising_company in object_list %}
                 <div>
                     <li>
-                    <p><a href="{% url 'advertising_companies:advertising_company_details' pk=advertising_company.pk %}">{{ advertising_company.name }}</a></p>
+                        <p>
+                        <form method="get"
+                              action="{% url 'advertising_companies:advertising_company_archived' pk=advertising_company.pk %}">
+                            <a href="{% url 'advertising_companies:advertising_company_details' pk=advertising_company.pk %}">{{ advertising_company.name }}</a>
+                            <button type='submit'>Delete</button>
+                        </form>
+                        </p>
                     </li>
                 </div>
-
             {% empty %} No advertising companies yet
             {% endfor %}
         </ol>
     </div>
 
-{#    {% if perms.services.add_service %}#}
-        <div>
-            <a href="{% url 'advertising_companies:advertising_company_create' %}">Create a new advertising company</a>
-        </div>
-{#    {% endif %}#}
+    {#    {% if perms.services.add_service %}#}
+    <div>
+        <a href="{% url 'advertising_companies:advertising_company_create' %}">Create a new advertising company</a>
+    </div>
+    {#    {% endif %}#}
 
 {% endblock %}

@@ -7,9 +7,25 @@ class AdvertisingCompany(models.Model):
     class Meta:
         verbose_name = "Advertising company"
         verbose_name_plural = "Advertising companies"
+        ordering = "id", "name"
 
-    name = models.TextField(max_length=50, blank=False)
+    name = models.CharField(max_length=50, unique=True, blank=False)
     description = models.TextField(max_length=300, blank=True)
-    created_at = models.DateTimeField(auto_now_add=True)
+    promotion = models.TextField(max_length=50, blank=True)
+    budget = models.DecimalField(max_digits=8, decimal_places=2, blank=True, default=0)
     services = models.ManyToManyField(Service, related_name="advertisingcompany")
-    archived = models.BooleanField(default=False)
+
+    def get_service_price(self):
+        return tuple((int(service.price) for service in self.services.all()))
+
+    @classmethod
+    def set_budget(cls, form):
+        total_price_services = sum(tuple(service.price for service in form.cleaned_data['services']))
+        project = form.save(commit=False)
+        project.budget = total_price_services
+        project.save()
+        return project
+
+    def __str__(self):
+        return f"Name: {self.name}, budget: {self.budget}"
+

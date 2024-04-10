@@ -14,11 +14,12 @@
     <div>
         {% translate 'Name: ' %} <strong>{{ object.name }}</strong>
         <p>{% translate 'Description:' %} <em> {{ object.description }}</em></p>
-        <p>{% translate 'Created at:' %} <em> {{ object.created_at }} </em></p>
+        <p>{% translate 'Promotion:' %} <em> {{ object.promotion }}</em></p>
+        <p>{% translate 'Budget:' %} <em> {% firstof object.budget 0 %} </em></p>
         Services in advertising company:
         <ol>
             {% for services in object.services.all %}
-                <li>Name: {{ services.name }}</li>
+                <li><p>Name: {{ services.name }}, price: {{ services.price }}</p></li>
             {% endfor %}
         </ol>
     </div>

@@ -11,30 +11,35 @@ from django.urls import reverse_lazy
 
 # Create your views here.
 
-from .models import AdvertisingCompany
-from .forms import AdvertisingCompanyForm
+from .models import Client
+# from .forms import AdvertisingCompanyForm
 
 
-class AdvertisingCompaniesListView(ListView):
-    template_name = "advertising_companies/advertising_companies_list.html"
+class ClientListView(ListView):
+    # template_name = "clients/clients_list.html"
     # queryset = AdvertisingCompany.objects.filter(archived=False)
     queryset = (
-        AdvertisingCompany.objects
-        .prefetch_related("services")
+        Client.objects
+        .prefetch_related("advertising_company")
         .all()
     )
 
 
-class AdvertisingCompanyDetailsView(DetailView):
-    template_name = "advertising_companies/advertising_company_details.html"
-    model = AdvertisingCompany
+class ClientDetailsView(DetailView):
+    # template_name = "clients/client_details.html"
+    model = Client
     # queryset = AdvertisingCompany.objects.filter(archived=False)
 
     queryset = (
-        AdvertisingCompany.objects
-        .prefetch_related("services")
+        Client.objects
+        .prefetch_related("advertising_company")
         .all()
     )
+
+    # queryset = (
+    #     Client.objects
+    #     .all()
+    # )
 
     # def get_context_data(self, **kwargs):
     #     context = super().get_context_data(**kwargs)
@@ -47,33 +52,33 @@ class AdvertisingCompanyDetailsView(DetailView):
 
 
 # class ServiceCreateView(PermissionRequiredMixin, CreateView):
-class AdvertisingCompanyCreateView(CreateView):
+class ClientCreateView(CreateView):
     # permission_required = "services.add_service"
-    template_name = "advertising_companies/advertising_company_form.html"
-    model = AdvertisingCompany
-    # fields = "name", "description", "services", "promotion"
-    form_class = AdvertisingCompanyForm
+    # template_name = "clients/client_form.html"
+    model = Client
+    fields = "name", "phone", "email", "advertising_company",
+    # form_class = AdvertisingCompanyForm
     # success_url = reverse_lazy("advertising_companies:advertising_companies_list")
 
-    def form_valid(self, form):
-        AdvertisingCompany.set_budget(form)
-        # response = super().form_valid(form)
-        return super().form_valid(form)
+    # def form_valid(self, form):
+    #     AdvertisingCompany.set_budget(form)
+    #     # response = super().form_valid(form)
+    #     return super().form_valid(form)
 
     def get_success_url(self):
         return reverse(
-            viewname="advertising_companies:advertising_company_details",
+            viewname="clients:client_details",
             kwargs={"pk": self.object.pk},
         )
 
 
 # class ServiceUpdateView(UserPassesTestMixin, UpdateView):
-class AdvertisingCompanyUpdateView(UpdateView):
-    template_name = "advertising_companies/advertising_company_update_form.html"
-    model = AdvertisingCompany
-    # fields = "name", "description", "services", "promotion",
-    # template_name_suffix = "_update_form"
-    form_class = AdvertisingCompanyForm
+class ClientUpdateView(UpdateView):
+    # template_name = "clients/client_update_form.html"
+    model = Client
+    fields = "name", "phone", "email", "advertising_company",
+    template_name_suffix = "_update_form"
+    # form_class = AdvertisingCompanyForm
 
     # def test_func(self):
     #     user = self.request.user
@@ -82,22 +87,22 @@ class AdvertisingCompanyUpdateView(UpdateView):
 
     def get_success_url(self):
         return reverse(
-            viewname="advertising_companies:advertising_company_details",
+            viewname="clients:client_details",
             kwargs={"pk": self.object.pk},
         )
 
-    def form_valid(self, form):
-        AdvertisingCompany.set_budget(form)
-        # response = super().form_valid(form)
-        return super().form_valid(form)
+    # def form_valid(self, form):
+    #     AdvertisingCompany.set_budget(form)
+    #     # response = super().form_valid(form)
+    #     return super().form_valid(form)
 
 
 # class ServiceDeleteView(PermissionRequiredMixin, DeleteView):
-class AdvertisingCompanyDeleteView(DeleteView):
+class ClientDeleteView(DeleteView):
     # permission_required = "services.delete_service"
-    template_name = "advertising_companies/advertising_company_confirm_delete.html"
-    model = AdvertisingCompany
-    success_url = reverse_lazy("advertising_companies:advertising_companies_list")
+    # template_name = "clients/client_confirm_delete.html"
+    model = Client
+    success_url = reverse_lazy("clients:client_list")
 
     # def form_valid(self, form):
     #     success_url = self.get_success_url()

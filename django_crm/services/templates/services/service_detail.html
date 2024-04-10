@@ -14,7 +14,7 @@
     <div>
         {% translate 'Name: ' %} <strong>{{ object.name }}</strong>
         <p>{% translate 'Description:' %} <em> {{ object.description }}</em></p>
-        <p>{% translate 'Created at:' %} <em> {{ object.created_at }} </em></p>
+        <p>{% translate 'Price:' %} <em> {{ object.price }} </em></p>
     </div>
 
     {% if perms.services.change_services or perms.services.delete_services %}
@@ -32,9 +32,9 @@
     {% endif %}
 
     <div>
-        {% url 'services:services_list' as url_list_service %}
+        {% url 'services:service_list' as url_list_service %}
         {% blocktranslate %}
-        <a href="{{ url_list_service }}">Back to Services list</a>
+        <a href="{{ url_list_service }}">Back to service list</a>
         {% endblocktranslate %}
     </div>
 {% endblock %}

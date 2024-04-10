@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     "customer_statistics.apps.CustomerStatisticsConfig",
     "services.apps.ServicesConfig",
     "advertising_companies.apps.AdvertisingCompaniesConfig",
+    "clients.apps.ClientsConfig",
 ]
 
 MIDDLEWARE = [
@@ -84,16 +85,6 @@ TEMPLATES = [
         },
     },
 ]
-
-# # MEDIA_PATH = os.path.join(BASE_DIR, "django_crm", "templates/" "media/")
-# # MEDIA_ROOT = MEDIA_PATH
-# # MEDIA_URL = MEDIA_PATH
-# # print(MEDIA_ROOT)
-#
-# BASE_DIR = os.path.dirname(os.path.dirname(__file__))
-# MEDIA_URL = '/media/'
-# MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
 
 WSGI_APPLICATION = "django_crm.wsgi.application"
 
@@ -147,7 +138,28 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
-STATIC_URL = "static/"
+# STATIC_URL = "static/"
+
+
+# # MEDIA_PATH = os.path.join(BASE_DIR, "django_crm", "templates/" "media/")
+# # MEDIA_ROOT = MEDIA_PATH
+# # MEDIA_URL = MEDIA_PATH
+# # print(MEDIA_ROOT)
+#
+# BASE_DIR = os.path.dirname(os.path.dirname(__file__))
+# MEDIA_URL = '/media/'
+# MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
+# STATIC_URL = '/static/'
+# MEDIA_URL = '/media/'
+# MEDIA_ROOT = BASE_DIR / 'uploads'
+
+STATIC_URL = os.path.join(BASE_DIR, "django_crm", "templates/" "static/")
+MEDIA_URL = os.path.join(BASE_DIR, "django_crm", "templates/" "media/")
+# STATIC_URL = 'static/'
+# MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'uploads'
+
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
@@ -180,3 +192,5 @@ logging.config.dictConfig({
         },
     },
 })
+
+

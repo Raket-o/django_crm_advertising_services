@@ -1,11 +1,12 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block title %}
-    Update advertising company
+    Create client
 {% endblock %}
 
 {% block name_page %}
-    Update advertising company
+    Create client
 {% endblock %}
 
 {% block body %}
@@ -14,11 +15,11 @@
         <form method="post">
             {% csrf_token %}
             {{ form.as_p }}
-            <button type="submit">Update</button>
+        <button type="submit">Create</button>
         </form>
     </div>
     <div>
         <br>
-        <a href="{% url 'advertising_companies:advertising_company_details' pk=object.pk %}">Back to details advertising company</a>
+        <a href="{% url 'clients:client_list' %}">Back to client list</a>
     </div>
 {% endblock %}

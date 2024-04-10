@@ -1,11 +1,11 @@
 {% extends 'base.html' %}
 
 {% block title %}
-    Update advertising company
+    Update client
 {% endblock %}
 
 {% block name_page %}
-    Update advertising company
+    Update client
 {% endblock %}
 
 {% block body %}
@@ -19,6 +19,6 @@
     </div>
     <div>
         <br>
-        <a href="{% url 'advertising_companies:advertising_company_details' pk=object.pk %}">Back to details advertising company</a>
+        <a href="{% url 'clients:client_details' pk=object.pk %}">Back to detail client</a>
     </div>
 {% endblock %}
