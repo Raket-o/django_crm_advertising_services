@@ -47,6 +47,7 @@ urlpatterns = [
     path('advertising-companies/', include('advertising_companies.urls')),
     # path('potential-clients/', include('potential_clients.urls')),
     path('clients/', include('clients.urls')),
+    path('contracts/', include('contracts.urls')),
     # path('api/schema/', SpectacularAPIView.as_view(), name='schema'),
     # path('api/schema/swagger', SpectacularSwaggerView.as_view(url_name='schema'), name='swagger'),
     # path('blog/', include('blogapp.urls')),

@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Create contract
+{% endblock %}
+
+{% block name_page %}
+    Create contract
+{% endblock %}
+
+{% block body %}
+    <h3>Enter the data:</h3>
+    <div>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <br>
+            <button type="submit">Create</button>
+        </form>
+    </div>
+    <div>
+        <br>
+        <a href="{% url 'contracts:contract_list' %}"><button>Back to service list</button></a>
+    </div>
+{% endblock %}

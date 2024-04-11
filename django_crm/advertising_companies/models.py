@@ -11,8 +11,8 @@ class AdvertisingCompany(models.Model):
 
     name = models.CharField(max_length=50, unique=True, blank=False)
     description = models.TextField(max_length=300, blank=True)
-    promotion = models.TextField(max_length=50, blank=True)
-    budget = models.DecimalField(max_digits=8, decimal_places=2, blank=True, default=0)
+    promotion = models.TextField(max_length=50, blank=False)
+    budget = models.DecimalField(max_digits=8, decimal_places=2, blank=False)
     # services = models.ManyToManyField(Service, related_name="advertisingcompany")
     # services = models.ManyToManyField(Service, through='AdvertisingcompanyServicesMTM')
     services = models.ForeignKey(Service, on_delete=models.CASCADE)

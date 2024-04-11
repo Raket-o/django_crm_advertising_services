@@ -52,6 +52,8 @@ INSTALLED_APPS = [
     "services.apps.ServicesConfig",
     "advertising_companies.apps.AdvertisingCompaniesConfig",
     "clients.apps.ClientsConfig",
+    "contracts.apps.ContractsConfig",
+
 ]
 
 MIDDLEWARE = [
@@ -154,12 +156,14 @@ USE_TZ = True
 # MEDIA_URL = '/media/'
 # MEDIA_ROOT = BASE_DIR / 'uploads'
 
-STATIC_URL = os.path.join(BASE_DIR, "django_crm", "templates/" "static/")
-MEDIA_URL = os.path.join(BASE_DIR, "django_crm", "templates/" "media/")
-# STATIC_URL = 'static/'
-# MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'uploads'
+# STATIC_URL = os.path.join(BASE_DIR, "django_crm", "templates/" "static/")
+# MEDIA_URL = os.path.join(BASE_DIR, "django_crm", "templates/" "media/")
 
+
+STATIC_URL = 'static/'
+
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'uploads'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field

@@ -1,30 +1,30 @@
 {% extends 'base.html' %}
 
 {% block title %}
-    Service-list
+    Contract-list
 {% endblock %}
 
 {% block name_page %}
-    Services
+    Contracts
 {% endblock %}
 
 {% block body %}
     <h3>List:</h3>
     <div>
         <ol>
-            {% for service in object_list %}
+            {% for contract in object_list %}
                 <div>
                     <li>
                         <p>
-                            <a href="{% url 'services:service_details' pk=service.pk %}">{{ service.name }}</a>
-                            <a href="{% url 'services:service_archived' pk=service.pk %}">
+                            <a href="{% url 'contracts:contract_details' pk=contract.pk %}">{{ contract.name }}</a>
+                            <a href="{% url 'contracts:contract_archived' pk=contract.pk %}">
                                 <button>Delete</button>
                             </a>
                         </p>
                     </li>
                 </div>
 
-            {% empty %} No services yet
+            {% empty %} No contracts yet
             {% endfor %}
         </ol>
     </div>
@@ -32,7 +32,7 @@
     {#    {% if perms.services.add_service %}#}
     <div>
         <br>
-        <form method="get" action="{% url 'services:service_create' %}">
+        <form method="get" action="{% url 'contracts:contract_create' %}">
             <button type='submit'>Create</button>
 
             {#        <a href="{% url 'services:service_create' %}">Create a new service</a>#}

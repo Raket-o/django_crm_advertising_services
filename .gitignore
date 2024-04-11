@@ -3,6 +3,8 @@ text.txt
 .flake8
 postgres/
 .idea/
+contract.txt
+upload/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

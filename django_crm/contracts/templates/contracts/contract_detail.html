@@ -1,0 +1,53 @@
+{% extends 'base.html' %}
+
+{% load i18n %}
+
+{% block title %}
+    {% translate 'Detail contract' %} #{{ object.pk }}
+{% endblock %}
+
+{% block name_page %}
+    Detail contract
+{% endblock %}
+
+{% block body %}
+    <div>
+        {% translate 'Name: ' %} <strong>{{ object.name }}</strong>
+        <p>{% translate 'Service:' %} <em> {{ object.service }}</em></p>
+        <p>{% translate 'Document file:' %} <em> {{ object.document_file }} </em></p>
+        <p>{% translate 'Date conclusion:' %}
+            <em> {{ object.date_conclusion.day }}.{{ object.date_conclusion.month }}.{{ object.date_conclusion.year }} </em>
+        </p>
+        <p>{% translate 'Period validity:' %} <em> {{ object.period_validity }} </em></p>
+        <p>{% translate 'Amount:' %} <em> {{ object.amount }} </em></p>
+    </div>
+
+    {% if perms.contract.change_services or perms.contract.delete_services %}
+        {% url 'contracts:contract_update' pk=contract.pk as url_update_contract %}
+        {% url 'contracts:contract_archived' pk=contract.pk as url_archive_contract %}
+
+        {% blocktranslate %}
+            <br>
+            <div>
+                <a href="{{ url_update_contract }}">
+                    <button>Update</button>
+                </a>
+            </div>
+            <br>
+            <div>
+                <a href="{{ url_archive_contract }}">
+                    <button>Delete</button>
+                </a>
+            </div>
+        {% endblocktranslate %}
+    {% endif %}
+    <br>
+    <div>
+        {% url 'contracts:contract_list' as url_list_contract %}
+        {% blocktranslate %}
+            <a href="{{ url_list_contract }}">
+                <button>Back</button>
+            </a>
+        {% endblocktranslate %}
+    </div>
+{% endblock %}
