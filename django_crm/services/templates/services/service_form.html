@@ -14,11 +14,12 @@
         <form method="post">
             {% csrf_token %}
             {{ form.as_p }}
+            <br>
             <button type="submit">Create</button>
         </form>
     </div>
     <div>
         <br>
-        <a href="{% url 'services:service_list' %}">Back to service list</a>
+        <a href="{% url 'services:service_list' %}"><button>Back to service list</button></a>
     </div>
 {% endblock %}

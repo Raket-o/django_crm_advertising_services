@@ -16,10 +16,10 @@
                 <div>
                     <li>
                         <p>
-                        <form method="get" action="{% url 'services:service_archived' pk=service.pk %}">
                             <a href="{% url 'services:service_details' pk=service.pk %}">{{ service.name }}</a>
-                            <button type='submit'>Delete</button>
-                        </form>
+                            <a href="{% url 'services:service_archived' pk=service.pk %}">
+                                <button>Delete</button>
+                            </a>
                         </p>
                     </li>
                 </div>
@@ -31,7 +31,12 @@
 
     {#    {% if perms.services.add_service %}#}
     <div>
-        <a href="{% url 'services:service_create' %}">Create a new service</a>
+        <br>
+        <form method="get" action="{% url 'services:service_create' %}">
+            <button type='submit'>Create</button>
+
+            {#        <a href="{% url 'services:service_create' %}">Create a new service</a>#}
+
     </div>
     {#    {% endif %}#}
 

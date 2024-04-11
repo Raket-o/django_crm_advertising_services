@@ -16,14 +16,16 @@
                 <div>
                     <li>
                         <p>
-                        <form method="get" action="{% url 'clients:client_archived' pk=client.pk %}">
                             <a href="{% url 'clients:client_details' pk=client.pk %}">{{ client.name }}</a>
-                            <button type='submit'>Delete</button>
-                        </form>
+                            <a href="{% url 'clients:client_active' pk=client.pk %}">
+                                <button>To active</button>
+                            </a>
+                            <a href="{% url 'clients:client_archived' pk=client.pk %}">
+                                <button>Delete</button>
+                            </a>
                         </p>
                     </li>
                 </div>
-
             {% empty %} No clients yet
             {% endfor %}
         </ol>
@@ -32,8 +34,14 @@
 
     {#    {% if perms.services.add_service %}#}
     <div>
-        <a href="{% url 'clients:client_create' %}">Create a new client </a>
+        <br>
+        <a href="{% url 'clients:client_create' %}">
+            <button>Create</button>
     </div>
+
+    {#    <div>#}
+    {#        <a href="{% url 'clients:client_create' %}">Create a new client </a>#}
+    {#    </div>#}
     {#    {% endif %}#}
 
 {% endblock %}

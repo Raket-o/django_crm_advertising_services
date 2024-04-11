@@ -1,25 +1,25 @@
 {% extends 'base.html' %}
 
 {% block title %}
-    Confirm delete {{ object.pk }}
+    Confirm client to active {{ object.pk }}
 {% endblock %}
 
 {% block name_page %}
-    Confirm
+    Confirm client to active
 {% endblock %}
 
 {% block body %}
-    <h3>Are you sure you want to delete</h3>
+    <h3>Are you sure you want client to active</h3>
     <div>
         <form method="post">
             {% csrf_token %}
             {{ form.as_p }}
             <br>
-            <button type="submit">Delete</button>
+            <button type="submit">Sure</button>
         </form>
     </div>
     <br>
-    <a href="{% url 'advertising_companies:advertising_company_details' pk=object.pk %}">
+    <a href="{% url 'clients:client_details' pk=object.pk %}">
         <button>Back</button>
     </a>
 {% endblock %}

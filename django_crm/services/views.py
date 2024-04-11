@@ -40,11 +40,11 @@ class ServiceCreateView(CreateView):
         response = super().form_valid(form)
         return response
 
-    def get_success_url(self):
-        return reverse(
-            viewname="services:service_details",
-            kwargs={"pk": self.object.pk},
-        )
+    # def get_success_url(self):
+    #     return reverse(
+    #         viewname="services:service_details",
+    #         kwargs={"pk": self.object.pk},
+    #     )
 
 
 # class ServiceUpdateView(UserPassesTestMixin, UpdateView):

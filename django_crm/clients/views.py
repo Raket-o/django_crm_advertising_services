@@ -7,6 +7,7 @@ from django.core.cache import cache
 from django.http import JsonResponse, Http404, HttpRequest, HttpResponse, HttpResponseRedirect
 from django.shortcuts import redirect, render, reverse, get_object_or_404
 from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView
+from django.views import View
 from django.urls import reverse_lazy
 
 # Create your views here.
@@ -21,7 +22,7 @@ class ClientListView(ListView):
     queryset = (
         Client.objects
         .prefetch_related("advertising_company")
-        .all()
+        .filter(active=False)
     )
 
 
@@ -110,3 +111,16 @@ class ClientDeleteView(DeleteView):
     #     self.object.delete()
     #     self.object.save()
     #     return HttpResponseRedirect(success_url)
+
+
+class ClientActiveView(DeleteView):
+    # permission_required = "services.delete_service"
+    template_name = "clients/client_confirm_active.html"
+    model = Client
+    success_url = reverse_lazy("clients:client_list")
+
+    def form_valid(self, form):
+        success_url = self.get_success_url()
+        self.object.active = True
+        self.object.save()
+        return HttpResponseRedirect(success_url)

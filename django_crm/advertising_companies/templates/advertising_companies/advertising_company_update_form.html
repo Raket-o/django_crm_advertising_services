@@ -14,11 +14,12 @@
         <form method="post">
             {% csrf_token %}
             {{ form.as_p }}
+            <br>
             <button type="submit">Update</button>
         </form>
     </div>
     <div>
         <br>
-        <a href="{% url 'advertising_companies:advertising_company_details' pk=object.pk %}">Back to details advertising company</a>
+        <a href="{% url 'advertising_companies:advertising_company_details' pk=object.pk %}"><button>Back</button></a>
     </div>
 {% endblock %}

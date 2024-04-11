@@ -18,7 +18,8 @@ class Client(models.Model):
     # services = models.One(Service, related_name="advertisingcompany")
 
     name = models.CharField(max_length=50, blank=False, unique=True)
-    phone = models.CharField(max_length=10)
-    email = models.EmailField(blank=False)
+    phone = models.CharField(max_length=10, blank=False)
+    email = models.EmailField(blank=True)
+    active = models.BooleanField(default=False)
     advertising_company = models.ForeignKey(AdvertisingCompany, on_delete=models.CASCADE, null=True)
 

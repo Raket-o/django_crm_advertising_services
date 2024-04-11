@@ -30,10 +30,16 @@
 
         {% blocktranslate %}
             <div>
-                <p><a href="{{ url_update_advertising_company }}">Update advertising company</a></p>
+                <br>
+                <a href="{{ url_update_advertising_company }}">
+                    <button>Update</button>
+                </a>
             </div>
             <div>
-                <p><a href="{{ url_archive_advertising_company }}">Delete advertising company</a></p>
+                <br>
+                <a href="{{ url_archive_advertising_company }}">
+                    <button>Delete</button>
+                </a>
             </div>
         {% endblocktranslate %}
     {% endif %}
@@ -41,7 +47,10 @@
     <div>
         {% url 'advertising_companies:advertising_companies_list' as url_list_service %}
         {% blocktranslate %}
-            <p><a href="{{ url_list_service }}">Back to advertising companies list</a></p>
+            <br>
+            <a href="{{ url_list_service }}">
+                <button>Back</button>
+            </a>
         {% endblocktranslate %}
     </div>
 {% endblock %}

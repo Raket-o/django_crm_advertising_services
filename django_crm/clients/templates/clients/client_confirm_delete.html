@@ -14,9 +14,11 @@
         <form method="post">
             {% csrf_token %}
             {{ form.as_p }}
+            <br>
             <button type="submit">Delete</button>
         </form>
     </div>
-    <p><a href="{% url 'clients:client_details' pk=object.pk %}">Back to detail client</a></p>
+    <br>
+    <a href="{% url 'clients:client_details' pk=object.pk %}"><button>Back</button></a>
 {% endblock %}
 

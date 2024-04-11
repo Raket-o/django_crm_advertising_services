@@ -51,29 +51,29 @@ class AdvertisingCompanyCreateView(CreateView):
     # permission_required = "services.add_service"
     template_name = "advertising_companies/advertising_company_form.html"
     model = AdvertisingCompany
-    # fields = "name", "description", "services", "promotion"
-    form_class = AdvertisingCompanyForm
-    # success_url = reverse_lazy("advertising_companies:advertising_companies_list")
+    fields = "name", "description",  "promotion", "services", "budget",
+    # form_class = AdvertisingCompanyForm
+    success_url = reverse_lazy("advertising_companies:advertising_companies_list")
 
-    def form_valid(self, form):
-        AdvertisingCompany.set_budget(form)
-        # response = super().form_valid(form)
-        return super().form_valid(form)
+    # def form_valid(self, form):
+    #     AdvertisingCompany.set_budget(form)
+    #     # response = super().form_valid(form)
+    #     return super().form_valid(form)
 
-    def get_success_url(self):
-        return reverse(
-            viewname="advertising_companies:advertising_company_details",
-            kwargs={"pk": self.object.pk},
-        )
+    # def get_success_url(self):
+    #     return reverse(
+    #         viewname="advertising_companies:advertising_company_details",
+    #         kwargs={"pk": self.object.pk},
+    #     )
 
 
 # class ServiceUpdateView(UserPassesTestMixin, UpdateView):
 class AdvertisingCompanyUpdateView(UpdateView):
     template_name = "advertising_companies/advertising_company_update_form.html"
     model = AdvertisingCompany
-    # fields = "name", "description", "services", "promotion",
-    # template_name_suffix = "_update_form"
-    form_class = AdvertisingCompanyForm
+    fields = "name", "description",  "promotion", "services", "budget",
+    # form_class = AdvertisingCompanyForm
+    template_name_suffix = "_update_form"
 
     # def test_func(self):
     #     user = self.request.user
@@ -86,10 +86,10 @@ class AdvertisingCompanyUpdateView(UpdateView):
             kwargs={"pk": self.object.pk},
         )
 
-    def form_valid(self, form):
-        AdvertisingCompany.set_budget(form)
-        # response = super().form_valid(form)
-        return super().form_valid(form)
+    # def form_valid(self, form):
+    #     AdvertisingCompany.set_budget(form)
+    #     # response = super().form_valid(form)
+    #     return super().form_valid(form)
 
 
 # class ServiceDeleteView(PermissionRequiredMixin, DeleteView):

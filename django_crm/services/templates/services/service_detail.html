@@ -22,19 +22,27 @@
         {% url 'services:service_archived' pk=service.pk as url_archive_service %}
 
         {% blocktranslate %}
-        <div>
-            <a href="{{ url_update_service }}">Update service</a>
-        </div>
+            <br>
             <div>
-            <a href="{{ url_archive_service }}">Delete service</a>
-        </div>
+                <a href="{{ url_update_service }}">
+                    <button>Update</button>
+                </a>
+            </div>
+            <br>
+            <div>
+                <a href="{{ url_archive_service }}">
+                    <button>Delete</button>
+                </a>
+            </div>
         {% endblocktranslate %}
     {% endif %}
-
+    <br>
     <div>
         {% url 'services:service_list' as url_list_service %}
         {% blocktranslate %}
-        <a href="{{ url_list_service }}">Back to service list</a>
+            <a href="{{ url_list_service }}">
+                <button>Back</button>
+            </a>
         {% endblocktranslate %}
     </div>
 {% endblock %}
