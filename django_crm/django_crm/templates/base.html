@@ -39,9 +39,7 @@
         }
 
         .user_name {
-            {#flex-direction: row;#}
-            {#flex-flow: row nowrap;#}
-            height: auto;
+        {#flex-direction: row;#}{#flex-flow: row nowrap;#} height: auto;
             vertical-align: middle;
             text-align: center;
             background-color: rgba(255, 255, 255, 0.35);
@@ -86,16 +84,12 @@
             flex-direction: row;
             flex-flow: row nowrap;
             justify-content: left;
-            {#min-width: auto;#}
+        {#min-width: auto;#}
         }
 
         .menu {
-        {#display: block;#}
-        {#min-height: calc(100vh - 150px);#}
-            {#min-height: calc(100vh - 286px);#}
-            overflow-y: auto;
-            {#height: calc(100vh - 129px);#}
-            height: auto;
+        {#display: block;#}{#min-height: calc(100vh - 150px);#}{#min-height: calc(100vh - 286px);#} overflow-y: auto;
+        {#height: calc(100vh - 129px);#} height: auto;
             text-align: center;
             background-color: rgba(231, 234, 236);
             width: 20%;
@@ -121,14 +115,13 @@
 
         .output_info {
             overflow-y: auto;
-            {#overflow: auto;#}
-            {#min-height: calc(100vh - 286px);#}
-            height: calc(100vh - 286px);
-            {#height: 100%;#}
-            padding-left: 4%;
+        {#overflow: auto;#}{#min-height: calc(100vh - 286px);#} height: calc(100vh - 286px);
+        {#height: 100%;#} padding-left: 4%;
             padding-top: 2%;
             padding-bottom: 2%;
-            font-size: 18px;
+            padding-right: 4%;
+
+        {#padding: 4%;#} font-size: 18px;
             font-weight: normal;
             border-top: 3px solid #000000;
             border-bottom: 3px solid #000000;
@@ -137,12 +130,7 @@
         }
 
         .bside {
-            {#display: flex;#}
-            {#flex-direction: row-reverse;#}
-            {#min-height: calc(100vh - 286px);#}
-            {#height: calc(100vh - 129px);#}
-
-            min-width: 13vh;
+        {#display: flex;#}{#flex-direction: row-reverse;#}{#min-height: calc(100vh - 286px);#}{#height: calc(100vh - 129px);#} min-width: 13vh;
             text-align: center;
             background-color: rgba(231, 234, 236);
             width: 2%;
@@ -164,6 +152,40 @@
             font-size: 14px;
             font-weight: normal;
         }
+
+        .button_green {
+            background-color: #04AA6D; /* Green */
+            border: none;
+            color: white;
+            padding: 10px 25px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 14px;
+            margin: 4px 2px;
+            cursor: pointer;
+            border-radius: 12px;
+        }
+
+        .button_blue {
+            background-color: #008CBA;
+        }
+
+        .button_red {
+            background-color: #ac2721;
+        }
+
+        .button_black {
+            background-color: #e7e7e7;
+            color: black;
+        }
+
+        .button_gray {
+            {#background-color: rgba(234, 229, 229, 0.55);#}
+            background-color: rgba(255, 255, 255, 0.35);
+        }
+
+        /* Black */
     </style>
 </head>
 
@@ -171,7 +193,7 @@
     {% if user.is_authenticated %}
         <div class="logout">
 
-            <a href={% url 'authorization:logout' %}>Logout</a>
+            <a href={% url 'authorization:logout' %}><button class="button_green button_gray">Logout</button></a>
 
         </div>
         <div class="user_name">
