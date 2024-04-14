@@ -18,7 +18,7 @@
                         <p>
                             <a href="{% url 'advertising_companies:advertising_company_details' pk=advertising_company.pk %}">{{ advertising_company.name }}</a>
                             <a href="{% url 'advertising_companies:advertising_company_archived' pk=advertising_company.pk %}">
-                                <button>Delete</button>
+                                <button class="button button_red">Delete</button>
                             </a>
                         </p>
                     </li>
@@ -33,7 +33,7 @@
     <div>
         <br>
         <a href="{% url 'advertising_companies:advertising_company_create' %}">
-            <button>Create</button>
+            <button class="button">Create</button>
         </a>
     </div>
 

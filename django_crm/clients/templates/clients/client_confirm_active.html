@@ -9,18 +9,18 @@
 {% endblock %}
 
 {% block body %}
-    <h3>Are you sure you want client to active</h3>
+    <h3>Are you sure that the client "<i>{{ object.name }}</i>" is switching to active</h3>
     <div>
         <form method="post">
             {% csrf_token %}
             {{ form.as_p }}
             <br>
-            <button type="submit">Sure</button>
+            <button type="submit" class="button">Sure</button>
         </form>
     </div>
     <br>
-    <a href="{% url 'clients:client_details' pk=object.pk %}">
-        <button>Back</button>
+    <a href="{% url 'clients:client_list' %}">
+        <button class="button button_blue">Back</button>
     </a>
 {% endblock %}
 

@@ -31,11 +31,11 @@
         {% blocktranslate %}
             <div>
             <br>
-                <a href="{{ url_update_client }}"><button>Update</button></a>
+                <a href="{{ url_update_client }}"><button class="button">Update</button></a>
             </div>
             <div>
             <br>
-                <a href="{{ url_archive_client }}"><button>Delete</button></a>
+                <a href="{{ url_archive_client }}"><button class="button button_red">Delete</button></a>
             </div>
         {% endblocktranslate %}
     {% endif %}
@@ -44,7 +44,7 @@
         {% url 'clients:client_list' as url_list_client %}
         {% blocktranslate %}
             <br>
-            <a href="{{ url_list_client }}"><button>Back</button></a>
+            <a href="{{ url_list_client }}"><button class="button button_blue">Back</button></a>
         {% endblocktranslate %}
     </div>
 {% endblock %}

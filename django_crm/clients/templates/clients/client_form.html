@@ -16,11 +16,11 @@
             {% csrf_token %}
             {{ form.as_p }}
             <br>
-        <button type="submit">Create</button>
+        <button type="submit" class="button">Create</button>
         </form>
     </div>
     <div>
         <br>
-        <a href="{% url 'clients:client_list' %}"><button>Back</button></a>
+        <a href="{% url 'clients:client_list' %}"><button class="button button_blue">Back</button></a>
     </div>
 {% endblock %}

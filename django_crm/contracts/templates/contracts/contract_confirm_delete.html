@@ -15,10 +15,10 @@
         <form method="post">
             {% csrf_token %}
             {{ form.as_p }}
-            <button type="submit">Delete</button>
+            <button type="submit" class="button button_red">Delete</button>
         </form>
     </div>
     <br>
-    <a href="{% url 'contracts:contract_details' pk=object.pk %}"><button>Back</button></a>
+    <a href="{% url 'contracts:contract_details' pk=object.pk %}"><button class="button button_blue">Back</button></a>
 {% endblock %}
 

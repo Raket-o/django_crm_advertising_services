@@ -18,7 +18,7 @@
                         <p>
                             <a href="{% url 'contracts:contract_details' pk=contract.pk %}">{{ contract.name }}</a>
                             <a href="{% url 'contracts:contract_archived' pk=contract.pk %}">
-                                <button>Delete</button>
+                                <button class="button button_red">Delete</button>
                             </a>
                         </p>
                     </li>
@@ -33,7 +33,7 @@
     <div>
         <br>
         <form method="get" action="{% url 'contracts:contract_create' %}">
-            <button type='submit'>Create</button>
+            <button type='submit' class="button ">Create</button>
 
             {#        <a href="{% url 'services:service_create' %}">Create a new service</a>#}
 

@@ -18,10 +18,10 @@
                         <p>
                             <a href="{% url 'clients:client_details' pk=client.pk %}">{{ client.name }}</a>
                             <a href="{% url 'clients:client_active' pk=client.pk %}">
-                                <button>To active</button>
+                                <button class="button">To active</button>
                             </a>
                             <a href="{% url 'clients:client_archived' pk=client.pk %}">
-                                <button>Delete</button>
+                                <button class="button button_red">Delete</button>
                             </a>
                         </p>
                     </li>
@@ -36,7 +36,7 @@
     <div>
         <br>
         <a href="{% url 'clients:client_create' %}">
-            <button>Create</button>
+            <button class="button">Create</button>
     </div>
 
     {#    <div>#}

@@ -18,7 +18,7 @@
                         <p>
                             <a href="{% url 'services:service_details' pk=service.pk %}">{{ service.name }}</a>
                             <a href="{% url 'services:service_archived' pk=service.pk %}">
-                                <button>Delete</button>
+                                <button class="button button_red">Delete</button>
                             </a>
                         </p>
                     </li>
@@ -33,7 +33,7 @@
     <div>
         <br>
         <form method="get" action="{% url 'services:service_create' %}">
-            <button type='submit'>Create</button>
+            <button type='submit' class="button ">Create</button>
 
             {#        <a href="{% url 'services:service_create' %}">Create a new service</a>#}
 

@@ -153,7 +153,7 @@
             font-weight: normal;
         }
 
-        .button_green {
+        .button {
             background-color: #04AA6D; /* Green */
             border: none;
             color: white;
@@ -193,7 +193,7 @@
     {% if user.is_authenticated %}
         <div class="logout">
 
-            <a href={% url 'authorization:logout' %}><button class="button_green button_gray">Logout</button></a>
+            <a href={% url 'authorization:logout' %}><button class="button button_gray">Logout</button></a>
 
         </div>
         <div class="user_name">

@@ -30,13 +30,13 @@
             <br>
             <div>
                 <a href="{{ url_update_contract }}">
-                    <button>Update</button>
+                    <button class="button">Update</button>
                 </a>
             </div>
             <br>
             <div>
                 <a href="{{ url_archive_contract }}">
-                    <button>Delete</button>
+                    <button class="button button_red">Delete</button>
                 </a>
             </div>
         {% endblocktranslate %}
@@ -46,7 +46,7 @@
         {% url 'contracts:contract_list' as url_list_contract %}
         {% blocktranslate %}
             <a href="{{ url_list_contract }}">
-                <button>Back</button>
+                <button class="button button_blue">Back</button>
             </a>
         {% endblocktranslate %}
     </div>
