@@ -3,6 +3,7 @@ from django.db import models
 # Create your models here.
 
 from advertising_companies.models import AdvertisingCompany
+from contracts.models import Contract
 
 
 class Client(models.Model):
@@ -22,4 +23,6 @@ class Client(models.Model):
     email = models.EmailField(blank=True)
     active = models.BooleanField(default=False)
     advertising_company = models.ForeignKey(AdvertisingCompany, on_delete=models.CASCADE, null=True)
+    contract = models.ForeignKey(Contract, on_delete=models.CASCADE, null=True, default=None)
+
 
