@@ -125,8 +125,6 @@
             font-weight: normal;
             border-top: 3px solid #000000;
             border-bottom: 3px solid #000000;
-
-
         }
 
         .bside {
@@ -175,17 +173,52 @@
             background-color: #ac2721;
         }
 
-        .button_black {
-            background-color: #e7e7e7;
-            color: black;
-        }
-
         .button_gray {
-            {#background-color: rgba(234, 229, 229, 0.55);#}
             background-color: rgba(255, 255, 255, 0.35);
         }
 
-        /* Black */
+        input[type=text], select, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ccc;
+            border-radius: 4px;
+            resize: vertical;
+        }
+
+        input[type=select], select {
+            width: 102.5%;
+
+        }
+
+        input[type=number] {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ccc;
+            border-radius: 4px;
+            resize: vertical;
+        }
+
+        input[type=password] {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #ccc;
+            border-radius: 4px;
+            resize: vertical;
+        }
+
+        input[type=file] {
+            width: 100%;
+            padding: 12px;
+            border-radius: 4px;
+            resize: vertical;
+        }
+
+        input[type=date] {
+            width: 100%;
+            padding: 12px;
+            border-radius: 4px;
+            resize: vertical;
+        }
     </style>
 </head>
 
@@ -193,7 +226,9 @@
     {% if user.is_authenticated %}
         <div class="logout">
 
-            <a href={% url 'authorization:logout' %}><button class="button button_gray">Logout</button></a>
+            <a href={% url 'authorization:logout' %}>
+                <button class="button button_gray">Logout</button>
+            </a>
 
         </div>
         <div class="user_name">

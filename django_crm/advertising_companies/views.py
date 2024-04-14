@@ -12,7 +12,7 @@ from django.urls import reverse_lazy
 # Create your views here.
 
 from .models import AdvertisingCompany
-from .forms import AdvertisingCompanyForm
+# from .forms import AdvertisingCompanyForm
 
 
 class AdvertisingCompaniesListView(ListView):
