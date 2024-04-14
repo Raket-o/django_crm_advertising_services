@@ -10,22 +10,26 @@
 
 {% block body %}
     <h3>List:</h3>
-    <div style="display: block">
+    <div>
         <ol>
             {% for client in object_list %}
-                <div>
-                    <li>
-                        <p>
+                <li>
+                    <div class="list_obj">
+                        <div class="list_obj_name">
                             <a href="{% url 'clients:client_details' pk=client.pk %}">{{ client.name }}</a>
+                        </div>
+                        <div>
                             <a href="{% url 'clients:client_active' pk=client.pk %}">
                                 <button class="button">To active</button>
                             </a>
+                        </div>
+                        <div>
                             <a href="{% url 'clients:client_archived' pk=client.pk %}">
                                 <button class="button button_red">Delete</button>
                             </a>
-                        </p>
-                    </li>
-                </div>
+                        </div>
+                    </div>
+                </li>
             {% empty %} No clients yet
             {% endfor %}
         </ol>

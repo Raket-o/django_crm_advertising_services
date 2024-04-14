@@ -13,16 +13,18 @@
     <div>
         <ol>
             {% for advertising_company in object_list %}
-                <div>
-                    <li>
-                        <p>
+                <li>
+                    <div class="list_obj">
+                        <div class="list_obj_name">
                             <a href="{% url 'advertising_companies:advertising_company_details' pk=advertising_company.pk %}">{{ advertising_company.name }}</a>
+                        </div>
+                        <div>
                             <a href="{% url 'advertising_companies:advertising_company_archived' pk=advertising_company.pk %}">
                                 <button class="button button_red">Delete</button>
                             </a>
-                        </p>
-                    </li>
-                </div>
+                        </div>
+                    </div>
+                </li>
             {% empty %} No advertising companies yet
             {% endfor %}
         </ol>
