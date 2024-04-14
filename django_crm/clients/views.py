@@ -103,7 +103,12 @@ class ClientDeleteView(DeleteView):
     # permission_required = "services.delete_service"
     # template_name = "clients/client_confirm_delete.html"
     model = Client
-    success_url = reverse_lazy("clients:client_list")
+
+    if model.contract:
+        success_url = reverse_lazy("clients:client_active_list")
+    else:
+        success_url = reverse_lazy("clients:client_list")
+
 
     # def form_valid(self, form):
     #     success_url = self.get_success_url()
@@ -113,14 +118,53 @@ class ClientDeleteView(DeleteView):
     #     return HttpResponseRedirect(success_url)
 
 
-class ClientActiveView(DeleteView):
+class ClientToActiveUpdateView(UpdateView):
     # permission_required = "services.delete_service"
-    template_name = "clients/client_confirm_active.html"
+    template_name = "clients/client_to_active.html"
     model = Client
-    success_url = reverse_lazy("clients:client_list")
+    fields = "contract",
+    success_url = reverse_lazy("clients:client_active_list")
 
     def form_valid(self, form):
         success_url = self.get_success_url()
         self.object.active = True
         self.object.save()
         return HttpResponseRedirect(success_url)
+
+
+class ClientActiveListView(ListView):
+    template_name = "clients/client_active_list.html"
+    queryset = (
+        Client.objects
+        .prefetch_related("advertising_company")
+        .filter(active=True)
+    )
+
+
+class ClientActiveDetailsView(DetailView):
+    template_name = "clients/client_active_detail.html"
+    model = Client
+
+    queryset = (
+        Client.objects
+        .select_related("contract")
+        .prefetch_related("advertising_company")
+        .all()
+    )
+
+
+class ClientActiveUpdateView(UpdateView):
+    template_name = "clients/client_active_update_form.html"
+    model = Client
+    fields = "name", "phone", "email", "contract", "advertising_company",
+
+    # def test_func(self):
+    #     user = self.request.user
+    #     product = get_object_or_404(Product, pk=self.kwargs["pk"])
+    #     return user.is_superuser or user.has_perm("shopapp.change_product") or product.created_by.pk == user.pk
+
+    def get_success_url(self):
+        return reverse(
+            viewname="clients:client_active_details",
+            kwargs={"pk": self.object.pk},
+        )

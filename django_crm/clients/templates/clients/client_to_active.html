@@ -3,11 +3,11 @@
 {% load i18n %}
 
 {% block title %}
-    {% translate 'Detail client' %} #{{ object.pk }}
+    {% translate 'Client to active' %} #{{ object.pk }}
 {% endblock %}
 
 {% block name_page %}
-    Detail client
+    Client to active
 {% endblock %}
 
 {% block body %}
@@ -16,29 +16,26 @@
         <p>{% translate 'Phone:' %} <em> {{ object.phone }}</em></p>
         <p>{% translate 'Email:' %} <em> {{ object.email }}</em></p>
         <p>{% translate 'Advertising company:' %} <li><em> {{ object.advertising_company }} </em></li>
-{#        Services in advertising company:#}
+
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <br>
+            <button type="submit" class="button">To active</button>
+        </form>
+
+            {#        Services in advertising company:#}
 {#        <ol>#}
 {#            {% for services in object.services.all %}#}
 {#                <li><p>Name: {{ services.name }}, price: {{ services.price }}</p></li>#}
 {#            {% endfor %}#}
 {#        </ol>#}
-    </div>
-
-    {% if perms.clients.change_clients or perms.clients.delete_clients %}
-        {% url 'clients:client_update' pk=object.pk as url_update_client %}
-        {% url 'clients:client_archived' pk=object.pk as url_archive_client %}
-
-        {% blocktranslate %}
-            <div>
-            <br>
-                <a href="{{ url_update_client }}"><button class="button">Update</button></a>
-            </div>
-            <div>
-            <br>
-                <a href="{{ url_archive_client }}"><button class="button button_red">Delete</button></a>
-            </div>
-        {% endblocktranslate %}
-    {% endif %}
+{#    </div>#}
+{##}
+{#                <a href="{{ url_archive_client }}"><button class="button button_red">Delete</button></a>#}
+{#            </div>#}
+{#        {% endblocktranslate %}#}
+{#    {% endif %}#}
 
     <div>
         {% url 'clients:client_list' as url_list_client %}

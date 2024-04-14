@@ -16,9 +16,11 @@ class Contract(models.Model):
     period_validity = models.CharField(max_length=50, blank=False)
     amount = models.DecimalField(max_digits=8, decimal_places=2, blank=False)
 
+    def __repr__(self):
+        return {f"'amount': {self.amount}"}
 
-    # def __repr__(self):
-    #     return str(self.price)
+    def to_jseon(self):
+        return {f"'amount': {self.amount}"}
 
-    # def __str__(self):
-    #     return f"Name: {self.name}, price: {self.price}"
+    def __str__(self):
+        return self.name

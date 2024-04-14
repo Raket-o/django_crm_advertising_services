@@ -28,6 +28,15 @@ class AdvertisingCompany(models.Model):
     #     project.save()
     #     return project
 
+    def __repr__(self):
+        return (f"'id': {self.id}, 'name':{self.name}, 'budget': {self.budget}, 'services_price': {self.services.__repr__()}")
+        # return {f"'budget': {self.budget}, 'services':{self.services}"}
+        # return AdvertisingCompany
+
+    # def to_json(self):
+    #    # return (f"'id': {self.id}, 'name':{self.name}, 'budget': {self.budget}, 'services':{self.services}")
+    #    return {'id': self.id, 'name':self.name, 'budget': self.budget, 'services': {self.services.__repr__()}}
+
     def __str__(self):
         return self.name
 

@@ -19,7 +19,7 @@
                             <a href="{% url 'clients:client_details' pk=client.pk %}">{{ client.name }}</a>
                         </div>
                         <div>
-                            <a href="{% url 'clients:client_active' pk=client.pk %}">
+                            <a href="{% url 'clients:client_to_active' pk=client.pk %}">
                                 <button class="button">To active</button>
                             </a>
                         </div>

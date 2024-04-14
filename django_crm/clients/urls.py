@@ -6,7 +6,10 @@ from clients.views import (
     ClientDeleteView,
     ClientDetailsView,
     ClientUpdateView,
-ClientActiveView,
+    ClientToActiveUpdateView,
+    ClientActiveListView,
+    ClientActiveDetailsView,
+    ClientActiveUpdateView,
 )
 
 app_name = "clients"
@@ -22,5 +25,9 @@ urlpatterns = [
     path("<int:pk>/update/", ClientUpdateView.as_view(), name="client_update"),
     path("<int:pk>/archived/", ClientDeleteView.as_view(), name="client_archived"),
 
-    path("<int:pk>/active/", ClientActiveView.as_view(), name="client_active"),
+    path("<int:pk>/client-to-active/", ClientToActiveUpdateView.as_view(), name="client_to_active"),
+    path("active/", ClientActiveListView.as_view(), name="client_active_list"),
+    path("active/<int:pk>/", ClientActiveDetailsView.as_view(), name="client_active_details"),
+    path("active/<int:pk>/update/", ClientActiveUpdateView.as_view(), name="client_update"),
+
 ]

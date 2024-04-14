@@ -9,5 +9,16 @@
 {% endblock %}
 
 {% block body %}
-    statistics
+    <div>
+        {% for company_name, details in content.items %}
+            {% if details.active %}
+                <h2>{{ company_name }}</h2>
+                <ul>
+                    <li>Potential clients: {{ details.potential }}</li>
+                    <li>Active clients: {{ details.active }}</li>
+                    <li>Profit: {{ details.profit }}</li>
+                </ul>
+            {% endif %}
+        {% endfor %}
+    </div>
 {% endblock %}
