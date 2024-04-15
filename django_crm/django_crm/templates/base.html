@@ -266,7 +266,10 @@
 
 <body>
 <div class="workspace">
+
     <div class="menu_nav menu">
+    {% if user.is_authenticated %}
+        
         <div>
             <a style="display: block" href={% url 'customer_statistics:statistics' %}>Statistics</a>
         </div>
@@ -300,6 +303,8 @@
         <a style="display: block" href={% url 'contracts:contract_list' %}>list</a>
         <a style="display: block" href={% url 'contracts:contract_create' %}>create</a>
     </div>
+        {% endif %}
+
 </div>
 
 <div class="group_Npage_Oinfo">
