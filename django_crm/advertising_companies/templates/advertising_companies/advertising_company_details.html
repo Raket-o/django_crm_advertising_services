@@ -24,25 +24,23 @@
         </ol>
     </div>
 
-    {% if perms.advertising_companies.change_advertising_companies or perms.advertising_companies.delete_advertising_companies %}
-        {% url 'advertising_companies:advertising_company_update' pk=object.pk as url_update_advertising_company %}
-        {% url 'advertising_companies:advertising_company_archived' pk=object.pk as url_archive_advertising_company %}
+    {% url 'advertising_companies:advertising_company_update' pk=object.pk as url_update_advertising_company %}
+    {% url 'advertising_companies:advertising_company_archived' pk=object.pk as url_archive_advertising_company %}
 
-        {% blocktranslate %}
-            <div>
-                <br>
-                <a href="{{ url_update_advertising_company }}">
-                    <button class="button">Update</button>
-                </a>
-            </div>
-            <div>
-                <br>
-                <a href="{{ url_archive_advertising_company }}">
-                    <button class="button button_red">Delete</button>
-                </a>
-            </div>
-        {% endblocktranslate %}
-    {% endif %}
+    {% blocktranslate %}
+        <div>
+            <br>
+            <a href="{{ url_update_advertising_company }}">
+                <button class="button">Update</button>
+            </a>
+        </div>
+        <div>
+            <br>
+            <a href="{{ url_archive_advertising_company }}">
+                <button class="button button_red">Delete</button>
+            </a>
+        </div>
+    {% endblocktranslate %}
 
     <div>
         {% url 'advertising_companies:advertising_companies_list' as url_list_service %}

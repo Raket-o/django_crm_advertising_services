@@ -8,6 +8,9 @@ class Command(BaseCommand):
 
         permission_list = (
             ("to_active_client", 9),
+            ("view_active_client", 9),
+            ("change_active_client", 9),
+            ("delete_active_client", 9),
         )
 
         for permission, content_id in permission_list:

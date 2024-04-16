@@ -17,21 +17,19 @@ from .models import Contract
 from .forms import ContractForm
 
 
-class ContractListView(ListView):
-    # template_name = "services/services_list.html"
+class ContractListView(PermissionRequiredMixin, ListView):
+    permission_required = "contracts.view_contract"
     queryset = Contract.objects.all()
 
 
-class ContractDetailsView(DetailView):
-    # template_name = "services/service_details.html"
+class ContractDetailsView(PermissionRequiredMixin, DetailView):
+    permission_required = "contracts.view_contract"
     model = Contract
     queryset = Contract.objects.all()
 
 
-# class ServiceCreateView(PermissionRequiredMixin, CreateView):
-class ContractCreateView(CreateView):
-    # permission_required = "services.add_service"
-
+class ContractCreateView(PermissionRequiredMixin, CreateView):
+    permission_required = "contracts.add_contract"
     model = Contract
     # fields = "name", "service", "document_file", "date_conclusion", "period_validity", "amount",
     form_class = ContractForm
@@ -49,8 +47,9 @@ class ContractCreateView(CreateView):
     #     )
 
 
-# class ServiceUpdateView(UserPassesTestMixin, UpdateView):
-class ContractUpdateView(UpdateView):
+class ContractUpdateView(PermissionRequiredMixin, UpdateView):
+    permission_required = "contracts.change_contract"
+
     model = Contract
     # fields = "name", "service", "document_file", "date_conclusion", "period_validity", "amount",
     form_class = ContractForm
@@ -68,9 +67,9 @@ class ContractUpdateView(UpdateView):
         )
 
 
-# class ServiceDeleteView(PermissionRequiredMixin, DeleteView):
-class ContractDeleteView(DeleteView):
-    # permission_required = "services.delete_service"
+class ContractDeleteView(PermissionRequiredMixin, DeleteView):
+# class ContractDeleteView(DeleteView):
+    permission_required = "contracts.delete_contract"
     model = Contract
     success_url = reverse_lazy("contracts:contract_list")
 

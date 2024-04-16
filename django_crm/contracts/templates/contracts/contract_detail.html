@@ -22,7 +22,6 @@
         <p>{% translate 'Amount:' %} <em> {{ object.amount }} </em></p>
     </div>
 
-    {% if perms.contract.change_services or perms.contract.delete_services %}
         {% url 'contracts:contract_update' pk=contract.pk as url_update_contract %}
         {% url 'contracts:contract_archived' pk=contract.pk as url_archive_contract %}
 
@@ -40,7 +39,7 @@
                 </a>
             </div>
         {% endblocktranslate %}
-    {% endif %}
+
     <br>
     <div>
         {% url 'contracts:contract_list' as url_list_contract %}

@@ -17,25 +17,23 @@
         <p>{% translate 'Price:' %} <em> {{ object.price }} </em></p>
     </div>
 
-    {% if perms.services.change_services or perms.services.delete_services %}
-        {% url 'services:service_update' pk=service.pk as url_update_service %}
-        {% url 'services:service_archived' pk=service.pk as url_archive_service %}
+    {% url 'services:service_update' pk=service.pk as url_update_service %}
+    {% url 'services:service_archived' pk=service.pk as url_archive_service %}
 
-        {% blocktranslate %}
-            <br>
-            <div>
-                <a href="{{ url_update_service }}">
-                    <button class="button">Update</button>
-                </a>
-            </div>
-            <br>
-            <div>
-                <a href="{{ url_archive_service }}">
-                    <button class="button button_red">Delete</button>
-                </a>
-            </div>
-        {% endblocktranslate %}
-    {% endif %}
+    {% blocktranslate %}
+        <br>
+        <div>
+            <a href="{{ url_update_service }}">
+                <button class="button">Update</button>
+            </a>
+        </div>
+        <br>
+        <div>
+            <a href="{{ url_archive_service }}">
+                <button class="button button_red">Delete</button>
+            </a>
+        </div>
+    {% endblocktranslate %}
     <br>
     <div>
         {% url 'services:service_list' as url_list_service %}

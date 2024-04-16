@@ -7,7 +7,7 @@ app_name = "authorization"
 
 urlpatterns = [
     path(
-        "login/",
+        "",
         LoginView.as_view(
             template_name='authorization/login.html',
             redirect_authenticated_user=True,

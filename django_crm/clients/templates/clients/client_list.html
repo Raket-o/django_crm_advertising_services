@@ -18,11 +18,15 @@
                         <div class="list_obj_name">
                             <a href="{% url 'clients:client_details' pk=client.pk %}">{{ client.name }}</a>
                         </div>
-                        <div>
-                            <a href="{% url 'clients:client_to_active' pk=client.pk %}">
-                                <button class="button">To active</button>
-                            </a>
-                        </div>
+
+                        {% if perms.clients.to_active_client %}
+                            <div>
+                                <a href="{% url 'clients:client_to_active' pk=client.pk %}">
+                                    <button class="button">To active</button>
+                                </a>
+                            </div>
+                        {% endif %}
+
                         <div>
                             <a href="{% url 'clients:client_archived' pk=client.pk %}">
                                 <button class="button button_red">Delete</button>
@@ -35,18 +39,10 @@
         </ol>
     </div>
 
-    {% if perms.services.add_service %}
-        <div>
-            <br>
-            <a href="{% url 'clients:client_create' %}">
-                <button class="button">Create</button>
-            </a>
-        </div>
-
-        {##}
-        {#        <div>#}
-        {#            <a href="{% url 'clients:client_create' %}">Create a new client </a>#}
-        {#        </div>#}
-    {% endif %}
-
+    <div>
+        <br>
+        <a href="{% url 'clients:client_create' %}">
+            <button class="button">Create</button>
+        </a>
+    </div>
 {% endblock %}

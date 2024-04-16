@@ -17,35 +17,33 @@
         <p>{% translate 'Email:' %} <em> {{ object.email }}</em></p>
         <p>{% translate 'Contract:' %} <em> {{ object.contract }}</em></p>
         <p>{% translate 'Advertising company:' %} <em> {{ object.advertising_company }}</em>
-            {#        Services in advertising company:#}
-{#        <ol>#}
-{#            {% for services in object.services.all %}#}
-{#                <li><p>Name: {{ services.name }}, price: {{ services.price }}</p></li>#}
-{#            {% endfor %}#}
-{#        </ol>#}
     </div>
 
-    {% if perms.clients.change_clients or perms.clients.delete_clients %}
-        {% url 'clients:client_update' pk=object.pk as url_update_client %}
-        {% url 'clients:client_archived' pk=object.pk as url_archive_client %}
+    {% url 'clients:client_active_update' pk=object.pk as url_update_client %}
+    {% url 'clients:client_active_archived' pk=object.pk as url_archive_client %}
 
-        {% blocktranslate %}
-            <div>
+    {% blocktranslate %}
+        <div>
             <br>
-                <a href="{{ url_update_client }}"><button class="button">Update</button></a>
-            </div>
-            <div>
+            <a href="{{ url_update_client }}">
+                <button class="button">Update</button>
+            </a>
+        </div>
+        <div>
             <br>
-                <a href="{{ url_archive_client }}"><button class="button button_red">Delete</button></a>
-            </div>
-        {% endblocktranslate %}
-    {% endif %}
+            <a href="{{ url_archive_client }}">
+                <button class="button button_red">Delete</button>
+            </a>
+        </div>
+    {% endblocktranslate %}
 
     <div>
         {% url 'clients:client_active_list' as url_list_client %}
         {% blocktranslate %}
             <br>
-            <a href="{{ url_list_client }}"><button class="button button_blue">Back</button></a>
+            <a href="{{ url_list_client }}">
+                <button class="button button_blue">Back</button>
+            </a>
         {% endblocktranslate %}
     </div>
 {% endblock %}

@@ -10,15 +10,11 @@ from django.views.generic import CreateView, DeleteView, DetailView, ListView, U
 from django.views import View
 from django.urls import reverse_lazy
 
-# Create your views here.
-
 from .models import Client
-# from .forms import AdvertisingCompanyForm
 
 
-class ClientListView(ListView):
-    # template_name = "clients/clients_list.html"
-    # queryset = AdvertisingCompany.objects.filter(archived=False)
+class ClientListView(PermissionRequiredMixin, ListView):
+    permission_required = "clients.view_client"
     queryset = (
         Client.objects
         .prefetch_related("advertising_company")
@@ -26,36 +22,18 @@ class ClientListView(ListView):
     )
 
 
-class ClientDetailsView(DetailView):
-    # template_name = "clients/client_details.html"
+class ClientDetailsView(PermissionRequiredMixin, DetailView):
+    permission_required = "clients.view_client"
     model = Client
-    # queryset = AdvertisingCompany.objects.filter(archived=False)
-
     queryset = (
         Client.objects
         .prefetch_related("advertising_company")
         .all()
     )
 
-    # queryset = (
-    #     Client.objects
-    #     .all()
-    # )
 
-    # def get_context_data(self, **kwargs):
-    #     context = super().get_context_data(**kwargs)
-    #     for obj in self.queryset:
-    #         total_price = sum(obj.get_service_price())
-    #
-    #     # total_price = sum(tuple(obj.get_service_price() for obj in self.queryset))
-    #     context['total_price'] = total_price
-    #     return context
-
-
-# class ServiceCreateView(PermissionRequiredMixin, CreateView):
-class ClientCreateView(CreateView):
-    # permission_required = "services.add_service"
-    # template_name = "clients/client_form.html"
+class ClientCreateView(PermissionRequiredMixin, CreateView):
+    permission_required = "clients.add_client"
     model = Client
     fields = "name", "phone", "email", "advertising_company",
     # form_class = AdvertisingCompanyForm
@@ -73,18 +51,11 @@ class ClientCreateView(CreateView):
         )
 
 
-# class ServiceUpdateView(UserPassesTestMixin, UpdateView):
-class ClientUpdateView(UpdateView):
-    # template_name = "clients/client_update_form.html"
+class ClientUpdateView(PermissionRequiredMixin, UpdateView):
+    permission_required = "clients.change_client"
     model = Client
     fields = "name", "phone", "email", "advertising_company",
     template_name_suffix = "_update_form"
-    # form_class = AdvertisingCompanyForm
-
-    # def test_func(self):
-    #     user = self.request.user
-    #     product = get_object_or_404(Product, pk=self.kwargs["pk"])
-    #     return user.is_superuser or user.has_perm("shopapp.change_product") or product.created_by.pk == user.pk
 
     def get_success_url(self):
         return reverse(
@@ -92,34 +63,16 @@ class ClientUpdateView(UpdateView):
             kwargs={"pk": self.object.pk},
         )
 
-    # def form_valid(self, form):
-    #     AdvertisingCompany.set_budget(form)
-    #     # response = super().form_valid(form)
-    #     return super().form_valid(form)
 
-
-# class ServiceDeleteView(PermissionRequiredMixin, DeleteView):
-class ClientDeleteView(DeleteView):
-    # permission_required = "services.delete_service"
-    # template_name = "clients/client_confirm_delete.html"
+class ClientDeleteView(PermissionRequiredMixin, DeleteView):
+    permission_required = "clients.delete_client"
     model = Client
-
-    if model.contract:
-        success_url = reverse_lazy("clients:client_active_list")
-    else:
-        success_url = reverse_lazy("clients:client_list")
+    success_url = reverse_lazy("clients:client_list")
 
 
-    # def form_valid(self, form):
-    #     success_url = self.get_success_url()
-    #     # self.object.archived = True
-    #     self.object.delete()
-    #     self.object.save()
-    #     return HttpResponseRedirect(success_url)
+class ClientToActiveUpdateView(PermissionRequiredMixin, UpdateView):
+    permission_required = "clients.to_active_client"
 
-
-class ClientToActiveUpdateView(UpdateView):
-    # permission_required = "services.delete_service"
     template_name = "clients/client_to_active.html"
     model = Client
     fields = "contract",
@@ -132,7 +85,8 @@ class ClientToActiveUpdateView(UpdateView):
         return HttpResponseRedirect(success_url)
 
 
-class ClientActiveListView(ListView):
+class ClientActiveListView(PermissionRequiredMixin, ListView):
+    permission_required = "clients.view_active_client"
     template_name = "clients/client_active_list.html"
     queryset = (
         Client.objects
@@ -141,7 +95,8 @@ class ClientActiveListView(ListView):
     )
 
 
-class ClientActiveDetailsView(DetailView):
+class ClientActiveDetailsView(PermissionRequiredMixin, DetailView):
+    permission_required = "clients.view_active_client"
     template_name = "clients/client_active_detail.html"
     model = Client
 
@@ -153,18 +108,22 @@ class ClientActiveDetailsView(DetailView):
     )
 
 
-class ClientActiveUpdateView(UpdateView):
+class ClientActiveUpdateView(PermissionRequiredMixin, UpdateView):
+    permission_required = "clients.change_active_client"
     template_name = "clients/client_active_update_form.html"
     model = Client
     fields = "name", "phone", "email", "contract", "advertising_company",
-
-    # def test_func(self):
-    #     user = self.request.user
-    #     product = get_object_or_404(Product, pk=self.kwargs["pk"])
-    #     return user.is_superuser or user.has_perm("shopapp.change_product") or product.created_by.pk == user.pk
 
     def get_success_url(self):
         return reverse(
             viewname="clients:client_active_details",
             kwargs={"pk": self.object.pk},
         )
+
+
+class ClientActiveDeleteView(PermissionRequiredMixin, DeleteView):
+    permission_required = "clients.delete_active_clients"
+    template_name = "clients/client_confirm_delete.html"
+    model = Client
+    success_url = reverse_lazy("clients:client_active_list")
+

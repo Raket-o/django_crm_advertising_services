@@ -9,15 +9,12 @@ from django.shortcuts import redirect, render, reverse, get_object_or_404
 from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView
 from django.urls import reverse_lazy
 
-# Create your views here.
-
 from .models import AdvertisingCompany
-# from .forms import AdvertisingCompanyForm
 
 
-class AdvertisingCompaniesListView(ListView):
+class AdvertisingCompaniesListView(PermissionRequiredMixin, ListView):
+    permission_required = "advertising_companies.view_advertisingcompany"
     template_name = "advertising_companies/advertising_companies_list.html"
-    # queryset = AdvertisingCompany.objects.filter(archived=False)
     queryset = (
         AdvertisingCompany.objects
         .prefetch_related("services")
@@ -25,11 +22,10 @@ class AdvertisingCompaniesListView(ListView):
     )
 
 
-class AdvertisingCompanyDetailsView(DetailView):
+class AdvertisingCompanyDetailsView(PermissionRequiredMixin, DetailView):
+    permission_required = "advertising_companies.view_advertisingcompany"
     template_name = "advertising_companies/advertising_company_details.html"
     model = AdvertisingCompany
-    # queryset = AdvertisingCompany.objects.filter(archived=False)
-
     queryset = (
         AdvertisingCompany.objects
         .prefetch_related("services")
@@ -46,9 +42,9 @@ class AdvertisingCompanyDetailsView(DetailView):
     #     return context
 
 
-# class ServiceCreateView(PermissionRequiredMixin, CreateView):
-class AdvertisingCompanyCreateView(CreateView):
-    # permission_required = "services.add_service"
+class AdvertisingCompanyCreateView(PermissionRequiredMixin, CreateView):
+# class AdvertisingCompanyCreateView(CreateView):
+    permission_required = "advertising_companies.add_advertisingcompany"
     template_name = "advertising_companies/advertising_company_form.html"
     model = AdvertisingCompany
     fields = "name", "description",  "promotion", "services", "budget",
@@ -67,8 +63,9 @@ class AdvertisingCompanyCreateView(CreateView):
     #     )
 
 
-# class ServiceUpdateView(UserPassesTestMixin, UpdateView):
-class AdvertisingCompanyUpdateView(UpdateView):
+class AdvertisingCompanyUpdateView(PermissionRequiredMixin, UpdateView):
+# class AdvertisingCompanyUpdateView(UpdateView):
+    permission_required = "advertising_companies.change_advertisingcompany"
     template_name = "advertising_companies/advertising_company_update_form.html"
     model = AdvertisingCompany
     fields = "name", "description",  "promotion", "services", "budget",
@@ -92,9 +89,9 @@ class AdvertisingCompanyUpdateView(UpdateView):
     #     return super().form_valid(form)
 
 
-# class ServiceDeleteView(PermissionRequiredMixin, DeleteView):
-class AdvertisingCompanyDeleteView(DeleteView):
-    # permission_required = "services.delete_service"
+class AdvertisingCompanyDeleteView(PermissionRequiredMixin, DeleteView):
+# class AdvertisingCompanyDeleteView(DeleteView):
+    permission_required = "advertising_companies.delete_advertisingcompany"
     template_name = "advertising_companies/advertising_company_confirm_delete.html"
     model = AdvertisingCompany
     success_url = reverse_lazy("advertising_companies:advertising_companies_list")

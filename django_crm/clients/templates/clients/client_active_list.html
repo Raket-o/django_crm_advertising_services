@@ -19,7 +19,7 @@
                             <a href="{% url 'clients:client_active_details' pk=client.pk %}">{{ client.name }}</a>
                         </div>
                         <div>
-                            <a href="{% url 'clients:client_archived' pk=client.pk %}">
+                            <a href="{% url 'clients:client_active_archived' pk=client.pk %}">
                                 <button class="button button_red">Delete</button>
                             </a>
                         </div>

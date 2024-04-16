@@ -3,6 +3,8 @@ from decimal import Decimal
 from django.db import connection
 from django.shortcuts import render
 from django.views.generic.base import View
+from django.contrib.auth.mixins import UserPassesTestMixin
+
 
 from advertising_companies.models import AdvertisingCompany
 from clients.models import Client
@@ -10,7 +12,7 @@ from contracts.models import Contract
 from services.models import Service
 
 
-class CustomerStatistics(View):
+class CustomerStatistics(UserPassesTestMixin, View):
     def get(self, request):
         sql_query = """
         SELECT aca.name, aca.budget, services_service.price, cc.active, c.amount, (c.amount-(aca.budget+services_service.price))
@@ -19,9 +21,6 @@ class CustomerStatistics(View):
         JOIN public.clients_client cc ON aca.id = cc.advertising_company_id
         LEFT JOIN public.contracts_contract c ON cc.contract_id = c.id;
         """
-
-        res_dict = dict()
-        res_list = []
 
         with connection.cursor() as cursor:
             cursor.execute(sql_query)
@@ -44,3 +43,7 @@ class CustomerStatistics(View):
         return render(request=request,
                       template_name="customer_statistics/statistics.html",
                       context=content)
+
+    def test_func(self):
+        user = self.request.user
+        return user.is_authenticated
