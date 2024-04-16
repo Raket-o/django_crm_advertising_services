@@ -22,23 +22,23 @@
         <p>{% translate 'Amount:' %} <em> {{ object.amount }} </em></p>
     </div>
 
-        {% url 'contracts:contract_update' pk=contract.pk as url_update_contract %}
-        {% url 'contracts:contract_archived' pk=contract.pk as url_archive_contract %}
+    {% url 'contracts:contract_update' pk=contract.pk as url_update_contract %}
+    {% url 'contracts:contract_archived' pk=contract.pk as url_archive_contract %}
 
-        {% blocktranslate %}
-            <br>
-            <div>
-                <a href="{{ url_update_contract }}">
-                    <button class="button">Update</button>
-                </a>
-            </div>
-            <br>
-            <div>
-                <a href="{{ url_archive_contract }}">
-                    <button class="button button_red">Delete</button>
-                </a>
-            </div>
-        {% endblocktranslate %}
+    {% blocktranslate %}
+        <br>
+        <div>
+            <a href="{{ url_update_contract }}">
+                <button class="button">Update</button>
+            </a>
+        </div>
+        <br>
+        <div>
+            <a href="{{ url_archive_contract }}">
+                <button class="button button_red">Delete</button>
+            </a>
+        </div>
+    {% endblocktranslate %}
 
     <br>
     <div>

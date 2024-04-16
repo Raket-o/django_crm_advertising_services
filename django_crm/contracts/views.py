@@ -11,8 +11,6 @@ from django.shortcuts import redirect, render, reverse, get_object_or_404
 from django.views.generic import CreateView, DeleteView, DetailView, ListView, UpdateView
 from django.urls import reverse_lazy
 
-# Create your views here.
-
 from .models import Contract
 from .forms import ContractForm
 
@@ -31,7 +29,6 @@ class ContractDetailsView(PermissionRequiredMixin, DetailView):
 class ContractCreateView(PermissionRequiredMixin, CreateView):
     permission_required = "contracts.add_contract"
     model = Contract
-    # fields = "name", "service", "document_file", "date_conclusion", "period_validity", "amount",
     form_class = ContractForm
     success_url = reverse_lazy("contracts:contract_list")
 
@@ -40,25 +37,13 @@ class ContractCreateView(PermissionRequiredMixin, CreateView):
         response = super().form_valid(form)
         return response
 
-    # def get_success_url(self):
-    #     return reverse(
-    #         viewname="services:service_details",
-    #         kwargs={"pk": self.object.pk},
-    #     )
-
 
 class ContractUpdateView(PermissionRequiredMixin, UpdateView):
     permission_required = "contracts.change_contract"
 
     model = Contract
-    # fields = "name", "service", "document_file", "date_conclusion", "period_validity", "amount",
     form_class = ContractForm
     template_name_suffix = "_update_form"
-
-    # def test_func(self):
-    #     user = self.request.user
-    #     product = get_object_or_404(Product, pk=self.kwargs["pk"])
-    #     return user.is_superuser or user.has_perm("shopapp.change_product") or product.created_by.pk == user.pk
 
     def get_success_url(self):
         return reverse(
@@ -68,14 +53,6 @@ class ContractUpdateView(PermissionRequiredMixin, UpdateView):
 
 
 class ContractDeleteView(PermissionRequiredMixin, DeleteView):
-# class ContractDeleteView(DeleteView):
     permission_required = "contracts.delete_contract"
     model = Contract
     success_url = reverse_lazy("contracts:contract_list")
-
-    # def form_valid(self, form):
-    #     success_url = self.get_success_url()
-    #     # self.object.archived = True
-    #     self.object.delete()
-    #     self.object.save()
-    #     return HttpResponseRedirect(success_url)

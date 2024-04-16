@@ -30,15 +30,11 @@
         </ol>
     </div>
 
-    {#    {% if perms.services.add_service %}#}
     <div>
         <br>
-        <form method="get" action="{% url 'contracts:contract_create' %}">
-            <button type='submit' class="button ">Create</button>
-
-            {#        <a href="{% url 'services:service_create' %}">Create a new service</a>#}
-
+        <a href="{% url 'contracts:contract_create' %}">
+            <button class="button">Create</button>
+        </a>
     </div>
-    {#    {% endif %}#}
 
 {% endblock %}

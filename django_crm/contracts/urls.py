@@ -11,11 +11,6 @@ from .views import (
 app_name = "contracts"
 
 urlpatterns = [
-    # path("", shop_index, name="index"),
-
-    # path("api/", include(routers.urls)),
-
-
     path("", ContractListView.as_view(), name="contract_list"),
     path("create/", ContractCreateView.as_view(), name="contract_create"),
     path("<int:pk>/", ContractDetailsView.as_view(), name="contract_details"),
