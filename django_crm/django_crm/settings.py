@@ -13,12 +13,20 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 import os
 from django.urls import reverse_lazy
 from pathlib import Path
-from env_data import db_user, db_password, db_host, db_port, db_name
+from env_data import (
+    db_user,
+    db_password,
+    db_host,
+    db_port,
+    db_name,
+    debug,
+    log_level,
+)
 
 import logging.config
-from dotenv import load_dotenv
 
-load_dotenv()
+# from dotenv import load_dotenv
+# load_dotenv()
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -32,7 +40,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-xc19@*vv%_1z1he#r^7olk7km^6yii1g-sp5+@f#jh2%#drp%q"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = debug
 
 ALLOWED_HOSTS = []
 
@@ -68,13 +76,11 @@ MIDDLEWARE = [
 
 ROOT_URLCONF = "django_crm.urls"
 
-# print("="*70, os.path.join(BASE_DIR, 'templates'))
 TEMPLATES_PATH = [os.path.join(BASE_DIR, "django_crm", "templates/")]
 
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-        # "DIRS": [],
         'DIRS': TEMPLATES_PATH,
         "APP_DIRS": True,
         "OPTIONS": {
@@ -139,27 +145,6 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
-
-# STATIC_URL = "static/"
-
-
-# # MEDIA_PATH = os.path.join(BASE_DIR, "django_crm", "templates/" "media/")
-# # MEDIA_ROOT = MEDIA_PATH
-# # MEDIA_URL = MEDIA_PATH
-# # print(MEDIA_ROOT)
-#
-# BASE_DIR = os.path.dirname(os.path.dirname(__file__))
-# MEDIA_URL = '/media/'
-# MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-
-# STATIC_URL = '/static/'
-# MEDIA_URL = '/media/'
-# MEDIA_ROOT = BASE_DIR / 'uploads'
-
-# STATIC_URL = os.path.join(BASE_DIR, "django_crm", "templates/" "static/")
-# MEDIA_URL = os.path.join(BASE_DIR, "django_crm", "templates/" "media/")
-
-
 STATIC_URL = 'static/'
 
 MEDIA_URL = '/media/'
@@ -172,8 +157,7 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 LOGIN_REDIRECT_URL = reverse_lazy("customer_statistics:statistics")
 
-# LOG_LEVEL = getenv("DJANGO_LOGLEVEL", "info").upper()
-LOG_LEVEL = "info".upper()
+LOG_LEVEL = log_level.upper()
 
 logging.config.dictConfig({
     'version': 1,
