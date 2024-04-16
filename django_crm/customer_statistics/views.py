@@ -15,11 +15,11 @@ from services.models import Service
 class CustomerStatistics(UserPassesTestMixin, View):
     def get(self, request):
         sql_query = """
-        SELECT aca.name, aca.budget, services_service.price, cc.active, c.amount, (c.amount-(aca.budget+services_service.price))
-        FROM services_service
-        JOIN public.advertising_companies_advertisingcompany aca ON services_service.id = aca.services_id
-        JOIN public.clients_client cc ON aca.id = cc.advertising_company_id
-        LEFT JOIN public.contracts_contract c ON cc.contract_id = c.id;
+SELECT aca.name, aca.budget, service.price, client.active, contract.amount, (contract.amount-(aca.budget+service.price))
+FROM advertising_companies_advertisingcompany as aca
+JOIN public.services_service service on service.id = aca.services_id
+LEFT JOIN public.clients_client client on aca.id = client.advertising_company_id
+LEFT OUTER JOIN  public.contracts_contract contract on contract.id = client.contract_id
         """
 
         with connection.cursor() as cursor:
@@ -30,16 +30,20 @@ class CustomerStatistics(UserPassesTestMixin, View):
 
             for result in results:
                 company = result[0]
-                active_client = result[3]
-                profit = result[5] if isinstance(result[5], Decimal) else 0
+                active_client = result[3] if isinstance(result[3], bool) else None
+                profit = result[5] if isinstance(result[5], Decimal) else False
                 if company not in company_data:
                     company_data[company] = {'active': 0, 'potential': 0, 'profit': 0}
 
-                company_data[company]['active'] += int(active_client)
-                company_data[company]['potential'] += int(not active_client)
-                company_data[company]['profit'] += float(profit)
+                try:
+                    company_data[company]['active'] += int(active_client)
+                    company_data[company]['potential'] += int(not active_client)
+                    company_data[company]['profit'] += float(profit)
+                except TypeError:
+                    pass
 
         content = {"content": company_data}
+        print(content)
         return render(request=request,
                       template_name="customer_statistics/statistics.html",
                       context=content)
