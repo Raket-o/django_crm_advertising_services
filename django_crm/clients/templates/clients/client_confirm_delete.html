@@ -19,6 +19,7 @@
         </form>
     </div>
     <br>
-    <a href="{% url 'clients:client_details' pk=object.pk %}"><button class="button button_blue">Back</button></a>
+    <a href="{% url 'clients:client_details' pk=object.pk %}">
+        <button class="button button_blue">Back</button>
+    </a>
 {% endblock %}
-

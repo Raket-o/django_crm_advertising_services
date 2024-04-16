@@ -1,7 +1,5 @@
 from django.db import models
 
-# Create your models here.
-
 from advertising_companies.models import AdvertisingCompany
 from contracts.models import Contract
 
@@ -19,11 +17,5 @@ class Client(models.Model):
     advertising_company = models.ForeignKey(AdvertisingCompany, on_delete=models.CASCADE, null=True)
     contract = models.ForeignKey(Contract, on_delete=models.CASCADE, null=True, default=None)
 
-    # def __repr__(self):
-    #     return (f"'advertising_company': {self.advertising_company}, 'contract': {self.contract}")
-
-    def to_json(self):
-        return (f"'advertising_company': {self.advertising_company}, 'contract': {self.contract}")
-
-    # def __str__(self):
+    # def to_json(self):
     #     return (f"'advertising_company': {self.advertising_company}, 'contract': {self.contract}")

@@ -36,13 +36,6 @@ class ClientCreateView(PermissionRequiredMixin, CreateView):
     permission_required = "clients.add_client"
     model = Client
     fields = "name", "phone", "email", "advertising_company",
-    # form_class = AdvertisingCompanyForm
-    # success_url = reverse_lazy("advertising_companies:advertising_companies_list")
-
-    # def form_valid(self, form):
-    #     AdvertisingCompany.set_budget(form)
-    #     # response = super().form_valid(form)
-    #     return super().form_valid(form)
 
     def get_success_url(self):
         return reverse(
@@ -126,4 +119,3 @@ class ClientActiveDeleteView(PermissionRequiredMixin, DeleteView):
     template_name = "clients/client_confirm_delete.html"
     model = Client
     success_url = reverse_lazy("clients:client_active_list")
-

@@ -31,24 +31,9 @@
     </div>
 
     <div>
-    <br>
+        <br>
         <a href="{% url 'clients:client_list' %}">
             <button class="button button_blue">Client list</button>
         </a>
     </div>
-
-{#    {% if perms.services.add_service %}#}
-{#        <div>#}
-{#            <br>#}
-{#            <a href="{% url 'clients:client_create' %}">#}
-{#                <button class="button">Create</button>#}
-{#            </a>#}
-{#        </div>#}
-
-        {##}
-        {#        <div>#}
-        {#            <a href="{% url 'clients:client_create' %}">Create a new client </a>#}
-        {#        </div>#}
-{#    {% endif %}#}
-
 {% endblock %}

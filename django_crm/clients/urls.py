@@ -16,10 +16,6 @@ from clients.views import (
 app_name = "clients"
 
 urlpatterns = [
-    # path("", shop_index, name="index"),
-
-    # path("api/", include(routers.urls)),
-
     path("", ClientListView.as_view(), name="client_list"),
     path("create/", ClientCreateView.as_view(), name="client_create"),
     path("<int:pk>/", ClientDetailsView.as_view(), name="client_details"),
