@@ -39,7 +39,7 @@
         }
 
         .user_name {
-        {#flex-direction: row;#}{#flex-flow: row nowrap;#} height: auto;
+            height: auto;
             vertical-align: middle;
             text-align: center;
             background-color: rgba(255, 255, 255, 0.35);
@@ -55,7 +55,6 @@
             margin: 10px;
             font-size: 14px;
             font-weight: normal;
-
 
             a:link, a:visited {
                 color: #ffffff;
@@ -84,20 +83,18 @@
             flex-direction: row;
             flex-flow: row nowrap;
             justify-content: left;
-        {#min-width: auto;#}
+
         }
 
         .menu {
-        {#display: block;#}{#min-height: calc(100vh - 150px);#}{#min-height: calc(100vh - 286px);#} overflow-y: auto;
-        {#height: calc(100vh - 129px);#} height: auto;
+            overflow-y: auto;
+            height: auto;
             padding: 2%;
             text-align: left;
             background-color: rgba(231, 234, 236);
             width: 20%;
             border: 3px solid #000000;
             font-size: 24px;
-
-
         }
 
         .menu_nav > div {
@@ -110,7 +107,7 @@
         .group_Npage_Oinfo {
             display: flex;
             flex-direction: column;
-        {#flex-flow: row nowrap;#} justify-content: left;
+            justify-content: left;
         }
 
         .name_page {
@@ -120,30 +117,29 @@
             min-width: 140vh;
             text-align: left;
             background-color: rgba(231, 234, 236);
-        {#border: 3px solid #000000;#} border-top: 3px solid #000000;
+            border-top: 3px solid #000000;
         }
 
         .output_info {
             overflow-y: auto;
-        {#overflow: auto;#}{#min-height: calc(100vh - 286px);#} height: calc(100vh - 286px);
-        {#height: 100%;#} padding-left: 4%;
+            height: calc(100vh - 286px);
+            padding-left: 4%;
             padding-top: 2%;
             padding-bottom: 2%;
             padding-right: 4%;
 
-        {#padding: 4%;#} font-size: 18px;
+            font-size: 18px;
             font-weight: normal;
             border-top: 3px solid #000000;
             border-bottom: 3px solid #000000;
         }
 
         .bside {
-        {#display: flex;#}{#flex-direction: row-reverse;#}{#min-height: calc(100vh - 286px);#}{#height: calc(100vh - 129px);#} min-width: 13vh;
+            min-width: 13vh;
             text-align: center;
             background-color: rgba(231, 234, 236);
             width: 2%;
             border: 3px solid #000000;
-
         }
 
         footer {
@@ -245,11 +241,9 @@
 <header class="header">
     {% if user.is_authenticated %}
         <div class="logout">
-
             <a href={% url 'authorization:logout' %}>
                 <button class="button button_gray">Logout</button>
             </a>
-
         </div>
         <div class="user_name">
             <p>
@@ -266,65 +260,76 @@
 
 <body>
 <div class="workspace">
-
     <div class="menu_nav menu">
-    {% if user.is_authenticated %}
-        
-        <div>
-            <a style="display: block" href={% url 'customer_statistics:statistics' %}>Statistics</a>
-        </div>
-        <br>
-        <div>
-            Services
-            <a style="display: block" href={% url 'services:service_list' %}>list</a>
-            <a style="display: block" href={% url 'services:service_create' %}>create</a>
-        </div>
-        <br>
-        <div
-        ">
-        Advertising companies
-        <a style="display: block" href={% url 'advertising_companies:advertising_companies_list' %}>list</a>
-        <a style="display: block" href={% url 'advertising_companies:advertising_company_create' %}>create</a>
-    </div>
-    <br>
-    <div>
-        Clients
-        <a style="display: block" href={% url 'clients:client_list' %}>list</a>
-        <a style="display: block" href={% url 'clients:client_create' %}>create</a>
-    </div>
-    <br>
-    <div>
-        Active clients
-        <a style="display: block" href={% url 'clients:client_active_list' %}>list</a>
-    </div>
-    <br>
-    <div>
-        Contracts
-        <a style="display: block" href={% url 'contracts:contract_list' %}>list</a>
-        <a style="display: block" href={% url 'contracts:contract_create' %}>create</a>
-    </div>
+        {% if user.is_authenticated %}
+            <div>
+                <a style="display: block" href={% url 'customer_statistics:statistics' %}>Statistics</a>
+            </div>
+
+            {% if user.is_superuser or perms.services.view_service %}
+                <br>
+                <div>
+                    Services
+                    <a style="display: block" href={% url 'services:service_list' %}>list</a>
+                    <a style="display: block" href={% url 'services:service_create' %}>create</a>
+                </div>
+            {% endif %}
+
+            {% if user.is_superuser or perms.advertising_companies.view_advertisingcompany %}
+                <br>
+                <div>
+                    Advertising companies
+                    <a style="display: block" href={% url 'advertising_companies:advertising_companies_list' %}>list</a>
+                    <a style="display: block"
+                       href={% url 'advertising_companies:advertising_company_create' %}>create</a>
+                </div>
+            {% endif %}
+
+            {% if user.is_superuser or perms.clients.view_client %}
+                <br>
+                <div>
+                    Clients
+                    <a style="display: block" href={% url 'clients:client_list' %}>list</a>
+                    <a style="display: block" href={% url 'clients:client_create' %}>create</a>
+                </div>
+            {% endif %}
+
+            {% if user.is_superuser or perms.clients.active_view_client %}
+                <br>
+                <div>
+                    Active clients
+                    <a style="display: block" href={% url 'clients:client_active_list' %}>list</a>
+                </div>
+            {% endif %}
+
+            {% if user.is_superuser or perms.contracts.view_contract %}
+                <br>
+                <div>
+                    Contracts
+                    <a style="display: block" href={% url 'contracts:contract_list' %}>list</a>
+                    <a style="display: block" href={% url 'contracts:contract_create' %}>create</a>
+                </div>
+            {% endif %}
         {% endif %}
+    </div>
 
-</div>
-
-<div class="group_Npage_Oinfo">
-    <div class="name_page">
-        <p>
-            {% block name_page %}
+    <div class="group_Npage_Oinfo">
+        <div class="name_page">
+            <p>
+                {% block name_page %}
+                {% endblock %}
+            </p>
+        </div>
+        <div class="output_info">
+            {% block body %}
             {% endblock %}
-        </p>
+        </div>
     </div>
-    <div class="output_info">
-        {% block body %}
-        {% endblock %}
+
+    <div class="bside">
     </div>
-</div>
-
-<div class="bside">
-</div>
 
 </div>
-
 
 <footer>
     @2024
