@@ -11,11 +11,6 @@ from .views import (
 app_name = "services"
 
 urlpatterns = [
-    # path("", shop_index, name="index"),
-
-    # path("api/", include(routers.urls)),
-
-
     path("", ServicesListView.as_view(), name="service_list"),
     path("create/", ServiceCreateView.as_view(), name="service_create"),
     path("<int:pk>/", ServiceDetailsView.as_view(), name="service_details"),
