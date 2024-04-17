@@ -1,7 +1,6 @@
 #docker-compose.yml
 #version: "3.8"
-version: "3"
-#version: "2"
+version: "2"
 
 services:
   postgres_db:
@@ -13,7 +12,7 @@ services:
     ports:
       - "5434:${DB_PORT}"
     volumes: [ './postgres/db/:/var/lib/postgresql/data/', './postgres/db/:/logs/' ]
-    #    command: ["postgres", "-c", "log_statement=all"]
+    command: ["postgres", "-c", "log_statement=all"]
     expose:
       - 5434
     networks:
@@ -21,28 +20,23 @@ services:
         ipv4_address: 192.168.55.4
 
   django:
-    depends_on:
-      - postgres_db
+#    depends_on:
+#      - postgres_db
     build: .
     container_name: django
-
-    command: bash -c "
-      python manage.py migrate
-      && python manage.py 1_add_group_users
-      && python manage.py 2_add_permissions
-      && python manage.py 3_add_group_permissions
-      && python manage.py 4_add_superuser
-      && python manage.py runserver 0.0.0.0:8080
-      "
-
-    volumes: [ './django_crm/uploads/:/etc/']
-    restart: unless-stopped
+#    command: python manage.py migrate
+#    command: [ "python", "manage.py", "migrate" ]
+#    command: [ "python", "manage.py", "1_add_group_users" ]
+#    command: [ "python", "manage.py", "2_add_permissions" ]
+#    command: [ "python", "manage.py", "3_add_group_permissions" ]
+#    command: ["python", "manage.py", "4_add_superuser"]
+    command: ["python", "manage.py", "runserver", "0.0.0.0:8080"]
+#    command: python manage.py runserver 0.0.0.0:8080
     ports:
       - "8080:8080"
     networks:
       advertising_services_network:
         ipv4_address: 192.168.55.3
-
 
 networks:
   advertising_services_network:

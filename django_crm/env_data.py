@@ -1,7 +1,7 @@
 """Модуль конфиг для проверки создано ли окружение."""
 import os
 
-from dotenv import find_dotenv,get_cli_string, load_dotenv
+from dotenv import find_dotenv, get_cli_string, load_dotenv
 
 get_cli_string(path="../.env")
 

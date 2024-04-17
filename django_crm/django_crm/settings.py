@@ -10,20 +10,13 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
-import os
-from django.urls import reverse_lazy
-from pathlib import Path
-from env_data import (
-    db_user,
-    db_password,
-    db_host,
-    db_port,
-    db_name,
-    debug,
-    log_level,
-)
-
 import logging.config
+import os
+from pathlib import Path
+
+from django.urls import reverse_lazy
+
+from env_data import db_host, db_name, db_password, db_port, db_user, debug, log_level
 
 # from dotenv import load_dotenv
 # load_dotenv()
@@ -44,6 +37,20 @@ DEBUG = debug
 
 ALLOWED_HOSTS = []
 
+INTERNAL_IPS = [
+    "127.0.0.1",
+    "0.0.0.0",
+]
+
+if DEBUG:
+    import socket
+
+    hostname, _, ips = socket.gethostbyname_ex(socket.gethostname())
+    INTERNAL_IPS.append("10.0.2.2")
+    INTERNAL_IPS.extend(
+        [ip[: ip.rfind(".")] + ".1" for ip in ips]
+    )
+
 
 # Application definition
 
@@ -54,6 +61,8 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+
+    "debug_toolbar",
 
     "authorization.apps.AuthorizationConfig",
     "customer_statistics.apps.CustomerStatisticsConfig",
@@ -72,6 +81,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "debug_toolbar.middleware.DebugToolbarMiddleware",
 ]
 
 ROOT_URLCONF = "django_crm.urls"
@@ -110,6 +120,14 @@ DATABASES = {
         'PORT': db_port,
     }
 }
+
+# Caches
+CACHES = {
+    "default": {
+        "BACKEND": "django.core.cache.backends.dummy.DummyCache",
+    }
+}
+CACHE_SECONDS = 60
 
 
 # Password validation
@@ -153,10 +171,14 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'django_crm', 'templates', 'static')]
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'uploads'
 
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+
+# Logger
 
 LOGIN_REDIRECT_URL = reverse_lazy("customer_statistics:statistics")
 

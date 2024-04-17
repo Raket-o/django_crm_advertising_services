@@ -1,10 +1,10 @@
 from django.urls import path
 
 from .views import (
-    ContractListView,
     ContractCreateView,
     ContractDeleteView,
     ContractDetailsView,
+    ContractListView,
     ContractUpdateView,
 )
 

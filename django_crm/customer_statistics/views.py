@@ -1,10 +1,9 @@
 from decimal import Decimal
 
+from django.contrib.auth.mixins import UserPassesTestMixin
 from django.db import connection
 from django.shortcuts import render
 from django.views.generic.base import View
-from django.contrib.auth.mixins import UserPassesTestMixin
-
 
 from advertising_companies.models import AdvertisingCompany
 from clients.models import Client
@@ -43,7 +42,6 @@ LEFT OUTER JOIN  public.contracts_contract contract on contract.id = client.cont
                     pass
 
         content = {"content": company_data}
-        print(content)
         return render(request=request,
                       template_name="customer_statistics/statistics.html",
                       context=content)

@@ -1,5 +1,5 @@
-from django.forms import ModelForm, DateTimeField
 from django import forms
+from django.forms import DateTimeField, ModelForm
 
 from .models import Contract
 
