@@ -16,6 +16,3 @@ class Client(models.Model):
     active = models.BooleanField(default=False)
     advertising_company = models.ForeignKey(AdvertisingCompany, on_delete=models.CASCADE, null=True)
     contract = models.ForeignKey(Contract, on_delete=models.CASCADE, null=True, default=None)
-
-    # def to_json(self):
-    #     return (f"'advertising_company': {self.advertising_company}, 'contract': {self.contract}")

@@ -19,8 +19,5 @@ class Contract(models.Model):
     def __repr__(self):
         return {f"'amount': {self.amount}"}
 
-    # def to_jseon(self):
-    #     return {f"'amount': {self.amount}"}
-
     def __str__(self):
         return self.name
