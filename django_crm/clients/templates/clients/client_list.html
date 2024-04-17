@@ -27,11 +27,14 @@
                             </div>
                         {% endif %}
 
-                        <div>
-                            <a href="{% url 'clients:client_archived' pk=client.pk %}">
-                                <button class="button button_red">Delete</button>
-                            </a>
-                        </div>
+                        {% if perms.clients.delete_client %}
+                            <div>
+                                <a href="{% url 'clients:client_archived' pk=client.pk %}">
+                                    <button class="button button_red">Delete</button>
+                                </a>
+                            </div>
+                        {% endif %}
+
                     </div>
                 </li>
             {% empty %} No clients yet
@@ -39,10 +42,13 @@
         </ol>
     </div>
 
-    <div>
-        <br>
-        <a href="{% url 'clients:client_create' %}">
-            <button class="button">Create</button>
-        </a>
-    </div>
+    {% if perms.clients.add_client %}
+        <div>
+            <br>
+            <a href="{% url 'clients:client_create' %}">
+                <button class="button">Create</button>
+            </a>
+        </div>
+    {% endif %}
+
 {% endblock %}

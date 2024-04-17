@@ -62,11 +62,13 @@
                 <div>
                     Clients
                     <a style="display: block" href={% url 'clients:client_list' %}>list</a>
-                    <a style="display: block" href={% url 'clients:client_create' %}>create</a>
+                    {% if user.is_superuser or perms.clients.add_client %}
+                        <a style="display: block" href={% url 'clients:client_create' %}>create</a>
+                    {% endif %}
                 </div>
             {% endif %}
 
-            {% if user.is_superuser or perms.clients.active_view_client %}
+            {% if user.is_superuser or perms.clients.view_active_client %}
                 <br>
                 <div>
                     Active clients

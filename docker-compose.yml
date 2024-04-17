@@ -11,6 +11,8 @@ services:
 #    restart: always
     ports:
       - "5434:${DB_PORT}"
+#    volumes:
+#      - ./postgres/db/:/var/lib/postgresql/data
     volumes: [ './postgres/db/:/var/lib/postgresql/data/', './postgres/db/:/logs/' ]
 #    command: ["postgres", "-c", "log_destination=stderr", "-c", "logging_collector=on", "-c", "log_directory=/logs", "-c", "log_filename=postgresql.log", "-c", "log_statement=all"]
     command: ["postgres", "-c", "log_statement=all"]
@@ -19,6 +21,64 @@ services:
     networks:
       advertising_services_network:
         ipv4_address: 192.168.55.4
+
+#  django:
+#    build: .
+#    container_name: django
+#    # stop_signal: SIGKILL # Это не требуется, Docker автоматически использует SIGKILL
+#    command: ["python", "manage.py", "runserver", "0.0.0.0:8080"]
+#    # restart: always # Можно изменить на 'unless-stopped', если нужно
+#    ports:
+#      - "8080:8080"
+#    networks:
+#      advertising_services_network:
+#        ipv4_address: 192.168.55.3
+
+#  django:
+#    build: .
+#    container_name: django
+#    stop_signal: SIGKILL
+#    command: ["python", "manage.py", "runserver", "0.0.0.0:8080"]
+#    restart: always
+#    ports:
+#      - "8000:8080"
+##    logging:
+##      driver: loki
+##      options:
+##        loki-url: http://192.168.55.7:3100/loki/api/v1/push
+#    networks:
+#      advertising_services_network:
+#        ipv4_address: 192.168.55.3
+#
+#  grafana:
+#      image: grafana/grafana:9.2.15
+#      container_name: grafana
+#      depends_on:
+#        - django
+#
+#      volumes:
+#        - ./grafana:/var/lib/grafana
+#        - ./grafana/provisioning/:/etc/grafana/provisioning/
+#      restart: unless-stopped
+#      environment:
+#        - GF_AUTH_ANONYMOUS_ENABLED=true
+#        - GF_AUTH_ANONYMOUS_ORR_ROLE=Admin
+#
+#      ports:
+#        - 3000:3000
+#      networks:
+#        app_network:
+#          ipv4_address: 192.168.55.6
+#
+#  loki:
+#      image: grafana/loki:2.8.0
+#      depends_on:
+#        - grafana
+#      ports:
+#        - 3100:3100
+#      networks:
+#        app_network:
+#          ipv4_address: 192.168.55.7
 
 #  django:
 #      build: django_crm/.

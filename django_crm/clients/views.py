@@ -115,7 +115,7 @@ class ClientActiveUpdateView(PermissionRequiredMixin, UpdateView):
 
 
 class ClientActiveDeleteView(PermissionRequiredMixin, DeleteView):
-    permission_required = "clients.delete_active_clients"
-    template_name = "clients/client_confirm_delete.html"
+    permission_required = "clients.delete_active_client"
+    template_name = "clients/client_confirm_active.html"
     model = Client
     success_url = reverse_lazy("clients:client_active_list")

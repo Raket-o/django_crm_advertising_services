@@ -19,23 +19,25 @@
             <li><em> {{ object.advertising_company }} </em></li>
     </div>
 
-    {% url 'clients:client_update' pk=object.pk as url_update_client %}
-    {% url 'clients:client_archived' pk=object.pk as url_archive_client %}
+    {% if user.is_superuser or perms.clients.change_client %}
+        {% url 'clients:client_update' pk=object.pk as url_update_client %}
+        {% url 'clients:client_archived' pk=object.pk as url_archive_client %}
 
-    {% blocktranslate %}
-        <div>
-            <br>
-            <a href="{{ url_update_client }}">
-                <button class="button">Update</button>
-            </a>
-        </div>
-        <div>
-            <br>
-            <a href="{{ url_archive_client }}">
-                <button class="button button_red">Delete</button>
-            </a>
-        </div>
-    {% endblocktranslate %}
+        {% blocktranslate %}
+            <div>
+                <br>
+                <a href="{{ url_update_client }}">
+                    <button class="button">Update</button>
+                </a>
+            </div>
+            <div>
+                <br>
+                <a href="{{ url_archive_client }}">
+                    <button class="button button_red">Delete</button>
+                </a>
+            </div>
+        {% endblocktranslate %}
+    {% endif %}
 
     <div>
         {% url 'clients:client_list' as url_list_client %}
