@@ -1,7 +1,6 @@
 #docker-compose.yml
-#version: "3.8"
 version: "3"
-#version: "2"
+
 
 services:
   postgres_db:
@@ -13,7 +12,7 @@ services:
     ports:
       - "5434:${DB_PORT}"
     volumes: [ './postgres/db/:/var/lib/postgresql/data/', './postgres/db/:/logs/' ]
-    #    command: ["postgres", "-c", "log_statement=all"]
+    command: ["postgres", "-c", "log_statement=all"]
     expose:
       - 5434
     networks:
@@ -25,7 +24,6 @@ services:
       - postgres_db
     build: .
     container_name: django
-
     command: bash -c "
       python manage.py migrate
       && python manage.py 1_add_group_users
@@ -34,8 +32,7 @@ services:
       && python manage.py 4_add_superuser
       && python manage.py runserver 0.0.0.0:8080
       "
-
-    volumes: [ './django_crm/uploads/:/etc/']
+    volumes: [ './django_crm/uploads/:/app/uploads']
     restart: unless-stopped
     ports:
       - "8080:8080"
