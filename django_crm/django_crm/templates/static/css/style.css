@@ -46,15 +46,11 @@ header {
     font-size: 14px;
     font-weight: normal;
 
-    a:link, a:visited {
-        color: #ffffff;
-    }
-
-    a:hover {
-        color: rgba(0, 0, 255, 0.63);
+    button:hover {
+        background-color: rgba(231, 234, 236);
+        color: black;
     }
 }
-
 
 a {
     text-decoration: none;
@@ -79,7 +75,7 @@ a:hover {
 .menu {
     overflow-y: auto;
     height: auto;
-    padding: 2%;
+    padding: 2% 0;
     text-align: left;
     background-color: rgba(231, 234, 236);
     width: 20%;
@@ -88,10 +84,28 @@ a:hover {
 }
 
 .menu_nav > div {
-    border: 2px solid #ccc;
-    border-radius: 4px;
-    padding: 12px;
-    text-align: center;
+    vertical-align: middle;
+    align-items: center;
+
+    span {
+        block-size: 50px;
+        margin: 0px 5px;
+        position: relative;
+        top: 25%;
+        white-space: nowrap;
+    }
+
+    a {
+        display: block;
+        block-size: 50px;
+        background-color: rgba(231, 234, 236);
+        border-radius: 10px;
+        color: black;
+    }
+
+    a:hover {
+        background-color: white;
+    }
 }
 
 .group_Npage_Oinfo {
@@ -117,7 +131,6 @@ a:hover {
     padding-top: 2%;
     padding-bottom: 2%;
     padding-right: 4%;
-
     font-size: 18px;
     font-weight: normal;
     border-top: 3px solid #000000;
@@ -161,12 +174,24 @@ footer {
     border-radius: 12px;
 }
 
+.button:hover {
+    background-color: rgba(4, 170, 109, 0.65);
+}
+
 .button_blue {
     background-color: #008CBA;
 }
 
+.button_blue:hover {
+    background-color: rgba(0, 140, 186, 0.65);
+}
+
 .button_red {
     background-color: #ac2721;
+}
+
+.button_red:hover {
+    background-color: rgba(172, 39, 33, 0.65);
 }
 
 .button_gray {
@@ -224,4 +249,13 @@ input[type=date] {
 
 .list_obj_name {
     width: 20%
+}
+
+.bar-item {
+    color: rgb(85, 83, 83);
+}
+
+.bar-item:hover {
+    color: #000;
+    background: #eee;
 }

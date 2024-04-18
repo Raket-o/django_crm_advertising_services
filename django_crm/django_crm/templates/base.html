@@ -1,9 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
 {% load static %}
+
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="{% static 'css/style.css' %}" type="text/css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/>
     <title>
         {% block title %}
         {% endblock %}
@@ -35,53 +37,52 @@
     <div class="menu_nav menu">
         {% if user.is_authenticated %}
             <div>
-                <a style="display: block" href={% url 'customer_statistics:statistics' %}>Statistics</a>
+                <a href={% url 'customer_statistics:statistics' %}>
+                    <span><i class="fas fa-newspaper"></i> Statistics</span>
+                </a>
             </div>
-
             {% if user.is_superuser or perms.services.view_service %}
                 <br>
                 <div>
-                    Services
-                    <a style="display: block" href={% url 'services:service_list' %}>list</a>
-                    <a style="display: block" href={% url 'services:service_create' %}>create</a>
+                    <a href={% url 'services:service_list' %}>
+                        <span><i class="fas fa-microchip"></i> Services</span>
+                    </a>
                 </div>
             {% endif %}
 
             {% if user.is_superuser or perms.advertising_companies.view_advertisingcompany %}
                 <br>
                 <div>
-                    Advertising companies
-                    <a style="display: block" href={% url 'advertising_companies:advertising_companies_list' %}>list</a>
-                    <a style="display: block"
-                       href={% url 'advertising_companies:advertising_company_create' %}>create</a>
+                    <a href={% url 'advertising_companies:advertising_companies_list' %}>
+                        <span><i class="fas fa-ad"></i> Advertising companies</span>
+                    </a>
                 </div>
             {% endif %}
 
             {% if user.is_superuser or perms.clients.view_client %}
                 <br>
                 <div>
-                    Clients
-                    <a style="display: block" href={% url 'clients:client_list' %}>list</a>
-                    {% if user.is_superuser or perms.clients.add_client %}
-                        <a style="display: block" href={% url 'clients:client_create' %}>create</a>
-                    {% endif %}
+                    <a href={% url 'clients:client_list' %}>
+                        <span><i class="fas fa-user-clock"></i> Clients</span>
+                    </a>
                 </div>
             {% endif %}
 
             {% if user.is_superuser or perms.clients.view_active_client %}
                 <br>
                 <div>
-                    Active clients
-                    <a style="display: block" href={% url 'clients:client_active_list' %}>list</a>
+                    <a href={% url 'clients:client_active_list' %}>
+                        <span><i class="fas fa-user-check"></i> Active clients</span>
+                    </a>
                 </div>
             {% endif %}
 
             {% if user.is_superuser or perms.contracts.view_contract %}
                 <br>
                 <div>
-                    Contracts
-                    <a style="display: block" href={% url 'contracts:contract_list' %}>list</a>
-                    <a style="display: block" href={% url 'contracts:contract_create' %}>create</a>
+                    <a href={% url 'contracts:contract_list' %}>
+                        <span><i class="fas fa-file-alt"></i> Contracts</span>
+                    </a>
                 </div>
             {% endif %}
         {% endif %}
