@@ -18,6 +18,3 @@ class Command(BaseCommand):
             self.stdout.write(f"Created group {group.name}")
 
         self.stdout.write(self.style.SUCCESS("Groups created"))
-
-
-
