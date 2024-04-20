@@ -32,8 +32,6 @@ services:
       && python manage.py 4_add_superuser
       && gunicorn django_crm.wsgi:application --bind "0.0.0.0:8080" --workers 3
       "
-#      && python manage.py runserver 0.0.0.0:8080
-#      && gunicorn django_crm.wsgi:application --bind "0.0.0.0:8080" --workers 3
     volumes: [ './django_crm/uploads/:/app/uploads']
     restart: unless-stopped
     ports:
