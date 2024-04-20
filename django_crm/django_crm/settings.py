@@ -18,9 +18,6 @@ from django.urls import reverse_lazy
 
 from env_data import db_host, db_name, db_password, db_port, db_user, debug, log_level
 
-# from dotenv import load_dotenv
-# load_dotenv()
-
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -30,12 +27,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = "django-insecure-xc19@*vv%_1z1he#r^7olk7km^6yii1g-sp5+@f#jh2%#drp%q"
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', '')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = debug
+# DEBUG = debug
+DEBUG = os.getenv('DEBUG') != 'False'
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    "127.0.0.1",
+    "0.0.0.0",
+]
 
 INTERNAL_IPS = [
     "127.0.0.1",
@@ -63,6 +64,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
 
     "debug_toolbar",
+    "whitenoise.runserver_nostatic",
 
     "authorization.apps.AuthorizationConfig",
     "customer_statistics.apps.CustomerStatisticsConfig",
@@ -74,6 +76,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    "whitenoise.middleware.WhiteNoiseMiddleware",
     "django.middleware.security.SecurityMiddleware",
     "django.contrib.sessions.middleware.SessionMiddleware",
     "django.middleware.common.CommonMiddleware",
@@ -163,10 +166,13 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
-# STATIC_URL = 'static/'
 
-STATIC_URL = '/static/'
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'django_crm', 'templates', 'static')]
+STATIC_URL = "/static/"
+
+if DEBUG:
+    STATICFILES_DIRS = [os.path.join(BASE_DIR, 'django_crm', 'templates', 'static')]
+else:
+    STATIC_ROOT = os.path.join(BASE_DIR, 'django_crm', 'templates', 'static')
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'uploads'

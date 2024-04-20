@@ -30,8 +30,10 @@ services:
       && python manage.py 2_add_permissions
       && python manage.py 3_add_group_permissions
       && python manage.py 4_add_superuser
-      && python manage.py runserver 0.0.0.0:8080
+      && gunicorn django_crm.wsgi:application --bind "0.0.0.0:8080" --workers 3
       "
+#      && python manage.py runserver 0.0.0.0:8080
+#      && gunicorn django_crm.wsgi:application --bind "0.0.0.0:8080" --workers 3
     volumes: [ './django_crm/uploads/:/app/uploads']
     restart: unless-stopped
     ports:
@@ -39,7 +41,6 @@ services:
     networks:
       advertising_services_network:
         ipv4_address: 192.168.55.3
-
 
 networks:
   advertising_services_network:
