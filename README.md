@@ -1,17 +1,4 @@
-<style>
-    body {
-        background-color: rgba(231,234,236,0);
-    }
-
-    .logo {
-        display: flex;
-        justify-content: center;
-    }
-</style>
-
-<div class="logo">
 <img src="./images_readme/logo.jpg" width="650" alt="logo"/>
-</div>
 <h1 style="text-align: center">Проект CRM-системы.</h1>
 <h2>Краткое описание:</h2>
 Разработанная CRM-система позволит эффективно управлять 
