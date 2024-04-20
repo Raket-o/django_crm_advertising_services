@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Confirm delete {{ object.pk }}
+{% endblock %}
+
+{% block name_page %}
+    Confirm
+{% endblock %}
+
+{% block body %}
+    <h3>Are you sure you want to delete</h3>
+    <div>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <br>
+            <button type="submit" class="button button_red">Delete</button>
+        </form>
+    </div>
+    <br>
+    <a href="{% url 'advertising_companies:advertising_company_details' pk=object.pk %}">
+        <button class="button button_blue">Back</button>
+    </a>
+{% endblock %}

@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Contract-list
+{% endblock %}
+
+{% block name_page %}
+    Contracts
+{% endblock %}
+
+{% block body %}
+    <h3>List:</h3>
+    <div>
+        <ol>
+            {% for contract in object_list %}
+                <li>
+                    <div class="list_obj">
+                        <div class="list_obj_name">
+                            <a href="{% url 'contracts:contract_details' pk=contract.pk %}">{{ contract.name }}</a>
+                        </div>
+                        <div>
+                            <a href="{% url 'contracts:contract_archived' pk=contract.pk %}">
+                                <button class="button button_red">Delete</button>
+                            </a>
+                        </div>
+                    </div>
+                </li>
+            {% empty %} No contracts yet
+            {% endfor %}
+        </ol>
+    </div>
+
+    <div>
+        <br>
+        <a href="{% url 'contracts:contract_create' %}">
+            <button class="button">Create</button>
+        </a>
+    </div>
+
+{% endblock %}

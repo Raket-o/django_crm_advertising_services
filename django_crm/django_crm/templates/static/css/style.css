@@ -1,0 +1,213 @@
+body {
+    display: flex;
+    flex-direction: column;
+    margin: 0;
+    min-width: 100vh;
+    max-height: 100vh;
+    font-size: 28px;
+    font-weight: bold;
+    color: black;
+    white-space: nowrap;
+}
+
+header {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: right;
+    text-align: right;
+    align-items: center;
+    background-color: rgba(80, 89, 102);
+    height: 73px;
+    width: 100%;
+}
+
+.name_app {
+    margin: 50px;
+    margin-right: auto;
+    font-size: 44px;
+    font-style: italic;
+    font-weight: bold;
+    color: #3fb1d3;
+}
+
+.user_name {
+    height: auto;
+    vertical-align: middle;
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.35);
+    width: 20%;
+    color: white;
+}
+
+.logout {
+    text-align: right;
+    vertical-align: middle;
+    width: 7%;
+    color: white;
+    margin: 10px;
+    font-size: 14px;
+    font-weight: normal;
+
+    button:hover {
+        background-color: rgba(231, 234, 236);
+        color: black;
+    }
+}
+
+a {
+    text-decoration: none;
+}
+
+a:link, a:visited {
+    color: #2a5fff;
+}
+
+a:hover {
+    color: rgba(115, 0, 0, 0.55);
+}
+
+.workspace {
+    display: flex;
+    flex-direction: row;
+    min-height: 100%;
+    height: 100vh;
+    flex-grow: 15;
+}
+
+.menu {
+    overflow-y: auto;
+    height: auto;
+    padding: 2% 0;
+    text-align: left;
+    background-color: rgba(231, 234, 236);
+    width: 360px;
+    border-top: 3px solid #000000;
+    border-right: 3px solid #000000;
+    font-size: 24px;
+}
+
+.menu_nav > div {
+    vertical-align: middle;
+    align-items: center;
+
+    span {
+        block-size: 50px;
+        margin: 0px 5px;
+        position: relative;
+        top: 25%;
+        white-space: nowrap;
+    }
+
+    a {
+        display: block;
+        block-size: 50px;
+        background-color: rgba(231, 234, 236);
+        border-radius: 10px;
+        color: black;
+    }
+
+    a:hover {
+        background-color: white;
+    }
+}
+
+.group_Npage_Oinfo {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.name_page {
+    padding-left: 5%;
+    height: 100px;
+    text-align: left;
+    background-color: rgba(231, 234, 236);
+    border-top: 3px solid #000000;
+}
+
+.output_info {
+    overflow-y: auto;
+    height: auto;
+    width: auto;
+    padding-left: 4%;
+    padding-top: 2%;
+    padding-bottom: 2%;
+    padding-right: 4%;
+    font-size: 18px;
+    font-weight: normal;
+    border-top: 3px solid #000000;
+}
+
+footer {
+    display: flex;
+    align-items: center;
+    justify-content: right;
+    background-color: rgba(80, 89, 102);
+    color: white;
+    font-size: 14px;
+    font-weight: normal;
+    flex-grow: 1;
+    border-top: 3px solid #000000;
+
+}
+
+.def_year {
+    padding-right: 20px;
+    text-align: right;
+}
+
+.button {
+    background-color: #04AA6D;
+    border: none;
+    color: white;
+    padding: 10px 25px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 14px;
+    margin: 4px 2px;
+    cursor: pointer;
+    border-radius: 12px;
+}
+
+.button:hover {
+    background-color: rgba(4, 170, 109, 0.65);
+}
+
+.button_blue {
+    background-color: #008CBA;
+}
+
+.button_blue:hover {
+    background-color: rgba(0, 140, 186, 0.65);
+}
+
+.button_red {
+    background-color: #ac2721;
+}
+
+.button_red:hover {
+    background-color: rgba(172, 39, 33, 0.65);
+}
+
+.button_gray {
+    background-color: rgba(255, 255, 255, 0.35);
+}
+
+.list_obj {
+    display: flex;
+    text-align: left;
+    align-items: center;
+}
+
+.list_obj_name {
+    width: 20%
+}
+
+input, textarea, select {
+    display: block;
+    width: 50%;
+    padding: 12px 20px;
+    margin: 8px 0;
+    box-sizing: border-box;
+}

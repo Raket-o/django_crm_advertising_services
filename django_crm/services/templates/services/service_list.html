@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Service-list
+{% endblock %}
+
+{% block name_page %}
+    Services
+{% endblock %}
+
+{% block body %}
+    <h3>List:</h3>
+    <div>
+        <ol>
+            {% for service in object_list %}
+                <li>
+                    <div class="list_obj">
+                        <div class="list_obj_name">
+                            <a href="{% url 'services:service_details' pk=service.pk %}">{{ service.name }}</a>
+                        </div>
+                        <div>
+                            <a href="{% url 'services:service_archived' pk=service.pk %}">
+                                <button class="button button_red">Delete</button>
+                            </a>
+                        </div>
+                    </div>
+                </li>
+            {% empty %} No services yet
+            {% endfor %}
+        </ol>
+    </div>
+
+    <div>
+        <br>
+        <a href="{% url 'services:service_create' %}">
+            <button class="button">Create</button>
+        </a>
+    </div>
+{% endblock %}

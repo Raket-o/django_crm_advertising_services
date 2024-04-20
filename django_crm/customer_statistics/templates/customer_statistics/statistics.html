@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    statistics
+{% endblock %}
+
+{% block name_page %}
+    Statistics
+{% endblock %}
+
+{% block body %}
+    <div>
+        {% if user.is_authenticated %}
+            {% for company_name, details in content.items %}
+                <h2>{{ company_name }}</h2>
+                <ul>
+                    <li>Potential clients: {{ details.potential }}</li>
+                    <li>Active clients: {{ details.active }}</li>
+                    <li>Profit: {{ details.profit }}</li>
+                </ul>
+            {% endfor %}
+        {% endif %}
+    </div>
+{% endblock %}

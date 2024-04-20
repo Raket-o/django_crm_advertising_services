@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" type="text/css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"/>
+    <title>
+        {% block title %}
+        {% endblock %}
+    </title>
+</head>
+
+<header class="header">
+    {% if user.is_authenticated %}
+        <div class="logout">
+            <a href={% url 'authorization:logout' %}>
+                <button class="button button_gray">Logout</button>
+            </a>
+        </div>
+        <div class="user_name">
+            <p>
+                {% if user.first_name or user.last_name %}
+                    {{ user.first_name }} {{ user.last_name }}
+                {% else %}
+                    {{ user.username }}
+                {% endif %}
+            </p>
+        </div>
+    {% endif %}
+    <div class="name_app"><p>CRM system advertising services</p></div>
+</header>
+
+<body>
+<div class="workspace">
+    <div class="menu_nav menu">
+        {% if user.is_authenticated %}
+            <div>
+                <a href={% url 'customer_statistics:statistics' %}>
+                    <span><i class="fas fa-newspaper"></i> Statistics</span>
+                </a>
+            </div>
+            {% if user.is_superuser or perms.services.view_service %}
+                <br>
+                <div>
+                    <a href={% url 'services:service_list' %}>
+                        <span><i class="fas fa-microchip"></i> Services</span>
+                    </a>
+                </div>
+            {% endif %}
+
+            {% if user.is_superuser or perms.advertising_companies.view_advertisingcompany %}
+                <br>
+                <div>
+                    <a href={% url 'advertising_companies:advertising_companies_list' %}>
+                        <span><i class="fas fa-ad"></i> Advertisement</span>
+                    </a>
+                </div>
+            {% endif %}
+
+            {% if user.is_superuser or perms.clients.view_client %}
+                <br>
+                <div>
+                    <a href={% url 'clients:client_list' %}>
+                        <span><i class="fas fa-user-clock"></i> Clients</span>
+                    </a>
+                </div>
+            {% endif %}
+
+            {% if user.is_superuser or perms.clients.view_active_client %}
+                <br>
+                <div>
+                    <a href={% url 'clients:client_active_list' %}>
+                        <span><i class="fas fa-user-check"></i> Active clients</span>
+                    </a>
+                </div>
+            {% endif %}
+
+            {% if user.is_superuser or perms.contracts.view_contract %}
+                <br>
+                <div>
+                    <a href={% url 'contracts:contract_list' %}>
+                        <span><i class="fas fa-file-alt"></i> Contracts</span>
+                    </a>
+                </div>
+            {% endif %}
+        {% endif %}
+    </div>
+
+    <div class="group_Npage_Oinfo">
+        <div class="name_page">
+            <p>
+                {% block name_page %}
+                {% endblock %}
+            </p>
+        </div>
+        <div class="output_info">
+            {% block body %}
+            {% endblock %}
+        </div>
+    </div>
+
+</div>
+
+<footer>
+    <div class="def_year">
+        @2024
+    </div>
+</footer>
+
+</body>
+</html>

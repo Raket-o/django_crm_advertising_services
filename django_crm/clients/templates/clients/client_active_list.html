@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Active clients
+{% endblock %}
+
+{% block name_page %}
+    Active clients
+{% endblock %}
+
+{% block body %}
+    <h3>List:</h3>
+    <div>
+        <ol>
+            {% for client in object_list %}
+                <li>
+                    <div class="list_obj">
+                        <div class="list_obj_name">
+                            <a href="{% url 'clients:client_active_details' pk=client.pk %}">{{ client.name }}</a>
+                        </div>
+                        <div>
+                            <a href="{% url 'clients:client_active_archived' pk=client.pk %}">
+                                <button class="button button_red">Delete</button>
+                            </a>
+                        </div>
+                    </div>
+                </li>
+            {% empty %} No clients yet
+            {% endfor %}
+        </ol>
+    </div>
+
+    <div>
+        <br>
+        <a href="{% url 'clients:client_list' %}">
+            <button class="button button_blue">Client list</button>
+        </a>
+    </div>
+{% endblock %}

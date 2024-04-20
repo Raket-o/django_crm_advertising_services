@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+
+{% load i18n %}
+
+{% block title %}
+    {% translate 'Detail active client' %} #{{ object.pk }}
+{% endblock %}
+
+{% block name_page %}
+    Detail active client
+{% endblock %}
+
+{% block body %}
+    <div>
+        {% translate 'Name: ' %} <strong>{{ object.name }}</strong>
+        <p>{% translate 'Phone:' %} <em> {{ object.phone }}</em></p>
+        <p>{% translate 'Email:' %} <em> {{ object.email }}</em></p>
+        <p>{% translate 'Contract:' %} <em> {{ object.contract }}</em></p>
+        <p>{% translate 'Advertising company:' %} <em> {{ object.advertising_company }}</em>
+    </div>
+
+    {% url 'clients:client_active_update' pk=object.pk as url_update_client %}
+    {% url 'clients:client_active_archived' pk=object.pk as url_archive_client %}
+
+    {% blocktranslate %}
+        <div>
+            <br>
+            <a href="{{ url_update_client }}">
+                <button class="button">Update</button>
+            </a>
+        </div>
+        <div>
+            <br>
+            <a href="{{ url_archive_client }}">
+                <button class="button button_red">Delete</button>
+            </a>
+        </div>
+    {% endblocktranslate %}
+
+    <div>
+        {% url 'clients:client_active_list' as url_list_client %}
+        {% blocktranslate %}
+            <br>
+            <a href="{{ url_list_client }}">
+                <button class="button button_blue">Back</button>
+            </a>
+        {% endblocktranslate %}
+    </div>
+{% endblock %}

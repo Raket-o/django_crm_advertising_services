@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Update active client
+{% endblock %}
+
+{% block name_page %}
+    Update active client
+{% endblock %}
+
+{% block body %}
+    <h3>Enter the data:</h3>
+    <div>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <br>
+            <button type="submit" class="button">Update</button>
+        </form>
+    </div>
+    <div>
+        <br>
+        <a href="{% url 'clients:client_active_details' pk=object.pk %}">
+            <button class="button button_blue">Back</button>
+        </a>
+    </div>
+{% endblock %}

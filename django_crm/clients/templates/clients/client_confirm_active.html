@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Confirm client to active {{ object.pk }}
+{% endblock %}
+
+{% block name_page %}
+    Confirm client to active
+{% endblock %}
+
+{% block body %}
+    <h3>Are you sure that the client "<i>{{ object.name }}</i>" is switching to active</h3>
+    <div>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <br>
+            <button type="submit" class="button">Sure</button>
+        </form>
+    </div>
+    <br>
+    <a href="{% url 'clients:client_active_list' %}">
+        <button class="button button_blue">Back</button>
+    </a>
+{% endblock %}

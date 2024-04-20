@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% load i18n %}
+
+{% block title %}
+    {% translate 'Detail service' %} #{{ object.pk }}
+{% endblock %}
+
+{% block name_page %}
+    Detail service
+{% endblock %}
+
+{% block body %}
+    <div>
+        {% translate 'Name: ' %} <strong>{{ object.name }}</strong>
+        <p>{% translate 'Description:' %} <em> {{ object.description }}</em></p>
+        <p>{% translate 'Price:' %} <em> {{ object.price }} </em></p>
+    </div>
+
+    {% url 'services:service_update' pk=service.pk as url_update_service %}
+    {% url 'services:service_archived' pk=service.pk as url_archive_service %}
+
+    {% blocktranslate %}
+        <br>
+        <div>
+            <a href="{{ url_update_service }}">
+                <button class="button">Update</button>
+            </a>
+        </div>
+        <br>
+        <div>
+            <a href="{{ url_archive_service }}">
+                <button class="button button_red">Delete</button>
+            </a>
+        </div>
+    {% endblocktranslate %}
+    <br>
+    <div>
+        {% url 'services:service_list' as url_list_service %}
+        {% blocktranslate %}
+            <a href="{{ url_list_service }}">
+                <button class="button button_blue">Back</button>
+            </a>
+        {% endblocktranslate %}
+    </div>
+{% endblock %}
