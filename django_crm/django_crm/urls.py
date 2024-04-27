@@ -21,6 +21,12 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import include, path
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from rest_framework.routers import DefaultRouter
+
+from services.views import ServiceViewSet
+
+routers = DefaultRouter()
+routers.register("services", ServiceViewSet, basename='services')
 
 
 urlpatterns = [
@@ -31,6 +37,9 @@ urlpatterns = [
     path('advertising-companies/', include('advertising_companies.urls')),
     path('clients/', include('clients.urls')),
     path('contracts/', include('contracts.urls')),
+
+    path("api/", include(routers.urls)),
+
 ]
 
 if settings.DEBUG:

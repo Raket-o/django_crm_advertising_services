@@ -65,6 +65,8 @@ INSTALLED_APPS = [
 
     "debug_toolbar",
     "whitenoise.runserver_nostatic",
+    "rest_framework",
+    "django_filters",
 
     "authorization.apps.AuthorizationConfig",
     "customer_statistics.apps.CustomerStatisticsConfig",
@@ -170,18 +172,30 @@ USE_TZ = True
 STATIC_URL = "/static/"
 
 if DEBUG:
-    STATICFILES_DIRS = [os.path.join(BASE_DIR, 'django_crm', 'templates', 'static')]
+    STATICFILES_DIRS = [os.path.join(BASE_DIR, "django_crm", "templates", "static")]
 else:
-    STATIC_ROOT = os.path.join(BASE_DIR, 'django_crm', 'templates', 'static')
+    STATIC_ROOT = os.path.join(BASE_DIR, "django_crm", "templates", "static")
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'uploads'
+MEDIA_URL = "/media/"
+MEDIA_ROOT = BASE_DIR / "uploads"
 
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+
+# Django_restframework
+
+REST_FRAMEWORK = {
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
+    "PAGE_SIZE": 5,
+    "DEFAULT_FILTER_BACKENDS": [
+        "django_filters.rest_framework.DjangoFilterBackend"
+    ]
+    # 'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema'
+}
 
 
 # Logger

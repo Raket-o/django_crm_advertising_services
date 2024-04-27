@@ -1,17 +1,5 @@
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.mixins import PermissionRequiredMixin, UserPassesTestMixin
-from django.contrib.auth.models import User
-from django.contrib.syndication.views import Feed
-from django.core.cache import cache
-from django.http import (
-    Http404,
-    HttpRequest,
-    HttpResponse,
-    HttpResponseRedirect,
-    JsonResponse,
-)
-from django.shortcuts import get_object_or_404, redirect, render, reverse
+from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.shortcuts import reverse
 from django.urls import reverse_lazy
 from django.views.generic import (
     CreateView,

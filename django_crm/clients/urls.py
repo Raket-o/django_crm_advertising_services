@@ -27,5 +27,4 @@ urlpatterns = [
     path("active/<int:pk>/", ClientActiveDetailsView.as_view(), name="client_active_details"),
     path("active/<int:pk>/update/", ClientActiveUpdateView.as_view(), name="client_active_update"),
     path("active/<int:pk>/archived/", ClientActiveDeleteView.as_view(), name="client_active_archived"),
-
 ]
