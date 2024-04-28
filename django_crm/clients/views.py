@@ -1,4 +1,7 @@
 from django.contrib.auth.mixins import PermissionRequiredMixin
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.filters import OrderingFilter, SearchFilter
+from rest_framework import viewsets
 from django.http import HttpResponseRedirect
 from django.shortcuts import reverse
 from django.urls import reverse_lazy
@@ -11,6 +14,7 @@ from django.views.generic import (
 )
 
 from .models import Client
+from .serializers import ClientSerializers, ClientActiveSerializers
 
 
 class ClientListView(PermissionRequiredMixin, ListView):
@@ -119,3 +123,43 @@ class ClientActiveDeleteView(PermissionRequiredMixin, DeleteView):
     template_name = "clients/client_confirm_active.html"
     model = Client
     success_url = reverse_lazy("clients:client_active_list")
+
+
+class ClientViewSet(viewsets.ModelViewSet):
+    queryset = Client.objects.filter(active=False)
+    serializer_class = ClientSerializers
+    filter_backends = [
+        SearchFilter,
+        DjangoFilterBackend,
+        OrderingFilter,
+    ]
+
+    fields = [
+        "name",
+        "phone",
+        "email",
+        "advertising_company",
+    ]
+
+    search_fields = fields
+    filterset_fields = fields
+    ordering_fields = fields
+
+
+class ClientActiveViewSet(viewsets.ModelViewSet):
+    queryset = Client.objects.filter(active=True)
+    serializer_class = ClientActiveSerializers
+    # filter_backends = [
+    #     SearchFilter,
+    #     DjangoFilterBackend,
+    #     OrderingFilter,
+    # ]
+    #
+    # fields = [
+    #     "active",
+    #     "contract",
+    # ]
+    #
+    # search_fields = fields
+    # filterset_fields = fields
+    # ordering_fields = fields

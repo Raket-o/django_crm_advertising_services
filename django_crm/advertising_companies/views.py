@@ -1,4 +1,7 @@
 from django.contrib.auth.mixins import PermissionRequiredMixin
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.filters import OrderingFilter, SearchFilter
+from rest_framework import viewsets
 from django.shortcuts import reverse
 from django.urls import reverse_lazy
 from django.views.generic import (
@@ -10,6 +13,7 @@ from django.views.generic import (
 )
 
 from .models import AdvertisingCompany
+from .serializers import AdvertisingCompanySerializers
 
 
 class AdvertisingCompaniesListView(PermissionRequiredMixin, ListView):
@@ -60,3 +64,25 @@ class AdvertisingCompanyDeleteView(PermissionRequiredMixin, DeleteView):
     template_name = "advertising_companies/advertising_company_confirm_delete.html"
     model = AdvertisingCompany
     success_url = reverse_lazy("advertising_companies:advertising_companies_list")
+
+
+class AdvertisingCompanyViewSet(viewsets.ModelViewSet):
+    queryset = AdvertisingCompany.objects.all()
+    serializer_class = AdvertisingCompanySerializers
+    filter_backends = [
+        SearchFilter,
+        DjangoFilterBackend,
+        OrderingFilter,
+    ]
+
+    fields = [
+        "name",
+        "description",
+        "promotion",
+        "budget",
+        "services",
+    ]
+
+    search_fields = fields
+    filterset_fields = fields
+    ordering_fields = fields

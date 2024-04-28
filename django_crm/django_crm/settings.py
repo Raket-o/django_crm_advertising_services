@@ -198,11 +198,12 @@ REST_FRAMEWORK = {
 }
 
 
-# Logger
+# LOGIN_REDIRECT_URL
 
 LOGIN_REDIRECT_URL = reverse_lazy("customer_statistics:statistics")
 
-LOG_LEVEL = log_level.upper()
+
+# Logger
 
 logging.config.dictConfig({
     'version': 1,
@@ -220,7 +221,7 @@ logging.config.dictConfig({
     },
     'loggers': {
         '': {
-            'level': LOG_LEVEL,
+            'level': log_level,
             'handlers': ['console'],
         },
     },

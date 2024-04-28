@@ -67,18 +67,13 @@ class ServiceViewSet(viewsets.ModelViewSet):
         DjangoFilterBackend,
         OrderingFilter,
     ]
-    search_fields = [
+
+    fields = [
         "name",
         "description",
         "price",
     ]
-    filterset_fields = [
-        "name",
-        "description",
-        "price",
-    ]
-    ordering_fields = [
-        "id",
-        "name",
-        "price",
-    ]
+
+    search_fields = fields
+    filterset_fields = fields
+    ordering_fields = fields
