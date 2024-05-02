@@ -1,4 +1,5 @@
 from .models import Client
+from contracts.models import Contract
 from rest_framework import serializers
 from rest_framework.fields import ReadOnlyField
 
@@ -18,28 +19,32 @@ class ClientSerializers(serializers.ModelSerializer):
 class ClientActiveSerializers(serializers.ModelSerializer):
     class Meta:
         model = Client
-        fields = '__all__'
+        fields = [
+            "id",
+            "name",
+            "phone",
+            "email",
+            "advertising_company",
+            "contract",
+        ]
 
-        # fields = [
-        #     "id",
-        #     "active",
-        #     "contract",
-        # ]
-        # fields = [
-        #     "id",
-        #     "name",
-        #     "phone",
-        #     "email",
-        #     "advertising_company",
-        #     "active",
-        #     "contract",
-        # ]
 
-        # field1 = serializers.CharField(read_only=True)
-        # id = serializers.IntegerField(read_only=True)
-        # name = serializers.CharField(read_only=True)
+class ClientToActiveSerializer(serializers.ModelSerializer):
+    queryset = Contract.objects.all()
+    name = serializers.CharField(read_only=True)
+    phone = serializers.CharField(read_only=True)
+    email = serializers.EmailField(read_only=True)
+    advertising_company = serializers.CharField(read_only=True)
+    contract = serializers.PrimaryKeyRelatedField(queryset=queryset, required=True)
 
-        field1 = serializers.IntegerField(read_only=True)
-        field2 = serializers.CharField(read_only=True)
+    class Meta:
+        model = Client
 
-# надо чтоб нельзя было создавать, но детально редактировать можно
+        fields = [
+            "id",
+            "name",
+            "phone",
+            "email",
+            "advertising_company",
+            "contract",
+        ]

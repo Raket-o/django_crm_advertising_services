@@ -25,13 +25,14 @@ from rest_framework.routers import DefaultRouter
 
 from services.views import ServiceViewSet
 from advertising_companies.views import AdvertisingCompanyViewSet
-from clients.views import ClientViewSet, ClientActiveViewSet
+from clients.views import ClientViewSet, ClientActiveViewSet, ClientToActiveViewSet
 from contracts.views import ContractViewSet
 
 routers = DefaultRouter()
 routers.register("services", ServiceViewSet, basename='services')
 routers.register("advertising_companies", AdvertisingCompanyViewSet, basename='advertising_companies')
 routers.register("clients", ClientViewSet, basename='clients')
+routers.register("client_to_active", ClientToActiveViewSet, basename='client_to_active')
 routers.register("client-active", ClientActiveViewSet, basename='client_active')
 routers.register("contracts", ContractViewSet, basename='contracts')
 

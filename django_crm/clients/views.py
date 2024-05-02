@@ -1,7 +1,9 @@
+
 from django.contrib.auth.mixins import PermissionRequiredMixin
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import OrderingFilter, SearchFilter
-from rest_framework import viewsets
+from rest_framework import status, viewsets
+from rest_framework.response import Response
 from django.http import HttpResponseRedirect
 from django.shortcuts import reverse
 from django.urls import reverse_lazy
@@ -14,7 +16,7 @@ from django.views.generic import (
 )
 
 from .models import Client
-from .serializers import ClientSerializers, ClientActiveSerializers
+from .serializers import ClientSerializers, ClientActiveSerializers, ClientToActiveSerializer
 
 
 class ClientListView(PermissionRequiredMixin, ListView):
@@ -133,7 +135,6 @@ class ClientViewSet(viewsets.ModelViewSet):
         DjangoFilterBackend,
         OrderingFilter,
     ]
-
     fields = [
         "name",
         "phone",
@@ -149,17 +150,63 @@ class ClientViewSet(viewsets.ModelViewSet):
 class ClientActiveViewSet(viewsets.ModelViewSet):
     queryset = Client.objects.filter(active=True)
     serializer_class = ClientActiveSerializers
-    # filter_backends = [
-    #     SearchFilter,
-    #     DjangoFilterBackend,
-    #     OrderingFilter,
-    # ]
-    #
-    # fields = [
-    #     "active",
-    #     "contract",
-    # ]
-    #
-    # search_fields = fields
-    # filterset_fields = fields
-    # ordering_fields = fields
+    filter_backends = [
+        SearchFilter,
+        DjangoFilterBackend,
+        OrderingFilter,
+    ]
+    fields = [
+        "name",
+        "phone",
+        "email",
+        "advertising_company",
+        "contract",
+    ]
+
+    search_fields = fields
+    filterset_fields = fields
+    ordering_fields = fields
+
+    def create(self, request, *args, **kwargs):
+        return Response({'error': 'Запись запрещена'}, status=status.HTTP_403_FORBIDDEN)
+
+
+class ClientToActiveViewSet(viewsets.ModelViewSet):
+    queryset = Client.objects.filter(active=False)
+    serializer_class = ClientToActiveSerializer
+    filter_backends = [
+        SearchFilter,
+        DjangoFilterBackend,
+        OrderingFilter,
+    ]
+    fields = [
+        "name",
+        "phone",
+        "email",
+        "advertising_company",
+    ]
+
+    search_fields = fields
+    filterset_fields = fields
+    ordering_fields = fields
+
+    def create(self, request, *args, **kwargs):
+        return Response({'error': 'The method is not available'}, status=status.HTTP_403_FORBIDDEN)
+
+    def update(self, request, *args, **kwargs):
+        partial = kwargs.pop('partial', False)
+        instance = self.get_object()
+        instance.active = True
+
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+
+        self.perform_update(serializer)
+
+        if getattr(instance, '_prefetched_objects_cache', None):
+            instance._prefetched_objects_cache = {}
+
+        return Response(serializer.data)
+
+    def destroy(self, request, *args, **kwargs):
+        return Response({'error': 'The method is not available'}, status=status.HTTP_403_FORBIDDEN)
