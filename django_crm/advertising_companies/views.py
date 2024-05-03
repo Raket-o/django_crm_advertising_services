@@ -14,6 +14,7 @@ from django.views.generic import (
 
 from .models import AdvertisingCompany
 from .serializers import AdvertisingCompanySerializers
+from utils import HasRolePermission
 
 
 class AdvertisingCompaniesListView(PermissionRequiredMixin, ListView):
@@ -67,6 +68,7 @@ class AdvertisingCompanyDeleteView(PermissionRequiredMixin, DeleteView):
 
 
 class AdvertisingCompanyViewSet(viewsets.ModelViewSet):
+    permission_classes = (HasRolePermission("marketing"),)
     queryset = AdvertisingCompany.objects.all()
     serializer_class = AdvertisingCompanySerializers
     filter_backends = [

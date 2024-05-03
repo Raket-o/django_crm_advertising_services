@@ -1,9 +1,11 @@
-
+from django.contrib.auth.models import Group, User
 from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.contrib.auth.models import PermissionsMixin
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import OrderingFilter, SearchFilter
-from rest_framework import status, viewsets
+from rest_framework import status, viewsets, permissions
 from rest_framework.response import Response
+
 from django.http import HttpResponseRedirect
 from django.shortcuts import reverse
 from django.urls import reverse_lazy
@@ -17,6 +19,7 @@ from django.views.generic import (
 
 from .models import Client
 from .serializers import ClientSerializers, ClientActiveSerializers, ClientToActiveSerializer
+from utils import HasRolePermission
 
 
 class ClientListView(PermissionRequiredMixin, ListView):
@@ -128,6 +131,7 @@ class ClientActiveDeleteView(PermissionRequiredMixin, DeleteView):
 
 
 class ClientViewSet(viewsets.ModelViewSet):
+    permission_classes = (HasRolePermission("operator"),)
     queryset = Client.objects.filter(active=False)
     serializer_class = ClientSerializers
     filter_backends = [
@@ -148,6 +152,7 @@ class ClientViewSet(viewsets.ModelViewSet):
 
 
 class ClientActiveViewSet(viewsets.ModelViewSet):
+    permission_classes = (HasRolePermission("manager"),)
     queryset = Client.objects.filter(active=True)
     serializer_class = ClientActiveSerializers
     filter_backends = [
@@ -172,6 +177,7 @@ class ClientActiveViewSet(viewsets.ModelViewSet):
 
 
 class ClientToActiveViewSet(viewsets.ModelViewSet):
+    permission_classes = (HasRolePermission("manager"),)
     queryset = Client.objects.filter(active=False)
     serializer_class = ClientToActiveSerializer
     filter_backends = [

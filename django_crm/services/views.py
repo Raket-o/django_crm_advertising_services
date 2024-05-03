@@ -14,6 +14,7 @@ from django.views.generic import (
 
 from .models import Service
 from .serializers import ServiceSerializers
+from utils import HasRolePermission
 
 
 class ServicesListView(PermissionRequiredMixin, ListView):
@@ -60,6 +61,7 @@ class ServiceDeleteView(DeleteView):
 
 
 class ServiceViewSet(viewsets.ModelViewSet):
+    permission_classes = (HasRolePermission("marketing"),)
     queryset = Service.objects.all()
     serializer_class = ServiceSerializers
     filter_backends = [

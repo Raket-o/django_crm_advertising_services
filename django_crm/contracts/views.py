@@ -15,6 +15,7 @@ from django.views.generic import (
 from .forms import ContractForm
 from .models import Contract
 from .serializers import ContractSerializers
+from utils import HasRolePermission
 
 
 class ContractListView(PermissionRequiredMixin, ListView):
@@ -61,6 +62,7 @@ class ContractDeleteView(PermissionRequiredMixin, DeleteView):
 
 
 class ContractViewSet(viewsets.ModelViewSet):
+    permission_classes = (HasRolePermission("manager"),)
     queryset = Contract.objects.all()
     serializer_class = ContractSerializers
     filter_backends = [

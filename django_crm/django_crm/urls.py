@@ -19,7 +19,7 @@ from django.conf import settings
 
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import include, path
+from django.urls import include, path, re_path
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 from rest_framework.routers import DefaultRouter
 
@@ -36,7 +36,6 @@ routers.register("client_to_active", ClientToActiveViewSet, basename='client_to_
 routers.register("client-active", ClientActiveViewSet, basename='client_active')
 routers.register("contracts", ContractViewSet, basename='contracts')
 
-
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('authorization.urls')),
@@ -48,6 +47,9 @@ urlpatterns = [
 
     path("api/", include(routers.urls)),
 
+    # path('api/auth/', include('djoser.urls')),
+    # re_path(r'^auth/', include('djoser.urls.authtoken')),
+    path('api/', include('djoser.urls.authtoken')),
 ]
 
 if settings.DEBUG:
