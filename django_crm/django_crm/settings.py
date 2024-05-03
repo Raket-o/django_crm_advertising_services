@@ -65,6 +65,10 @@ INSTALLED_APPS = [
 
     "debug_toolbar",
     "whitenoise.runserver_nostatic",
+    "rest_framework",
+    "django_filters",
+    "rest_framework.authtoken",
+    "djoser",
 
     "authorization.apps.AuthorizationConfig",
     "customer_statistics.apps.CustomerStatisticsConfig",
@@ -170,12 +174,12 @@ USE_TZ = True
 STATIC_URL = "/static/"
 
 if DEBUG:
-    STATICFILES_DIRS = [os.path.join(BASE_DIR, 'django_crm', 'templates', 'static')]
+    STATICFILES_DIRS = [os.path.join(BASE_DIR, "django_crm", "templates", "static")]
 else:
-    STATIC_ROOT = os.path.join(BASE_DIR, 'django_crm', 'templates', 'static')
+    STATIC_ROOT = os.path.join(BASE_DIR, "django_crm", "templates", "static")
 
-MEDIA_URL = '/media/'
-MEDIA_ROOT = BASE_DIR / 'uploads'
+MEDIA_URL = "/media/"
+MEDIA_ROOT = BASE_DIR / "uploads"
 
 
 # Default primary key field type
@@ -184,11 +188,27 @@ MEDIA_ROOT = BASE_DIR / 'uploads'
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
-# Logger
+# Django_restframework
+
+REST_FRAMEWORK = {
+    "DEFAULT_AUTHENTICATION_CLASSES": (
+        "rest_framework.authentication.TokenAuthentication",
+    ),
+    "DEFAULT_PAGINATION_CLASS": "rest_framework.pagination.PageNumberPagination",
+    "PAGE_SIZE": 5,
+    "DEFAULT_FILTER_BACKENDS": [
+        "django_filters.rest_framework.DjangoFilterBackend"
+    ]
+    # 'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema'
+}
+
+
+# LOGIN_REDIRECT_URL
 
 LOGIN_REDIRECT_URL = reverse_lazy("customer_statistics:statistics")
 
-LOG_LEVEL = log_level.upper()
+
+# Logger
 
 logging.config.dictConfig({
     'version': 1,
@@ -206,7 +226,7 @@ logging.config.dictConfig({
     },
     'loggers': {
         '': {
-            'level': LOG_LEVEL,
+            'level': log_level,
             'handlers': ['console'],
         },
     },

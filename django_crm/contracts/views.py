@@ -1,17 +1,8 @@
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.mixins import PermissionRequiredMixin, UserPassesTestMixin
-from django.contrib.auth.models import User
-from django.contrib.syndication.views import Feed
-from django.core.cache import cache
-from django.http import (
-    Http404,
-    HttpRequest,
-    HttpResponse,
-    HttpResponseRedirect,
-    JsonResponse,
-)
-from django.shortcuts import get_object_or_404, redirect, render, reverse
+from django.contrib.auth.mixins import PermissionRequiredMixin
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.filters import OrderingFilter, SearchFilter
+from rest_framework import viewsets
+from django.shortcuts import reverse
 from django.urls import reverse_lazy
 from django.views.generic import (
     CreateView,
@@ -23,6 +14,8 @@ from django.views.generic import (
 
 from .forms import ContractForm
 from .models import Contract
+from .serializers import ContractSerializers
+from utils import HasRolePermission
 
 
 class ContractListView(PermissionRequiredMixin, ListView):
@@ -66,3 +59,26 @@ class ContractDeleteView(PermissionRequiredMixin, DeleteView):
     permission_required = "contracts.delete_contract"
     model = Contract
     success_url = reverse_lazy("contracts:contract_list")
+
+
+class ContractViewSet(viewsets.ModelViewSet):
+    permission_classes = (HasRolePermission("manager"),)
+    queryset = Contract.objects.all()
+    serializer_class = ContractSerializers
+    filter_backends = [
+        SearchFilter,
+        DjangoFilterBackend,
+        OrderingFilter,
+    ]
+
+    fields = [
+        "name",
+        "service",
+        "date_conclusion",
+        "period_validity",
+        "amount",
+    ]
+
+    search_fields = fields
+    filterset_fields = fields
+    ordering_fields = fields

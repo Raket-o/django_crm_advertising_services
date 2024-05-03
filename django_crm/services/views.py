@@ -1,17 +1,8 @@
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.mixins import PermissionRequiredMixin, UserPassesTestMixin
-from django.contrib.auth.models import User
-from django.contrib.syndication.views import Feed
-from django.core.cache import cache
-from django.http import (
-    Http404,
-    HttpRequest,
-    HttpResponse,
-    HttpResponseRedirect,
-    JsonResponse,
-)
-from django.shortcuts import get_object_or_404, redirect, render, reverse
+from django.contrib.auth.mixins import PermissionRequiredMixin
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.filters import OrderingFilter, SearchFilter
+from rest_framework import viewsets
+from django.shortcuts import reverse
 from django.urls import reverse_lazy
 from django.views.generic import (
     CreateView,
@@ -22,6 +13,8 @@ from django.views.generic import (
 )
 
 from .models import Service
+from .serializers import ServiceSerializers
+from utils import HasRolePermission
 
 
 class ServicesListView(PermissionRequiredMixin, ListView):
@@ -65,3 +58,24 @@ class ServiceDeleteView(DeleteView):
     permission_required = "services.delete_service"
     model = Service
     success_url = reverse_lazy("services:service_list")
+
+
+class ServiceViewSet(viewsets.ModelViewSet):
+    permission_classes = (HasRolePermission("marketing"),)
+    queryset = Service.objects.all()
+    serializer_class = ServiceSerializers
+    filter_backends = [
+        SearchFilter,
+        DjangoFilterBackend,
+        OrderingFilter,
+    ]
+
+    fields = [
+        "name",
+        "description",
+        "price",
+    ]
+
+    search_fields = fields
+    filterset_fields = fields
+    ordering_fields = fields

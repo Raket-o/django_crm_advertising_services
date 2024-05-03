@@ -1,19 +1,14 @@
-from django.contrib.auth.decorators import login_required
-from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.mixins import PermissionRequiredMixin, UserPassesTestMixin
-from django.contrib.auth.models import User
-from django.contrib.syndication.views import Feed
-from django.core.cache import cache
-from django.http import (
-    Http404,
-    HttpRequest,
-    HttpResponse,
-    HttpResponseRedirect,
-    JsonResponse,
-)
-from django.shortcuts import get_object_or_404, redirect, render, reverse
+from django.contrib.auth.models import Group, User
+from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.contrib.auth.models import PermissionsMixin
+from django_filters.rest_framework import DjangoFilterBackend
+from rest_framework.filters import OrderingFilter, SearchFilter
+from rest_framework import status, viewsets, permissions
+from rest_framework.response import Response
+
+from django.http import HttpResponseRedirect
+from django.shortcuts import reverse
 from django.urls import reverse_lazy
-from django.views import View
 from django.views.generic import (
     CreateView,
     DeleteView,
@@ -23,6 +18,8 @@ from django.views.generic import (
 )
 
 from .models import Client
+from .serializers import ClientSerializers, ClientActiveSerializers, ClientToActiveSerializer
+from utils import HasRolePermission
 
 
 class ClientListView(PermissionRequiredMixin, ListView):
@@ -131,3 +128,91 @@ class ClientActiveDeleteView(PermissionRequiredMixin, DeleteView):
     template_name = "clients/client_confirm_active.html"
     model = Client
     success_url = reverse_lazy("clients:client_active_list")
+
+
+class ClientViewSet(viewsets.ModelViewSet):
+    permission_classes = (HasRolePermission("operator"),)
+    queryset = Client.objects.filter(active=False)
+    serializer_class = ClientSerializers
+    filter_backends = [
+        SearchFilter,
+        DjangoFilterBackend,
+        OrderingFilter,
+    ]
+    fields = [
+        "name",
+        "phone",
+        "email",
+        "advertising_company",
+    ]
+
+    search_fields = fields
+    filterset_fields = fields
+    ordering_fields = fields
+
+
+class ClientActiveViewSet(viewsets.ModelViewSet):
+    permission_classes = (HasRolePermission("manager"),)
+    queryset = Client.objects.filter(active=True)
+    serializer_class = ClientActiveSerializers
+    filter_backends = [
+        SearchFilter,
+        DjangoFilterBackend,
+        OrderingFilter,
+    ]
+    fields = [
+        "name",
+        "phone",
+        "email",
+        "advertising_company",
+        "contract",
+    ]
+
+    search_fields = fields
+    filterset_fields = fields
+    ordering_fields = fields
+
+    def create(self, request, *args, **kwargs):
+        return Response({'error': 'Запись запрещена'}, status=status.HTTP_403_FORBIDDEN)
+
+
+class ClientToActiveViewSet(viewsets.ModelViewSet):
+    permission_classes = (HasRolePermission("manager"),)
+    queryset = Client.objects.filter(active=False)
+    serializer_class = ClientToActiveSerializer
+    filter_backends = [
+        SearchFilter,
+        DjangoFilterBackend,
+        OrderingFilter,
+    ]
+    fields = [
+        "name",
+        "phone",
+        "email",
+        "advertising_company",
+    ]
+
+    search_fields = fields
+    filterset_fields = fields
+    ordering_fields = fields
+
+    def create(self, request, *args, **kwargs):
+        return Response({'error': 'The method is not available'}, status=status.HTTP_403_FORBIDDEN)
+
+    def update(self, request, *args, **kwargs):
+        partial = kwargs.pop('partial', False)
+        instance = self.get_object()
+        instance.active = True
+
+        serializer = self.get_serializer(instance, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+
+        self.perform_update(serializer)
+
+        if getattr(instance, '_prefetched_objects_cache', None):
+            instance._prefetched_objects_cache = {}
+
+        return Response(serializer.data)
+
+    def destroy(self, request, *args, **kwargs):
+        return Response({'error': 'The method is not available'}, status=status.HTTP_403_FORBIDDEN)

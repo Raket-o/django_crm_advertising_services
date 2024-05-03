@@ -19,9 +19,22 @@ from django.conf import settings
 
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import include, path
+from django.urls import include, path, re_path
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
+from rest_framework.routers import DefaultRouter
 
+from services.views import ServiceViewSet
+from advertising_companies.views import AdvertisingCompanyViewSet
+from clients.views import ClientViewSet, ClientActiveViewSet, ClientToActiveViewSet
+from contracts.views import ContractViewSet
+
+routers = DefaultRouter()
+routers.register("services", ServiceViewSet, basename='services')
+routers.register("advertising_companies", AdvertisingCompanyViewSet, basename='advertising_companies')
+routers.register("clients", ClientViewSet, basename='clients')
+routers.register("client_to_active", ClientToActiveViewSet, basename='client_to_active')
+routers.register("client-active", ClientActiveViewSet, basename='client_active')
+routers.register("contracts", ContractViewSet, basename='contracts')
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -31,6 +44,12 @@ urlpatterns = [
     path('advertising-companies/', include('advertising_companies.urls')),
     path('clients/', include('clients.urls')),
     path('contracts/', include('contracts.urls')),
+
+    path("api/", include(routers.urls)),
+
+    # path('api/auth/', include('djoser.urls')),
+    # re_path(r'^auth/', include('djoser.urls.authtoken')),
+    path('api/', include('djoser.urls.authtoken')),
 ]
 
 if settings.DEBUG:
