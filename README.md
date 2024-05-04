@@ -67,6 +67,11 @@
 
 ---
 
+<h2>API endpoints:</h2>
+<img src="./images_readme/restapi.png" style="display:block" width="850" alt="web_enterface"/>
+
+---
+
 <h2>Архитектура проекта</h2>
 Архитектура проекта на Django, который использует Gunicorn в 
 качестве веб-сервера, WSGI для интеграции с веб-сервером и
