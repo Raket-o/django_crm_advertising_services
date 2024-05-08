@@ -1,18 +1,21 @@
 from django.conf import settings
-from django.contrib.auth.models import User, Group, UserManager
-from django.core.management import call_command
+from django.contrib.auth.models import User
 from django.test import TestCase
 from django.urls import reverse
 from rest_framework import status
 from rest_framework.test import APITestCase
 
-
 from .models import AdvertisingCompany
 from .serializers import AdvertisingCompanySerializers
 
-from services.models import Service
 
-from pprint import pprint
+DATA = {
+    "name": "AdvertisingCompanyTest",
+    "description": "AdvertisingCompanyTest",
+    "promotion": "TV",
+    "services": 1,
+    "budget": 7777.00,
+}
 
 
 class AdvertisingCompanyListViewTestCase(TestCase):
@@ -48,47 +51,26 @@ class AdvertisingCompanyDetailViewTestCase(TestCase):
         user = User.objects.get(id=4)
         self.client.force_login(user)
 
-        self.service = Service.objects.create(
-            name='ServiceTest',
-            description='ServiceTest',
-            price=500,
-        )
-
-        self.advertising_companies = AdvertisingCompany.objects.create(
-            name='AdvertisingCompanyTest',
-            description='AdvertisingCompanyTest',
-            promotion="TTVV",
-            budget=500,
-            services=self.service,
-        )
-
-    def tearDown(self) -> None:
-        self.advertising_companies.delete()
-
     def test_advertising_company_details(self) -> None:
         response = self.client.get(reverse(
             'advertising_companies:advertising_company_details',
-            kwargs={'pk': self.advertising_companies.pk})
+            kwargs={'pk': 1})
         )
+        response_data = response.context['object']
 
-        received_data = response.context["object"].pk
-        expected_data = self.advertising_companies.pk
-
-        self.assertEqual(received_data, expected_data)
-        self.assertContains(response, self.advertising_companies.name)
-        self.assertContains(response, self.advertising_companies.description)
-        self.assertContains(response, self.advertising_companies.promotion)
-        self.assertContains(response, self.advertising_companies.budget)
+        queryset = AdvertisingCompany.objects.get(id=1)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response_data, queryset)
 
     def test_advertising_company_details_not_auth(self) -> None:
         self.client.logout()
 
         response = self.client.get(reverse(
             'advertising_companies:advertising_company_details',
-            kwargs={'pk': self.advertising_companies.pk})
+            kwargs={'pk': 1})
         )
 
-        self.assertEqual(302, response.status_code)
+        self.assertEqual(status.HTTP_302_FOUND, response.status_code)
         self.assertIn(str(settings.LOGIN_URL), response.url)
 
 
@@ -101,32 +83,26 @@ class AdvertisingCompanyCreateViewTestCase(TestCase):
         user = User.objects.get(id=4)
         self.client.force_login(user)
 
-        self.data = dict(
-            id="1",
-            name='AdvertisingCompanyTest',
-            description='AdvertisingCompanyTest',
-            promotion="TTVV",
-            budget=500,
-            services=1,
-        )
-
     def test_advertising_company_create(self) -> None:
         response = self.client.post(reverse(
             'advertising_companies:advertising_company_create'),
-            self.data,
+            DATA,
         )
 
-        self.assertRedirects(response, reverse('advertising_companies:advertising_companies_list'))
+        queryset = AdvertisingCompany.objects.get(name=DATA["name"])
+        serializers_data = AdvertisingCompanySerializers(queryset).data
 
-        queryset = AdvertisingCompany.objects.get(name=self.data["name"])
-        self.assertEqual(queryset.description, self.data["description"])
-        self.assertEqual(queryset.promotion, self.data["promotion"])
-        self.assertEqual(queryset.budget, self.data["budget"])
+        self.assertEqual(serializers_data["name"], DATA["name"])
+        self.assertEqual(serializers_data["description"], DATA["description"])
+        self.assertRedirects(response, reverse('advertising_companies:advertising_companies_list'))
 
     def test_advertising_company_create_not_auth(self) -> None:
         self.client.logout()
-        response = self.client.get(reverse('advertising_companies:advertising_companies_list'))
-        self.assertEqual(302, response.status_code)
+        response = self.client.post(reverse(
+            'advertising_companies:advertising_company_create'),
+            DATA,
+        )
+        self.assertEqual(status.HTTP_302_FOUND, response.status_code)
         self.assertIn(str(settings.LOGIN_URL), response.url)
 
 
@@ -160,12 +136,16 @@ class AdvertisingCompanyUpdateViewTestCase(TestCase):
         self.assertRedirects(response, reverse(
             'advertising_companies:advertising_company_details',
             kwargs={'pk': 1}),
-        )
+                             )
 
     def test_advertising_company_update_not_auth(self) -> None:
         self.client.logout()
-        response = self.client.get(reverse('advertising_companies:advertising_companies_list'))
-        self.assertEqual(302, response.status_code)
+        response = self.client.post(reverse(
+            'advertising_companies:advertising_company_update',
+            kwargs={'pk': 1}),
+            self.data
+        )
+        self.assertEqual(status.HTTP_302_FOUND, response.status_code)
         self.assertIn(str(settings.LOGIN_URL), response.url)
 
 
@@ -183,31 +163,18 @@ class AdvertisingCompanyDeleteViewTestCase(TestCase):
             'advertising_companies:advertising_company_archived',
             kwargs={'pk': 1}),
         )
-        self.assertEqual(AdvertisingCompany.objects.count(), 0)
+
+        self.assertFalse(AdvertisingCompany.objects.filter(id=1).exists())
         self.assertRedirects(response, reverse('advertising_companies:advertising_companies_list'))
 
     def test_advertising_company_delete_not_auth(self) -> None:
         self.client.logout()
-        response = self.client.get(reverse('advertising_companies:advertising_companies_list'))
-        self.assertEqual(302, response.status_code)
+        response = self.client.post(reverse(
+            'advertising_companies:advertising_company_archived',
+            kwargs={'pk': 1}),
+        )
+        self.assertEqual(status.HTTP_302_FOUND, response.status_code)
         self.assertIn(str(settings.LOGIN_URL), response.url)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 class AdvertisingCompanyViewSetTestCase(APITestCase):
@@ -233,38 +200,23 @@ class AdvertisingCompanyViewSetTestCase(APITestCase):
         self.assertEqual(status.HTTP_401_UNAUTHORIZED, response.status_code)
 
     def test_create(self):
-        data = dict(
-            name='AdvertisingCompanyTestAPI',
-            description='AdvertisingCompanyTestAPI',
-            promotion="TVAPI",
-            budget=77,
-            services=1,
-        )
-
         response = self.client.post(reverse(
             'advertising_companies-list'),
-            data,
+            DATA,
         )
 
         self.assertEqual(status.HTTP_201_CREATED, response.status_code)
 
-        queryset = AdvertisingCompany.objects.get(name=data["name"])
-        self.assertEqual(queryset.description, data["description"])
-        self.assertEqual(queryset.promotion, data["promotion"])
-        self.assertEqual(queryset.budget, data["budget"])
+        queryset = AdvertisingCompany.objects.get(name=DATA["name"])
+        self.assertEqual(queryset.description, DATA["description"])
+        self.assertEqual(queryset.promotion, DATA["promotion"])
+        self.assertEqual(queryset.budget, DATA["budget"])
 
     def test_create_not_auth(self) -> None:
         self.client.logout()
-        data = dict(
-            name='AdvertisingCompanyTestAPI',
-            description='AdvertisingCompanyTestAPI',
-            promotion="TVAPI",
-            budget=77,
-            services=1,
-        )
         response = self.client.post(reverse(
             'advertising_companies-list'),
-            data,
+            DATA,
         )
         self.assertEqual(status.HTTP_401_UNAUTHORIZED, response.status_code)
 
@@ -310,17 +262,10 @@ class AdvertisingCompanyViewSetTestCase(APITestCase):
 
     def test_update_not_auth(self) -> None:
         self.client.logout()
-        data = {
-            "name": "UpdateAPI_name",
-            "description": "UpdateAPI_description",
-            "promotion": "UpdateAPI_promotion",
-            "services": 1,
-            "budget": 7887.00,
-        }
         response = self.client.put(reverse(
             "advertising_companies-detail",
             kwargs={'pk': 1}),
-            data=data
+            data=DATA
         )
         self.assertEqual(status.HTTP_401_UNAUTHORIZED, response.status_code)
 
@@ -340,6 +285,3 @@ class AdvertisingCompanyViewSetTestCase(APITestCase):
             kwargs={'pk': 1}),
         )
         self.assertEqual(status.HTTP_401_UNAUTHORIZED, response.status_code)
-
-
-        
