@@ -10,12 +10,14 @@ class HasRolePermission(permissions.BasePermission):
         self.role = role
 
     def has_permission(self, request, view):
-        user = User.objects.get(id=request.user.id)
-        print(user.username)
+        if request.user.id:
 
-        groups = set(str(group) for group in user.groups.all())
+            user = User.objects.get(id=request.user.id)
+            groups = set(str(group) for group in user.groups.all())
 
-        if self.role in groups or user.is_staff:
-            return True
-        else:
-            return False
+            if self.role in groups or user.is_staff:
+                return True
+            else:
+                return False
+
+        return False

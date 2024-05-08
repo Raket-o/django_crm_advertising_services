@@ -1,4 +1,4 @@
-from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.contrib.auth.mixins import PermissionRequiredMixin, UserPassesTestMixin
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import OrderingFilter, SearchFilter
 from rest_framework import viewsets
@@ -17,7 +17,16 @@ from .serializers import AdvertisingCompanySerializers
 from utils import HasRolePermission
 
 
-class AdvertisingCompaniesListView(PermissionRequiredMixin, ListView):
+ROLE = "marketing"
+
+
+class AdvertisingCompaniesListView(UserPassesTestMixin, ListView):
+    def test_func(self):
+        user = self.request.user
+        groups = set(str(group) for group in user.groups.all())
+        if ROLE in groups or user.is_staff:
+            return True
+
     permission_required = "advertising_companies.view_advertisingcompany"
     template_name = "advertising_companies/advertising_companies_list.html"
     queryset = (
@@ -27,8 +36,13 @@ class AdvertisingCompaniesListView(PermissionRequiredMixin, ListView):
     )
 
 
-class AdvertisingCompanyDetailsView(PermissionRequiredMixin, DetailView):
-    permission_required = "advertising_companies.view_advertisingcompany"
+class AdvertisingCompanyDetailsView(UserPassesTestMixin, DetailView):
+    def test_func(self):
+        user = self.request.user
+        groups = set(str(group) for group in user.groups.all())
+        if ROLE in groups or user.is_staff:
+            return True
+
     template_name = "advertising_companies/advertising_company_details.html"
     model = AdvertisingCompany
     queryset = (
@@ -38,16 +52,26 @@ class AdvertisingCompanyDetailsView(PermissionRequiredMixin, DetailView):
     )
 
 
-class AdvertisingCompanyCreateView(PermissionRequiredMixin, CreateView):
-    permission_required = "advertising_companies.add_advertisingcompany"
+class AdvertisingCompanyCreateView(UserPassesTestMixin, CreateView):
+    def test_func(self):
+        user = self.request.user
+        groups = set(str(group) for group in user.groups.all())
+        if ROLE in groups or user.is_staff:
+            return True
+
     template_name = "advertising_companies/advertising_company_form.html"
     model = AdvertisingCompany
     fields = "name", "description",  "promotion", "services", "budget",
     success_url = reverse_lazy("advertising_companies:advertising_companies_list")
 
 
-class AdvertisingCompanyUpdateView(PermissionRequiredMixin, UpdateView):
-    permission_required = "advertising_companies.change_advertisingcompany"
+class AdvertisingCompanyUpdateView(UserPassesTestMixin, UpdateView):
+    def test_func(self):
+        user = self.request.user
+        groups = set(str(group) for group in user.groups.all())
+        if ROLE in groups or user.is_staff:
+            return True
+
     template_name = "advertising_companies/advertising_company_update_form.html"
     model = AdvertisingCompany
     fields = "name", "description",  "promotion", "services", "budget",
@@ -60,8 +84,13 @@ class AdvertisingCompanyUpdateView(PermissionRequiredMixin, UpdateView):
         )
 
 
-class AdvertisingCompanyDeleteView(PermissionRequiredMixin, DeleteView):
-    permission_required = "advertising_companies.delete_advertisingcompany"
+class AdvertisingCompanyDeleteView(UserPassesTestMixin, DeleteView):
+    def test_func(self):
+        user = self.request.user
+        groups = set(str(group) for group in user.groups.all())
+        if ROLE in groups or user.is_staff:
+            return True
+
     template_name = "advertising_companies/advertising_company_confirm_delete.html"
     model = AdvertisingCompany
     success_url = reverse_lazy("advertising_companies:advertising_companies_list")
