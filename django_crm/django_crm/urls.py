@@ -46,9 +46,6 @@ urlpatterns = [
     path('contracts/', include('contracts.urls')),
 
     path("api/", include(routers.urls)),
-
-    # path('api/auth/', include('djoser.urls')),
-    # re_path(r'^auth/', include('djoser.urls.authtoken')),
     path('api/', include('djoser.urls.authtoken')),
 ]
 
