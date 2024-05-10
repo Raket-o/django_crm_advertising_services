@@ -224,7 +224,7 @@ class ClientActiveViewSet(viewsets.ModelViewSet):
     ordering_fields = fields
 
     def create(self, request, *args, **kwargs):
-        return Response({'error': 'Запись запрещена'}, status=status.HTTP_403_FORBIDDEN)
+        return Response({'error': 'Recording is prohibited'}, status=status.HTTP_403_FORBIDDEN)
 
 
 class ClientToActiveViewSet(viewsets.ModelViewSet):
