@@ -54,19 +54,16 @@ class ServiceDetailViewTestCase(TestCase):
             kwargs={'pk': 1})
         )
         response_data = response.context['object']
-
         queryset = Service.objects.get(id=1)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response_data, queryset)
 
     def test_service_details_not_auth(self) -> None:
         self.client.logout()
-
         response = self.client.get(reverse(
             'services:service_details',
             kwargs={'pk': 1})
         )
-
         self.assertEqual(status.HTTP_302_FOUND, response.status_code)
         self.assertIn(str(settings.LOGIN_URL), response.url)
 
@@ -85,10 +82,8 @@ class ServiceCreateViewTestCase(TestCase):
             'services:service_create'),
             DATA,
         )
-
         queryset = Service.objects.get(name=DATA["name"])
         serializers_data = ServiceSerializers(queryset).data
-
         self.assertEqual(serializers_data["name"], DATA["name"])
         self.assertEqual(serializers_data["description"], DATA["description"])
         self.assertRedirects(response, reverse('services:service_list'))
@@ -99,7 +94,6 @@ class ServiceCreateViewTestCase(TestCase):
             'services:service_create'),
             DATA,
         )
-
         self.assertEqual(status.HTTP_302_FOUND, response.status_code)
         self.assertIn(str(settings.LOGIN_URL), response.url)
 
@@ -126,10 +120,8 @@ class ServiceViewUpdateTestCase(TestCase):
             kwargs={'pk': 1}),
             self.data
         )
-
         queryset = Service.objects.get(name=self.data["name"])
         serializers_data = ServiceSerializers(queryset).data
-
         self.assertEqual(serializers_data["name"], self.data["name"])
         self.assertEqual(serializers_data["description"], self.data["description"])
         self.assertRedirects(response, reverse(
@@ -144,7 +136,6 @@ class ServiceViewUpdateTestCase(TestCase):
             kwargs={'pk': 1}),
             self.data
         )
-
         self.assertEqual(status.HTTP_302_FOUND, response.status_code)
         self.assertIn(str(settings.LOGIN_URL), response.url)
 
@@ -163,7 +154,6 @@ class ServiceDeleteViewTestCase(TestCase):
             'services:service_archived',
             kwargs={'pk': 1}),
         )
-
         self.assertFalse(Service.objects.filter(id=1).exists())
         self.assertRedirects(response, reverse('services:service_list'))
 
@@ -173,7 +163,6 @@ class ServiceDeleteViewTestCase(TestCase):
             'services:service_archived',
             kwargs={'pk': 1}),
         )
-
         self.assertEqual(status.HTTP_302_FOUND, response.status_code)
         self.assertIn(str(settings.LOGIN_URL), response.url)
 
@@ -191,7 +180,6 @@ class ServiceViewSetTestCase(APITestCase):
         response = self.client.get(reverse("services-list"))
         queryset = Service.objects.get(id=1)
         serializers_data = ServiceSerializers([queryset], many=True).data
-
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data["results"], serializers_data)
 
@@ -205,13 +193,10 @@ class ServiceViewSetTestCase(APITestCase):
             'services-list'),
             DATA,
         )
-
         self.assertEqual(status.HTTP_201_CREATED, response.status_code)
-
         queryset = Service.objects.get(name=DATA["name"])
         self.assertEqual(queryset.description, DATA["description"])
         self.assertEqual(queryset.price, DATA["price"])
-
 
     def test_create_not_auth(self) -> None:
         self.client.logout()
@@ -219,7 +204,6 @@ class ServiceViewSetTestCase(APITestCase):
             'services-list'),
             DATA,
         )
-
         self.assertEqual(status.HTTP_401_UNAUTHORIZED, response.status_code)
 
     def test_detail(self):
@@ -227,10 +211,8 @@ class ServiceViewSetTestCase(APITestCase):
             "services-detail",
             kwargs={'pk': 1})
         )
-
         queryset = Service.objects.get(id=1)
         serializers_data = ServiceSerializers(queryset).data
-
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data, serializers_data)
 
@@ -240,7 +222,6 @@ class ServiceViewSetTestCase(APITestCase):
             "services-detail",
             kwargs={'pk': 1})
         )
-
         self.assertEqual(status.HTTP_401_UNAUTHORIZED, response.status_code)
 
     def test_update(self):
@@ -249,16 +230,13 @@ class ServiceViewSetTestCase(APITestCase):
             "description": "UpdateAPI_description",
             "price": 7887.00,
         }
-
         response = self.client.put(reverse(
             "services-detail",
             kwargs={'pk': 1}),
             data=data
         )
-
         queryset = Service.objects.get(id=1)
         serializers_data = ServiceSerializers(queryset).data
-
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data, serializers_data)
 
@@ -274,7 +252,6 @@ class ServiceViewSetTestCase(APITestCase):
             kwargs={'pk': 1}),
             data=data
         )
-
         self.assertEqual(status.HTTP_401_UNAUTHORIZED, response.status_code)
 
     def test_delete(self):
@@ -282,7 +259,6 @@ class ServiceViewSetTestCase(APITestCase):
             "services-detail",
             kwargs={'pk': 1}),
         )
-
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
         self.assertFalse(Service.objects.filter(id=1).exists())
 
@@ -292,5 +268,4 @@ class ServiceViewSetTestCase(APITestCase):
             "services-detail",
             kwargs={'pk': 1}),
         )
-
         self.assertEqual(status.HTTP_401_UNAUTHORIZED, response.status_code)

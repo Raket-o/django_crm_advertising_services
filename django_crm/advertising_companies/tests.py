@@ -57,19 +57,16 @@ class AdvertisingCompanyDetailViewTestCase(TestCase):
             kwargs={'pk': 1})
         )
         response_data = response.context['object']
-
         queryset = AdvertisingCompany.objects.get(id=1)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response_data, queryset)
 
     def test_advertising_company_details_not_auth(self) -> None:
         self.client.logout()
-
         response = self.client.get(reverse(
             'advertising_companies:advertising_company_details',
             kwargs={'pk': 1})
         )
-
         self.assertEqual(status.HTTP_302_FOUND, response.status_code)
         self.assertIn(str(settings.LOGIN_URL), response.url)
 
@@ -88,10 +85,8 @@ class AdvertisingCompanyCreateViewTestCase(TestCase):
             'advertising_companies:advertising_company_create'),
             DATA,
         )
-
         queryset = AdvertisingCompany.objects.get(name=DATA["name"])
         serializers_data = AdvertisingCompanySerializers(queryset).data
-
         self.assertEqual(serializers_data["name"], DATA["name"])
         self.assertEqual(serializers_data["description"], DATA["description"])
         self.assertRedirects(response, reverse('advertising_companies:advertising_companies_list'))
@@ -114,7 +109,6 @@ class AdvertisingCompanyUpdateViewTestCase(TestCase):
     def setUp(self) -> None:
         user = User.objects.get(id=4)
         self.client.force_login(user)
-
         self.data = {
             "name": "Update_name",
             "description": "Update_description",
@@ -129,10 +123,8 @@ class AdvertisingCompanyUpdateViewTestCase(TestCase):
             kwargs={'pk': 1}),
             self.data
         )
-
         queryset = AdvertisingCompany.objects.get(name=self.data["name"])
         self.assertEqual(queryset.name, self.data["name"])
-
         self.assertRedirects(response, reverse(
             'advertising_companies:advertising_company_details',
             kwargs={'pk': 1}),
@@ -163,7 +155,6 @@ class AdvertisingCompanyDeleteViewTestCase(TestCase):
             'advertising_companies:advertising_company_archived',
             kwargs={'pk': 1}),
         )
-
         self.assertFalse(AdvertisingCompany.objects.filter(id=1).exists())
         self.assertRedirects(response, reverse('advertising_companies:advertising_companies_list'))
 
@@ -190,7 +181,6 @@ class AdvertisingCompanyViewSetTestCase(APITestCase):
         response = self.client.get(reverse("advertising_companies-list"))
         queryset = AdvertisingCompany.objects.get(id=1)
         serializers_data = AdvertisingCompanySerializers([queryset], many=True).data
-
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data["results"], serializers_data)
 
@@ -204,9 +194,7 @@ class AdvertisingCompanyViewSetTestCase(APITestCase):
             'advertising_companies-list'),
             DATA,
         )
-
         self.assertEqual(status.HTTP_201_CREATED, response.status_code)
-
         queryset = AdvertisingCompany.objects.get(name=DATA["name"])
         self.assertEqual(queryset.description, DATA["description"])
         self.assertEqual(queryset.promotion, DATA["promotion"])
@@ -225,10 +213,8 @@ class AdvertisingCompanyViewSetTestCase(APITestCase):
             "advertising_companies-detail",
             kwargs={'pk': 1})
         )
-
         queryset = AdvertisingCompany.objects.get(id=1)
         serializers_data = AdvertisingCompanySerializers(queryset).data
-
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data, serializers_data)
 
@@ -247,16 +233,13 @@ class AdvertisingCompanyViewSetTestCase(APITestCase):
             "services": 1,
             "budget": 7887.00,
         }
-
         response = self.client.put(reverse(
             "advertising_companies-detail",
             kwargs={'pk': 1}),
             data=data
         )
-
         queryset = AdvertisingCompany.objects.get(id=1)
         serializers_data = AdvertisingCompanySerializers(queryset).data
-
         self.assertEqual(response.status_code, status.HTTP_200_OK)
         self.assertEqual(response.data, serializers_data)
 
@@ -274,7 +257,6 @@ class AdvertisingCompanyViewSetTestCase(APITestCase):
             "advertising_companies-detail",
             kwargs={'pk': 1}),
         )
-
         self.assertEqual(response.status_code, status.HTTP_204_NO_CONTENT)
         self.assertFalse(AdvertisingCompany.objects.filter(id=1).exists())
 
