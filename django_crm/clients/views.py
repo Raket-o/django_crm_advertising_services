@@ -1,9 +1,7 @@
-from django.contrib.auth.models import Group, User
 from django.contrib.auth.mixins import UserPassesTestMixin
-from django.contrib.auth.models import PermissionsMixin
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import OrderingFilter, SearchFilter
-from rest_framework import status, viewsets, permissions
+from rest_framework import status, viewsets
 from rest_framework.response import Response
 
 from django.http import HttpResponseRedirect
@@ -22,17 +20,17 @@ from .serializers import ClientSerializers, ClientActiveSerializers, ClientToAct
 from utils import HasRolePermission
 
 
-ROLE = "operator"
+ROLE_OPERATOR = "operator"
+ROLE_MANAGER = "manager"
 
 
 class ClientListView(UserPassesTestMixin, ListView):
     def test_func(self):
         user = self.request.user
         groups = set(str(group) for group in user.groups.all())
-        if ROLE in groups or user.is_staff:
+        if ROLE_OPERATOR in groups or user.is_staff:
             return True
 
-    # permission_required = "clients.view_client"
     queryset = (
         Client.objects
         .prefetch_related("advertising_company")
@@ -44,10 +42,9 @@ class ClientDetailsView(UserPassesTestMixin, DetailView):
     def test_func(self):
         user = self.request.user
         groups = set(str(group) for group in user.groups.all())
-        if ROLE in groups or user.is_staff:
+        if ROLE_OPERATOR in groups or user.is_staff:
             return True
 
-    # permission_required = "clients.view_client"
     model = Client
     queryset = (
         Client.objects
@@ -60,10 +57,9 @@ class ClientCreateView(UserPassesTestMixin, CreateView):
     def test_func(self):
         user = self.request.user
         groups = set(str(group) for group in user.groups.all())
-        if ROLE in groups or user.is_staff:
+        if ROLE_OPERATOR in groups or user.is_staff:
             return True
 
-    # permission_required = "clients.add_client"
     model = Client
     fields = "name", "phone", "email", "advertising_company",
 
@@ -78,10 +74,9 @@ class ClientUpdateView(UserPassesTestMixin, UpdateView):
     def test_func(self):
         user = self.request.user
         groups = set(str(group) for group in user.groups.all())
-        if ROLE in groups or user.is_staff:
+        if ROLE_OPERATOR in groups or user.is_staff:
             return True
 
-    # permission_required = "clients.change_client"
     model = Client
     fields = "name", "phone", "email", "advertising_company",
     template_name_suffix = "_update_form"
@@ -97,10 +92,9 @@ class ClientDeleteView(UserPassesTestMixin, DeleteView):
     def test_func(self):
         user = self.request.user
         groups = set(str(group) for group in user.groups.all())
-        if ROLE in groups or user.is_staff:
+        if ROLE_OPERATOR in groups or user.is_staff:
             return True
 
-    # permission_required = "clients.delete_client"
     model = Client
     success_url = reverse_lazy("clients:client_list")
 
@@ -109,10 +103,9 @@ class ClientToActiveUpdateView(UserPassesTestMixin, UpdateView):
     def test_func(self):
         user = self.request.user
         groups = set(str(group) for group in user.groups.all())
-        if ROLE in groups or user.is_staff:
+        if ROLE_MANAGER in groups or user.is_staff:
             return True
 
-    # permission_required = "clients.to_active_client"
     template_name = "clients/client_to_active.html"
     model = Client
     fields = "contract",
@@ -129,10 +122,9 @@ class ClientActiveListView(UserPassesTestMixin, ListView):
     def test_func(self):
         user = self.request.user
         groups = set(str(group) for group in user.groups.all())
-        if ROLE in groups or user.is_staff:
+        if ROLE_MANAGER in groups or user.is_staff:
             return True
 
-    # permission_required = "clients.view_active_client"
     template_name = "clients/client_active_list.html"
     queryset = (
         Client.objects
@@ -145,10 +137,9 @@ class ClientActiveDetailsView(UserPassesTestMixin, DetailView):
     def test_func(self):
         user = self.request.user
         groups = set(str(group) for group in user.groups.all())
-        if ROLE in groups or user.is_staff:
+        if ROLE_MANAGER in groups or user.is_staff:
             return True
 
-    # permission_required = "clients.view_active_client"
     template_name = "clients/client_active_detail.html"
     model = Client
 
@@ -164,10 +155,9 @@ class ClientActiveUpdateView(UserPassesTestMixin, UpdateView):
     def test_func(self):
         user = self.request.user
         groups = set(str(group) for group in user.groups.all())
-        if ROLE in groups or user.is_staff:
+        if ROLE_MANAGER in groups or user.is_staff:
             return True
 
-    # permission_required = "clients.change_active_client"
     template_name = "clients/client_active_update_form.html"
     model = Client
     fields = "name", "phone", "email", "contract", "advertising_company",
@@ -183,10 +173,9 @@ class ClientActiveDeleteView(UserPassesTestMixin, DeleteView):
     def test_func(self):
         user = self.request.user
         groups = set(str(group) for group in user.groups.all())
-        if ROLE in groups or user.is_staff:
+        if ROLE_MANAGER in groups or user.is_staff:
             return True
 
-    # permission_required = "clients.delete_active_client"
     template_name = "clients/client_confirm_active.html"
     model = Client
     success_url = reverse_lazy("clients:client_active_list")
