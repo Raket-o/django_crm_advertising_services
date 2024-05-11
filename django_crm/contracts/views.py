@@ -1,4 +1,4 @@
-from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.contrib.auth.mixins import UserPassesTestMixin
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import OrderingFilter, SearchFilter
 from rest_framework import viewsets
@@ -18,19 +18,38 @@ from .serializers import ContractSerializers
 from utils import HasRolePermission
 
 
-class ContractListView(PermissionRequiredMixin, ListView):
-    permission_required = "contracts.view_contract"
+ROLE = "manager"
+
+
+class ContractListView(UserPassesTestMixin, ListView):
+    def test_func(self):
+        user = self.request.user
+        groups = set(str(group) for group in user.groups.all())
+        if ROLE in groups or user.is_staff:
+            return True
+
     queryset = Contract.objects.all()
 
 
-class ContractDetailsView(PermissionRequiredMixin, DetailView):
+class ContractDetailsView(UserPassesTestMixin, DetailView):
+    def test_func(self):
+        user = self.request.user
+        groups = set(str(group) for group in user.groups.all())
+        if ROLE in groups or user.is_staff:
+            return True
+
     permission_required = "contracts.view_contract"
     model = Contract
     queryset = Contract.objects.all()
 
 
-class ContractCreateView(PermissionRequiredMixin, CreateView):
-    permission_required = "contracts.add_contract"
+class ContractCreateView(UserPassesTestMixin, CreateView):
+    def test_func(self):
+        user = self.request.user
+        groups = set(str(group) for group in user.groups.all())
+        if ROLE in groups or user.is_staff:
+            return True
+
     model = Contract
     form_class = ContractForm
     success_url = reverse_lazy("contracts:contract_list")
@@ -41,8 +60,12 @@ class ContractCreateView(PermissionRequiredMixin, CreateView):
         return response
 
 
-class ContractUpdateView(PermissionRequiredMixin, UpdateView):
-    permission_required = "contracts.change_contract"
+class ContractUpdateView(UserPassesTestMixin, UpdateView):
+    def test_func(self):
+        user = self.request.user
+        groups = set(str(group) for group in user.groups.all())
+        if ROLE in groups or user.is_staff:
+            return True
 
     model = Contract
     form_class = ContractForm
@@ -55,8 +78,13 @@ class ContractUpdateView(PermissionRequiredMixin, UpdateView):
         )
 
 
-class ContractDeleteView(PermissionRequiredMixin, DeleteView):
-    permission_required = "contracts.delete_contract"
+class ContractDeleteView(UserPassesTestMixin, DeleteView):
+    def test_func(self):
+        user = self.request.user
+        groups = set(str(group) for group in user.groups.all())
+        if ROLE in groups or user.is_staff:
+            return True
+
     model = Contract
     success_url = reverse_lazy("contracts:contract_list")
 
