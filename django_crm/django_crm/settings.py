@@ -206,6 +206,7 @@ REST_FRAMEWORK = {
 # LOGIN_REDIRECT_URL
 
 LOGIN_REDIRECT_URL = reverse_lazy("customer_statistics:statistics")
+LOGIN_URL = reverse_lazy("authorization:login")
 
 
 # Logger

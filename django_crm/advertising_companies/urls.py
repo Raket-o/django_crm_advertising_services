@@ -6,6 +6,7 @@ from .views import (
     AdvertisingCompanyDeleteView,
     AdvertisingCompanyDetailsView,
     AdvertisingCompanyUpdateView,
+    AdvertisingCompanyViewSet,
 )
 
 app_name = "advertising_companies"

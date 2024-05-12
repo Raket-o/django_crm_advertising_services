@@ -1,4 +1,4 @@
-from django.contrib.auth.mixins import PermissionRequiredMixin
+from django.contrib.auth.mixins import UserPassesTestMixin
 from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.filters import OrderingFilter, SearchFilter
 from rest_framework import viewsets
@@ -17,19 +17,37 @@ from .serializers import ServiceSerializers
 from utils import HasRolePermission
 
 
-class ServicesListView(PermissionRequiredMixin, ListView):
-    permission_required = "services.view_service"
+ROLE = "marketing"
+
+
+class ServicesListView(UserPassesTestMixin, ListView):
+    def test_func(self):
+        user = self.request.user
+        groups = set(str(group) for group in user.groups.all())
+        if ROLE in groups or user.is_staff:
+            return True
+
     queryset = Service.objects.all()
 
 
-class ServiceDetailsView(PermissionRequiredMixin, DetailView):
-    permission_required = "services.view_service"
+class ServiceDetailsView(UserPassesTestMixin, DetailView):
+    def test_func(self):
+        user = self.request.user
+        groups = set(str(group) for group in user.groups.all())
+        if ROLE in groups or user.is_staff:
+            return True
+
     model = Service
     queryset = Service.objects.all()
 
 
-class ServiceCreateView(PermissionRequiredMixin, CreateView):
-    permission_required = "services.add_service"
+class ServiceCreateView(UserPassesTestMixin, CreateView):
+    def test_func(self):
+        user = self.request.user
+        groups = set(str(group) for group in user.groups.all())
+        if ROLE in groups or user.is_staff:
+            return True
+
     model = Service
     fields = "name", "description", "price"
     success_url = reverse_lazy("services:service_list")
@@ -40,8 +58,12 @@ class ServiceCreateView(PermissionRequiredMixin, CreateView):
         return response
 
 
-class ServiceUpdateView(PermissionRequiredMixin, UpdateView):
-    permission_required = "services.change_service"
+class ServiceUpdateView(UserPassesTestMixin, UpdateView):
+    def test_func(self):
+        user = self.request.user
+        groups = set(str(group) for group in user.groups.all())
+        if ROLE in groups or user.is_staff:
+            return True
 
     model = Service
     fields = "name", "description", "price"
@@ -54,8 +76,13 @@ class ServiceUpdateView(PermissionRequiredMixin, UpdateView):
         )
 
 
-class ServiceDeleteView(DeleteView):
-    permission_required = "services.delete_service"
+class ServiceDeleteView(UserPassesTestMixin, DeleteView):
+    def test_func(self):
+        user = self.request.user
+        groups = set(str(group) for group in user.groups.all())
+        if ROLE in groups or user.is_staff:
+            return True
+
     model = Service
     success_url = reverse_lazy("services:service_list")
 
