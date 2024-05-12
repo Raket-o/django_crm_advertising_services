@@ -28,7 +28,7 @@ class Migration(migrations.Migration):
                 ("name", models.CharField(max_length=50, unique=True)),
                 (
                     "document_file",
-                    models.FileField(null=True, upload_to="contracts/contracts/"),
+                    models.FileField(blank=True, null=True, upload_to="contracts/contracts/"),
                 ),
                 ("date_conclusion", models.DateTimeField()),
                 ("period_validity", models.CharField(max_length=50)),

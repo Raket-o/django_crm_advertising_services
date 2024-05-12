@@ -1,1 +1,0 @@
-sudo ./del_trash.sh 
