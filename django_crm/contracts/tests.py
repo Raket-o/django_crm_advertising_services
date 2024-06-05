@@ -113,17 +113,6 @@ class ContractUpdateViewTestCase(TestCase):
         'django_crm/fixtures/db_dump_v3.json',
     ]
 
-    # def setUp(self) -> None:
-    #     user = User.objects.get(id=3)
-    #     self.client.force_login(user)
-    #     self.data = {
-    #         "name": "contract_test_update",
-    #         "service": 1,
-    #         "date_conclusion": "2024-10-30T00:00:00Z",
-    #         "period_validity": "3 year",
-    #         "amount": 11000,
-    #     }
-
     def setUp(self) -> None:
         user = User.objects.get(id=3)
         self.client.force_login(user)
